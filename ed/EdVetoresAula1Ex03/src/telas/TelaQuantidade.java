@@ -107,6 +107,7 @@ public class TelaQuantidade extends javax.swing.JFrame {
     private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOKActionPerformed
         this.setVisible(false);
         new TelaCadastros(Integer.parseInt(jSpinnerQuantidade.getValue().toString())).setVisible(true);
+        
     }//GEN-LAST:event_jButtonOKActionPerformed
 
     /**

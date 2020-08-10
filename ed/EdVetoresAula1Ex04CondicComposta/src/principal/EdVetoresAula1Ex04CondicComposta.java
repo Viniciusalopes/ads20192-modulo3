@@ -93,21 +93,6 @@ public class EdVetoresAula1Ex04CondicComposta {
                 num2 = naux;
             }
         }
-        else if (num3< num1
-
-    
-        ) {
-            naux = num3;
-        num3 = num1;
-        num1 = naux;
-    }
-
-    
-        else {
-            naux = num3;
-        num3 = num2;
-        num2 = naux;
-    }
 
         System.out.printf(
                 "Números em ordem crescente: %d, %d, %d.\n", num1, num2, num3);

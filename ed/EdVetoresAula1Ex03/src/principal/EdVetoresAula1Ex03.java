@@ -33,7 +33,10 @@
  */
 package principal;
 
+import enumeradores.EnumErros;
+import telas.TelaConsole;
 import telas.TelaQuantidade;
+import utilidades.UtilConsole;
 
 /**
  *
@@ -46,9 +49,21 @@ public class EdVetoresAula1Ex03 {
      */
     public static void main(String[] args) {
 
-        //TelaConsole tela = new TelaConsole();
-        //tela.main(args);
-        TelaQuantidade tela = new TelaQuantidade();
-        tela.setVisible(true);
+        int opcao = UtilConsole.menuDeOpcoes(
+                "Selecionar Ambiente",
+                new String[]{"[1] Console", "[2] JFrame", "[0] Sair"},
+                "Digite número do ambiente para executar o programa: ",
+                EnumErros.NaoEhUmaOpcao.getMensagem(), false);
+        System.out.println("");
+        if (opcao == 1) {
+            TelaConsole tela = new TelaConsole();
+            tela.main(args);
+        } else if (opcao == 2) {
+            TelaQuantidade tela = new TelaQuantidade();
+            tela.setVisible(true);
+        } else {
+            System.exit(0);
+        }
+
     }
 }
