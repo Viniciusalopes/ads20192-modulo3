@@ -38,7 +38,7 @@ import java.util.Random;
 public class EdVetoresAula1Ex02 {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
-    private static int tamanhoVetor = 60;
+    private static int tamanhoVetor = 6;
     private static int maximo = 60;
     private static int numero = 0;
 
@@ -74,21 +74,5 @@ public class EdVetoresAula1Ex02 {
         }
         saida = saida.substring(0, saida.length() - 2) + ".";
         System.out.println(saida);
-    }
-
-    /**
-     * Verifica se um numero já existe no vetor.
-     *
-     * @param numero Número que será pesquisado no vetor.
-     * @param vetor Vetor com números para procurar um número.
-     * @return true: já existe, false: não existe.
-     */
-    private static boolean jaExisteNoVetor(int numero, int[] vetor) {
-        for (int num : vetor) {
-            if (num == numero) {
-                return true;
-            }
-        }
-        return false;
     }
 }
