@@ -38,8 +38,8 @@ import java.util.Random;
 public class EdVetoresAula1Ex02 {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
-    private static int tamanhoVetor = 6;
-    private static int maximo = 61;
+    private static int tamanhoVetor = 60;
+    private static int maximo = 60;
     private static int numero = 0;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
@@ -52,14 +52,19 @@ public class EdVetoresAula1Ex02 {
         int[] vet = new int[tamanhoVetor];
 
         for (int i = 0; i < vet.length; i++) {
-
             // Sorteia um número sem repetir
-            do {
-                numero = new Random().nextInt(maximo);
-            } while (jaExisteNoVetor(numero, vet) || numero == 0);
+            numero = new Random().nextInt(maximo) + 1;
+            int j;
 
-            //Inclui o número no vetor
-            vet[i] = numero;
+            for (j = 0; j < i && vet[j] != numero; j++) {
+            }
+            if (j == i) {
+                // Não existe, Inclui o número no vetor
+                vet[i] = numero;
+            } else {
+                // Já existe
+                i--;
+            }
         }
 
         // Saída

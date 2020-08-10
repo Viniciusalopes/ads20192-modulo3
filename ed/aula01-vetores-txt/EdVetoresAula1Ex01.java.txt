@@ -64,17 +64,12 @@ public class EdVetoresAula1Ex01 {
             vet[i] = numero;
 
             // Maior número
-            if (i == 0) {
-                maior1 = numero;
-                maior2 = numero;
-            } else {
-                if (numero > maior1) {
-                    maior2 = maior1;
-                    maior1 = numero;
-                } else if (numero > maior2) {
-                    maior2 = numero;
-                }
-            }
+            maior1 = (numero > maior1) ? numero : maior1;
+        }
+
+        // Segundo maior número
+        for (int num : vet) {
+            maior2 = (num > maior2 && num < maior1) ? num : maior2;
         }
 
         // Saída

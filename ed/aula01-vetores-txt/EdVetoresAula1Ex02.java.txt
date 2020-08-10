@@ -21,10 +21,10 @@
  * Criação : Vovolinux
  * Data    : 10/08/2020
  * Projeto : EXERCÍCIOS PRIMEIRA AULA DE ESTRUTURA DE DADOS – VETORES
- *   1. Fazer um programa que leia e armazene em um vetor 16 números inteiros distintos. Em seguida,
- * determine e imprima o maior e segundo maior número armazenado neste vetor. Exemplo: dado o
- * vetor vet = {1,3,6,-4,10,20,15,100,-15,-45,200,300,490,17,18,380}. Então o maior é 490 e o segundo
- * maior é 380.
+ *   2. A Mega-Sena é uma loteria realizada pela Caixa Econômica Federal, que paga milhões para o
+ * acertador dos 6 números sorteados. Os sorteios normalmente ocorrem às quartas e sábados. Faça um
+ * programa em Java que gere seis números aleatórios e distintos entre 01 e 60, inclusive, para serem
+ * “jogados” na Mega-Sena.
  * -------------------------------------------------------------------------------------------------
  */
 package principal;
@@ -35,14 +35,12 @@ import java.util.Random;
  *
  * @author Vinicius Araujo Lopes
  */
-public class EdVetoresAula1Ex01 {
+public class EdVetoresAula1Ex02 {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
-    private static int tamanhoVetor = 16;
-    private static int maximo = 500;
+    private static int tamanhoVetor = 6;
+    private static int maximo = 61;
     private static int numero = 0;
-    private static int maior1 = 0;
-    private static int maior2 = 0;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
@@ -58,32 +56,19 @@ public class EdVetoresAula1Ex01 {
             // Sorteia um número sem repetir
             do {
                 numero = new Random().nextInt(maximo);
-            } while (jaExisteNoVetor(numero, vet));
+            } while (jaExisteNoVetor(numero, vet) || numero == 0);
 
             //Inclui o número no vetor
             vet[i] = numero;
-
-            // Maior número
-            if (i == 0) {
-                maior1 = numero;
-                maior2 = numero;
-            } else {
-                if (numero > maior1) {
-                    maior2 = maior1;
-                    maior1 = numero;
-                } else if (numero > maior2) {
-                    maior2 = numero;
-                }
-            }
         }
 
         // Saída
-        String saida = "Dado o vetor vet = {";
+        String saida = "Números para jogar na Mega-Sena: ";
         for (int num : vet) {
-            saida += num + ", ";
+            saida += String.format("%02d", num) + ", ";
         }
-        saida = saida.substring(0, saida.length() - 2) + "}, então o maior é %d e o segundo maior é %d.\n";
-        System.out.printf(saida, maior1, maior2);
+        saida = saida.substring(0, saida.length() - 2) + ".";
+        System.out.println(saida);
     }
 
     /**
