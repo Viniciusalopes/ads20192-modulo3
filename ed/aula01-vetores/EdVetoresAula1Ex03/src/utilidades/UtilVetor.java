@@ -57,8 +57,8 @@ public class UtilVetor {
             return retorno;
         }
     }
-
-    public static String[] unirVetores(String[] vetor1, String[] vetor2) {
+   
+   public static String[] unirVetores(String[] vetor1, String[] vetor2) {
         String[] retorno = new String[vetor1.length];
         retorno = redimensionarVetor(vetor1, (vetor1.length + vetor2.length));
         for (int i = 0; i < vetor2.length; i++) {
@@ -94,6 +94,7 @@ public class UtilVetor {
                     : new String[]{vetor[lin]})
             );
         }
+        
         return retorno;
     }
 }

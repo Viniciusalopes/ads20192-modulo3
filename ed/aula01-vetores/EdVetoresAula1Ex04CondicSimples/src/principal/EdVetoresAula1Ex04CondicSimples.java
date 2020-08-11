@@ -73,7 +73,10 @@ public class EdVetoresAula1Ex04CondicSimples {
                 num3 = naux;
             }
         }
-
+//        num1 = 4;// 2 - 1 - 1
+//        num2 = 2;// 4 - 4 - 2 
+//        num3 = 1;// 1 - 2 - 4
+//        
         if (num2 < num1) {
             naux = num1;
             num1 = num2;

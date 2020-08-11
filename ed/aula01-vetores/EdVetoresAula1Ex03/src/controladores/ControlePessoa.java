@@ -102,7 +102,7 @@ public class ControlePessoa implements IPessoa {
     public boolean pessoaJaExiste(String nome) {
         for (Pessoa pessoa : pessoas) {
             if (pessoa != null) {
-                if (pessoa.getNome().toLowerCase().contains(nome.toLowerCase())) {
+                if (pessoa.getNome().equalsIgnoreCase(nome)) {
                     return true;
                 }
             }

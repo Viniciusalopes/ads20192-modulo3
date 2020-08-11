@@ -171,6 +171,7 @@ public class TelaConsole {
             } else {
                 System.out.print("Digite o nome da pessoa: ");
                 Pessoa pessoa = controle.buscarPessoa(sc.nextLine());
+                
                 System.out.println(UtilConsole.mensagemComBorda("Dados da pessoa",
                         new String[]{cadastroPessoa(pessoa)},
                         '.', 1)
