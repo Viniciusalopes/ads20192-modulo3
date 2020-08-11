@@ -77,7 +77,8 @@ public class EdVetoresAula1Ex04CondicComposta {
                     break;
             }
         }
-
+        //
+        // 1, 2, 0
         if (num2 < num1) {
             naux = num2;
             num2 = num1;
