@@ -28,6 +28,10 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
         this.setExtendedState(MAXIMIZED_BOTH);
     }
 
+    private void vetorOrdenado() {
+        valores = new int[]{1, 2, 3, 4, 5};
+    }
+
     private void sorteiaValores() {
 
         for (int i = 0; i < valores.length; i++) {
@@ -85,28 +89,26 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
 
     private void ordenar() {
         // FONTE: https://www.devmedia.com.br/algoritmos-de-ordenacao-em-java/32693
-        boolean troca = true;
-        int aux;
+        boolean troca = false;
+        int i, j, aux;
         try {
-            while (troca) {
+            for (i = valores.length - 1; i > 0; i--) {
                 troca = false;
-                for (int i = 0; i < valores.length - 1; i++) {
-
-                    posicao1 = i;
-                    posicao2 = i + 1;
+                for (j = 0; j < i; j++) {
+                    posicao1 = j;
+                    posicao2 = j + 1;
                     preencheLabels();
                     ajustaTamanhos();
                     colorir2();
-                    
+
                     if (valores[posicao1] > valores[posicao2]) {
                         JOptionPane.showOptionDialog(rootPane, valores[posicao1] + " > " + valores[posicao2] + ": alternar posiçoes.",
                                 "Fora de ordem!", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Alternar"}, 0);
-                        
+
                         aux = valores[posicao1];
                         valores[posicao1] = valores[posicao2];
                         valores[posicao2] = aux;
                         troca = true;
-                        
                         preencheLabels();
                         ajustaTamanhos();
                         colorirOrdenados();
@@ -117,6 +119,10 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
                                 "Nada a fazer!", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Ir para o próximo"}, 0);
                     }
                 }
+                if (!troca) {
+                    break;
+                }
+
             }
             colorir(Color.green);
             jButtonSorteia.setEnabled(true);
@@ -148,6 +154,7 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jButtonSorteia = new javax.swing.JButton();
         jButtonOrdenar = new javax.swing.JButton();
+        jButtonVetOrdenado = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("BubbleSort - Método de ordenação");
@@ -319,6 +326,13 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
             }
         });
 
+        jButtonVetOrdenado.setText("Ordenado");
+        jButtonVetOrdenado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVetOrdenadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -328,7 +342,9 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonSorteia)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonVetOrdenado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonOrdenar))
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(31, Short.MAX_VALUE))
@@ -339,10 +355,11 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSorteia)
-                    .addComponent(jButtonOrdenar))
+                    .addComponent(jButtonOrdenar)
+                    .addComponent(jButtonVetOrdenado))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
@@ -360,6 +377,15 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
     private void jButtonOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOrdenarActionPerformed
         ordenar();
     }//GEN-LAST:event_jButtonOrdenarActionPerformed
+
+    private void jButtonVetOrdenadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVetOrdenadoActionPerformed
+        vetorOrdenado();
+        preencheLabels();
+        ajustaTamanhos();
+        colorir(Color.YELLOW);
+        jButtonSorteia.setEnabled(false);
+        jButtonOrdenar.setEnabled(true);
+    }//GEN-LAST:event_jButtonVetOrdenadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -399,6 +425,7 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonOrdenar;
     private javax.swing.JButton jButtonSorteia;
+    private javax.swing.JButton jButtonVetOrdenado;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
