@@ -11,6 +11,20 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/mnt/HD-500/projetos/ads20192-modulo3/ed/aula01-vetores/EdVetoresAula1Ex03/src/modelos/Pessoa.java</file>
+            <file>file:/mnt/HD-500/projetos/ads20192-modulo3/ed/aula01-vetores/EdVetoresAula1Ex03/src/enumeradores/EnumCaracteres.java</file>
+            <file>file:/mnt/HD-500/projetos/ads20192-modulo3/ed/aula01-vetores/EdVetoresAula1Ex03/src/controladores/ControlePessoa.java</file>
+            <file>file:/mnt/HD-500/projetos/ads20192-modulo3/ed/aula01-vetores/EdVetoresAula1Ex03/src/principal/EdVetoresAula1Ex03.java</file>
+            <file>file:/mnt/HD-500/projetos/ads20192-modulo3/ed/aula01-vetores/EdVetoresAula1Ex03/src/utilidades/UtilConsole.java</file>
+            <file>file:/mnt/HD-500/projetos/ads20192-modulo3/ed/aula01-vetores/EdVetoresAula1Ex03/src/utilidades/ValidaNome.java</file>
+            <file>file:/mnt/HD-500/projetos/ads20192-modulo3/ed/aula01-vetores/EdVetoresAula1Ex03/src/telas/TelaCadastros.java</file>
+            <file>file:/mnt/HD-500/projetos/ads20192-modulo3/ed/aula01-vetores/EdVetoresAula1Ex03/src/utilidades/MensagensDialog.java</file>
+            <file>file:/mnt/HD-500/projetos/ads20192-modulo3/ed/aula01-vetores/EdVetoresAula1Ex03/src/utilidades/UtilVetor.java</file>
+            <file>file:/mnt/HD-500/projetos/ads20192-modulo3/ed/aula01-vetores/EdVetoresAula1Ex03/src/telas/JDialogIncluirPessoa.java</file>
+            <file>file:/mnt/HD-500/projetos/ads20192-modulo3/ed/aula01-vetores/EdVetoresAula1Ex03/src/utilidades/UtilString.java</file>
+            <file>file:/mnt/HD-500/projetos/ads20192-modulo3/ed/aula01-vetores/EdVetoresAula1Ex03/src/interfaces/IPessoa.java</file>
+            <file>file:/mnt/HD-500/projetos/ads20192-modulo3/ed/aula01-vetores/EdVetoresAula1Ex03/src/telas/TelaConsole.java</file>
+        </group>
     </open-files>
 </project-private>

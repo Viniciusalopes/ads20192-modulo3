@@ -1,0 +1,48 @@
+
+Faculdade Senai Fatesg
+Turma     : ADS3
+Aluno     : Vinicius Araujo Lopes
+Disciplina: Arquitetura e Projeto de Software
+Data      : 18/08/2020 
+
+Exercício 2
+-----------
+
+Monte um relatório contendo os seguintes tópicos abaixo para os estilos arquiteturais: Aplicações Distribuídas e SOA
+
+• Definição
+    Aplicações distribuídas:
+        - são aplicações que possuem componentes independentes, interligados por conectores, com funcionalidades e responsabilidades bem definidas, com ações coordenadas e trocas de mensagens.
+    SOA:
+        - Service Oriented Architectures, em tradução livre, Arquitetura Orientada a Serviços, é um conceito de arquitetura que disponibiliza funcionalidades a partir de solicitação e execução de serviços, ou seja, pedidos de execução de serviços de uma determinada funcionalidade e o retorno do resultado dessa execução. Proporciona a integração entre diferentes tecnologias distintas a partir de um protocolo de comunicação em comum.
+
+• Característica
+    Aplicações distribuídas:
+        - Heterogeneidade para a comunicação entre componentes e com outras tecnologias;
+        - Escalabilidade e capacidade de expansão dos recursos;
+        - Segurança e Disponibilidade dos recursos;
+        - Tolerância a falhas pontuais em componentes sem o comprometimento do sistema;
+        - Concorrência Distribuída de requisições, possibilitando a execução dos mesmos serviços por mais de um componente;
+        - Transparência dos recursos disponibilizados por outros componentes;
+    SOA:
+        - Possui unidades que disponibilizam serviços independentes;
+        - Estabelece um contrato bem definido entre o solicitante e o fornecedor do serviço;
+        - Oculta os detalhes de implementação, expondo apenas os resultados e retornos das solicitações;
+        - Auto-contido e modular;
+        - Proporciona a reutilização em outros contextos;
+        - Pode ser combinado a outros serviços desde que haja um protocolo de comunicação em comum.
+
+• Funcionamento
+    Aplicações distribuídas:
+        Os componentes comunicam-se entre si, cada um com sua responsabilidade, para executar uma ou mais tarefas,
+    SOA:
+        Um cliente, seja ele um software ou outro serviço, envia uma solicitação a um serviço. O serviço valida, qualifica e executa a solicitação e devolve (ou responde) com um resultado ou retorno.
+
+• Dois Exemplos
+    Aplicações distribuídas:
+        - Sistemas de motores de busca;
+        - Jogos online.
+    SOA:
+        - Emissão de notas fiscais eletrônicas;
+        - Escrituração digital e declarações ao fisco.
+---
