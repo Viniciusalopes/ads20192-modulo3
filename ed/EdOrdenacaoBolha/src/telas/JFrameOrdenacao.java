@@ -126,6 +126,7 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
             }
             colorir(Color.green);
             jButtonSorteia.setEnabled(true);
+            jButtonVetOrdenado.setEnabled(true);
             jButtonOrdenar.setEnabled(false);
             JOptionPane.showMessageDialog(rootPane, "Ordenação concluída!", "Fim", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
@@ -371,6 +372,7 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
         ajustaTamanhos();
         colorir(Color.YELLOW);
         jButtonSorteia.setEnabled(false);
+        jButtonVetOrdenado.setEnabled(false);
         jButtonOrdenar.setEnabled(true);
     }//GEN-LAST:event_jButtonSorteiaActionPerformed
 
@@ -384,6 +386,7 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
         ajustaTamanhos();
         colorir(Color.YELLOW);
         jButtonSorteia.setEnabled(false);
+        jButtonVetOrdenado.setEnabled(false);
         jButtonOrdenar.setEnabled(true);
     }//GEN-LAST:event_jButtonVetOrdenadoActionPerformed
 
