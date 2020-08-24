@@ -74,8 +74,8 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
         jPanel4.setBackground((posicao1 != 3 && posicao2 != 3) ? Color.YELLOW : Color.CYAN);
         jPanel5.setBackground((posicao1 != 4 && posicao2 != 4) ? Color.YELLOW : Color.CYAN);
     }
-    
-    private void colorirOrdenados(){
+
+    private void colorirOrdenados() {
         jPanel1.setBackground((posicao1 != 0 && posicao2 != 0) ? Color.YELLOW : Color.GREEN);
         jPanel2.setBackground((posicao1 != 1 && posicao2 != 1) ? Color.YELLOW : Color.GREEN);
         jPanel3.setBackground((posicao1 != 2 && posicao2 != 2) ? Color.YELLOW : Color.GREEN);
@@ -87,9 +87,7 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
         // FONTE: https://www.devmedia.com.br/algoritmos-de-ordenacao-em-java/32693
         boolean troca = true;
         int aux;
-        String sinal = " > ";
         try {
-
             while (troca) {
                 troca = false;
                 for (int i = 0; i < valores.length - 1; i++) {
@@ -99,22 +97,23 @@ public class JFrameOrdenacao extends javax.swing.JFrame {
                     preencheLabels();
                     ajustaTamanhos();
                     colorir2();
+                    
                     if (valores[posicao1] > valores[posicao2]) {
-                        sinal = " > ";
-                        JOptionPane.showOptionDialog(rootPane, valores[posicao1] + sinal + valores[posicao2] + ": alternar posiçoes.",
+                        JOptionPane.showOptionDialog(rootPane, valores[posicao1] + " > " + valores[posicao2] + ": alternar posiçoes.",
                                 "Fora de ordem!", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Alternar"}, 0);
+                        
                         aux = valores[posicao1];
                         valores[posicao1] = valores[posicao2];
                         valores[posicao2] = aux;
                         troca = true;
+                        
                         preencheLabels();
                         ajustaTamanhos();
                         colorirOrdenados();
                         JOptionPane.showOptionDialog(rootPane, valores[posicao1] + " e " + valores[posicao2] + " ordenados.",
                                 "Ordenados!", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Ir para o próximo"}, 0);
                     } else {
-                        sinal = " < ";
-                        JOptionPane.showOptionDialog(rootPane, valores[posicao1] + sinal + valores[posicao2] + ": manter posições.",
+                        JOptionPane.showOptionDialog(rootPane, valores[posicao1] + " < " + valores[posicao2] + ": manter posições.",
                                 "Nada a fazer!", JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Ir para o próximo"}, 0);
                     }
                 }
