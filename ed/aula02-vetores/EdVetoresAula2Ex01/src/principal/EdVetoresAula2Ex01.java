@@ -1,9 +1,10 @@
 /*
  * ------------------------------------------------------------------------------------------------>
  * Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- * Criado em  : 15/10/2019
+ * Criado em  : 15/08/2020
  * Instituição: FACULDADE SENAI FATESG
  * Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ * Disciplina : Estrutura de Dados
  * Aluno      : Vinicius Araujo Lopes
  * Projeto    : EXERCÍCIOS DE ESTRUTURA DE DADOS – VETORES (AULA 2)
  * Exercício  : 1. Fazer um programa que leia e armazene as notas de 20 alunos em um vetor notas 
@@ -16,7 +17,10 @@
  * 90 – 99 : __
  * 100 : __
  * -------------------------------------------------------------------------------------------------
+ * Programa principal.
+ * ------------------------------------------------------------------------------------------------| 
  */
+
 package principal;
 
 import java.util.Random;

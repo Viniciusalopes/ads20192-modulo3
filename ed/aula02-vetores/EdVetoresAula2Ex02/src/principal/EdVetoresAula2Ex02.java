@@ -1,16 +1,20 @@
 /*
  * ------------------------------------------------------------------------------------------------>
  * Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- * Criado em  : 15/10/2019
+ * Criado em  : 15/08/2020
  * Instituição: FACULDADE SENAI FATESG
  * Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ * Disciplina : Estrutura de Dados
  * Aluno      : Vinicius Araujo Lopes
  * Projeto    : EXERCÍCIOS DE ESTRUTURA DE DADOS – VETORES (AULA 2)
  * Exercício  : 2. Elabore um programa para armazenar em um vetor V1 todos os valores inteiros 
  * positivos desde 1 até 50. Em seguida transporte todos os elementos primos do vetor V1 para um 
  * vetor V2. Imprima no final os dois vetores.
- * ------------------------------------------------------------------------------------------------|
+ * -------------------------------------------------------------------------------------------------
+ * Programa principal.
+ * ------------------------------------------------------------------------------------------------| 
  */
+
 package principal;
 
 /**

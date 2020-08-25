@@ -1,9 +1,10 @@
 /*
  * ------------------------------------------------------------------------------------------------>
  * Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- * Criado em  : 15/10/2019
+ * Criado em  : 15/08/2020
  * Instituição: FACULDADE SENAI FATESG
  * Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ * Disciplina : Estrutura de Dados
  * Aluno      : Vinicius Araujo Lopes
  * Projeto    : EXERCÍCIOS DE ESTRUTURA DE DADOS – VETORES (AULA 2)
  * Exercício  : 3. Foi feita uma pesquisa de opinião sobre as novas instalações das Salas de Estudo 
@@ -15,7 +16,9 @@
  * • a quantidade de notas 4:
  * • a quantidade de notas 5:
  * • a porcentagem de notas 4 e 5:
- * ------------------------------------------------------------------------------------------------|
+ * -------------------------------------------------------------------------------------------------
+ * Programa principal.
+ * ------------------------------------------------------------------------------------------------| 
  */
 package principal;
 
@@ -45,7 +48,7 @@ public class EdVetoresAula2Ex03 {
 
         // Saída
         imprimeVetor("Avaliacões: ", notas);
-        
+
         for (int i = 0; i < nomes.length; i++) {
             System.out.printf("Quantidade de notas %d - %s: %d\n", (i + 1), nomes[i], qtd[i]);
         }
