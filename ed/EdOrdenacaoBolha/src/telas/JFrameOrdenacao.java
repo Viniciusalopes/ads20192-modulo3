@@ -1,7 +1,16 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * ------------------------------------------------------------------------------------------------>
+ * Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
+ * Criado em  : 24/08/2019
+ * Instituição: FACULDADE SENAI FATESG
+ * Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ * Disciplina : Estrutura de Dados
+ * Aluno      : Vinicius Araujo Lopes
+ * Projeto    : Apresentação de métodos de ordenação e busca
+ * Exercício  : Método de ordenação Bubble Search
+ * -------------------------------------------------------------------------------------------------
+ * Tela principal.
+ * ------------------------------------------------------------------------------------------------| 
  */
 package telas;
 
