@@ -11,14 +11,14 @@ Este repositório foi criado com a intenção inicial de armazenar anotações p
 ### ESTRUTURA
 
 Cada diretório no repositório é um acrônimo do nome da disciplina.
-
+```
 aps  -> Arquitetura e Projeto de Software
 ed   -> Estrutura de Dados
 gp   -> Gestão de Projetos
 mdb  -> Modelagem de Banco de Dados
 pp   -> Padrões de Projeto
 rht  -> Relações Humanas no Trabalho
-
+```
 - Os prefixos dos nomes dos arquivos de cada diretório são a data da aula ou da produção do documento, no formato yyyymmdd. Caso necessário, poderão existir subdiretorios com nomes de assuntos e/ou atividades específicas. 
 
 ---
