@@ -28,10 +28,6 @@ import model_Vinicius.enums.EnumTipoDeConta;
  */
 public class ControlConta {
 
-    //--- ATRIBUTOS ------------------------------------------------------------------------------->
-    //
-    //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
-    //
     // --- VALIDAÇÕES ----------------------------------------------------------------------------->
     //
     public static void validarContaSelecionada(int indice) throws Exception {
@@ -217,9 +213,9 @@ public class ControlConta {
             if (saqueOK) {
                 updateConta(origem);
                 destino.deposito(valor);
-                if (true) {
-                    throw new Exception("Teste de erro na conta destino");
-                }
+//                if (true) {
+//                    throw new Exception("Teste de erro na conta destino");
+//                }
                 updateConta(destino);
                 depositoOK = true;
             } else {

@@ -43,7 +43,6 @@ public abstract class DAOGeneric {
     protected void create(String objectToString) throws Exception {
         ArrayList<String> linhas = con.getResults();
         linhas.add(objectToString);
-        con.executeUpdate(linhas);
     }
 
     //--- FIM CREATE ------------------------------------------------------------------------------|
