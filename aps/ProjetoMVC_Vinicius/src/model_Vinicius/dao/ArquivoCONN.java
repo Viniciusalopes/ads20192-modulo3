@@ -125,8 +125,6 @@ public class ArquivoCONN {
             throw new Exception("Erro ao escrever no arquivo [" + file.getCanonicalPath() + "]!\n" + e.getMessage());
         }
     }
-    
-    
     //--- FIM SET ---------------------------------------------------------------------------------|
     //
 }

@@ -28,17 +28,17 @@ public class DAOCliente extends DAOGeneric {
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
     private static DAOCliente instance = null;
+
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
-
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
     private DAOCliente() throws Exception {
         super("Cliente");
     }
+
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
-
     //--- GET ------------------------------------------------------------------------------------->
     //
     public static DAOCliente getInstance() throws Exception {

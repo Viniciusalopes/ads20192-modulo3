@@ -131,14 +131,14 @@ public abstract class DAOGeneric {
     //
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
-    //--- FIM UPDATE ------------------------------------------------------------------------------|
-    //
     protected void update(int id, int indexPrimaryKey, String objectToString) throws Exception {
         ArrayList<String> linhas = retrieveListByField(id + "", indexPrimaryKey, EnumComparador.Diferente);
         linhas.add(objectToString);
         con.executeUpdate(linhas);
     }
 
+    //--- FIM UPDATE ------------------------------------------------------------------------------|
+    //
     //--- DELETE ---------------------------------------------------------------------------------->
     //
     protected void delete(int id, int indexPrimaryKey) throws Exception {
