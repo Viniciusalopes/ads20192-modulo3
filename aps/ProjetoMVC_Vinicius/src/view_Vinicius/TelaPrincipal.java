@@ -9,7 +9,7 @@
  *  Projeto    : Projeto MVC - Sistema Bancário Simples
  *  Exercício  : https://www.devmedia.com.br/java-se-aprendendo-o-padrao-mvc/29546
  *  -------------------------------------------------------------------------------------------------
- *  
+ *  Tela principal
  *  ------------------------------------------------------------------------------------------------| 
  */
 package view_Vinicius;
@@ -33,6 +33,8 @@ import static view_Vinicius.Mensagem.*;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
 
+    //--- ATRIBUTOS ------------------------------------------------------------------------------->
+    //
     private DefaultTableModel tabClientes = null;
     private ArrayList<Object> clientes = null;
     private DefaultTableModel tabContas = null;
@@ -45,6 +47,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private boolean contaSelecionada = false;
     private boolean contaAtiva = false;
 
+    //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
+    //
+    //--- CLIENTES ------------------------------------------------------------------------------->
+    //
     private void selecionarCliente() {
         linhaCliente = (jTableClientes.getRowCount() == 1) ? 0 : jTableClientes.getSelectedRow();
         if (linhaCliente == -1) {
@@ -71,6 +77,25 @@ public class TelaPrincipal extends javax.swing.JFrame {
         refreshContasCliente();
     }
 
+    private void editarCliente() throws Exception {
+        jTextFieldNome.setText(jTableClientes.getValueAt(linhaCliente, 1).toString());
+        jTextFieldEmail.setText(jTableClientes.getValueAt(linhaCliente, 2).toString());
+        jTextFieldNome.requestFocus();
+
+        jButtonSalvar.setVisible(true);
+        jButtonAddCliente.setVisible(false);
+        jButtonCancelarEditarCliente.setVisible(true);
+    }
+
+    private void cancelarEditarCliente() {
+        jTextFieldNome.setText("");
+        jTextFieldEmail.setText("");
+
+        jButtonSalvar.setVisible(false);
+        jButtonAddCliente.setVisible(true);
+        jButtonCancelarEditarCliente.setVisible(false);
+    }
+
     private void refreshClientes() throws Exception {
 
         tabClientes.setRowCount(0);
@@ -92,31 +117,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         refreshContasCliente();
     }
 
-    private void editarCliente() throws Exception {
-        jTextFieldNome.setText(jTableClientes.getValueAt(linhaCliente, 1).toString());
-        jTextFieldEmail.setText(jTableClientes.getValueAt(linhaCliente, 2).toString());
-        jTextFieldNome.requestFocus();
-
-        jButtonSalvar.setVisible(true);
-        jButtonAddCliente.setVisible(false);
-        jButtonCancelarEditarCliente.setVisible(true);
-    }
-
-    private void cancelarEditarCliente() {
-        jTextFieldNome.setText("");
-        jTextFieldEmail.setText("");
-
-        jButtonSalvar.setVisible(false);
-        jButtonAddCliente.setVisible(true);
-        jButtonCancelarEditarCliente.setVisible(false);
-    }
-
-    private void verContasCliente() throws Exception {
-        refreshContasCliente();
-        jButtonAddConta.setEnabled(clienteSelecionado);
-        cancelarEditarCliente();
-    }
-
+    //--- FIM CLIENTES ----------------------------------------------------------------------------|
+    //    
+    //--- CONTAS ---------------------------------------------------------------------------------->
+    //
     private void selecionarConta() {
         linhaConta = (jTableContas.getRowCount() == 1) ? 0 : jTableContas.getSelectedRow();
         if (linhaConta == -1) {
@@ -157,6 +161,56 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }
 
+    private void addConta(String actionCommand) throws Exception {
+        ControlConta.addConta(
+                idCliente,
+                jFormattedToDouble(jFormattedTextFieldLimite),
+                getTipoDeContaSelecionado(actionCommand)
+        );
+        refreshContasCliente();
+    }
+
+    private void updateConta(String acao) throws Exception {
+
+        ControlConta.validarContaSelecionada(linhaConta);
+
+        switch (acao) {
+            case "depositar":
+                ControlConta.depositar(idConta, jFormattedToDouble(jFormattedTextFieldValor));
+                break;
+
+            case "sacar":
+                ControlConta.sacar(idConta, jFormattedToDouble(jFormattedTextFieldValor));
+                break;
+
+            case "encerrar":
+                ControlConta.encerrar(idConta);
+                break;
+
+            case "reativar":
+                ControlConta.reativar(idConta);
+                break;
+
+            case "transferir":
+                ControlConta.validarValorZero(jFormattedToDouble(jFormattedTextFieldValor));
+                int idDestino = Integer.parseInt(jComboBoxOutrasContas.getSelectedItem().toString()
+                        .split(EnumConstantes.SeparadorComboBox.getConstante())[0].trim());
+                ControlConta.transferir(idConta, idDestino, jFormattedToDouble(jFormattedTextFieldValor));
+                break;
+
+            case "addLimite":
+                ControlConta.validarValorZero(jFormattedToDouble(jFormattedTextFieldValor));
+                ControlConta.addLimite(idConta, jFormattedToDouble(jFormattedTextFieldValor));
+                break;
+
+            case "removeLimite":
+                ControlConta.validarValorZero(jFormattedToDouble(jFormattedTextFieldValor));
+                ControlConta.removeLimite(idConta, jFormattedToDouble(jFormattedTextFieldValor));
+                break;
+        }
+        refreshContasCliente();
+    }
+
     private void refreshContasCliente() throws Exception {
 
         tabContas.setRowCount(0);
@@ -183,6 +237,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         }
         valoresIniciaisContas();
+        jButtonAddConta.setEnabled(clienteSelecionado);
+        cancelarEditarCliente();
     }
 
     private void popularjComboBoxOutrasContas() throws Exception {
@@ -231,63 +287,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButtonRemoveLimite.setEnabled(jButtonAddLimite.isEnabled());
     }
 
-    private void addConta(String actionCommand) throws Exception {
-        ControlConta.addConta(
-                idCliente,
-                jFormattedToDouble(jFormattedTextFieldLimite),
-                getTipoDeContaSelecionado(actionCommand)
-        );
-        refreshContasCliente();
-    }
-
-    private void depositar() throws Exception {
-        ControlConta.validarContaSelecionada(linhaConta);
-        ControlConta.depositar(idConta, jFormattedToDouble(jFormattedTextFieldValor));
-        refreshContasCliente();
-    }
-
-    private void sacar() throws Exception {
-        ControlConta.validarContaSelecionada(linhaConta);
-        ControlConta.sacar(idConta, jFormattedToDouble(jFormattedTextFieldValor));
-        refreshContasCliente();
-    }
-
-    private void encerrar() throws Exception {
-        ControlConta.validarContaSelecionada(linhaConta);
-        ControlConta.encerrar(idConta);
-        refreshContasCliente();
-    }
-
-    private void reativar() throws Exception {
-        ControlConta.validarContaSelecionada(linhaConta);
-        ControlConta.reativar(idConta);
-        refreshContasCliente();
-        valoresIniciaisContas();
-    }
-
-    private void transferir() throws Exception {
-        ControlConta.validarContaSelecionada(linhaConta);
-        ControlConta.validarValorZero(jFormattedToDouble(jFormattedTextFieldValor));
-        int idDestino = Integer.parseInt(jComboBoxOutrasContas.getSelectedItem().toString()
-                .split(EnumConstantes.SeparadorComboBox.getConstante())[0].trim());
-        ControlConta.transferir(idConta, idDestino, jFormattedToDouble(jFormattedTextFieldValor));
-        refreshContasCliente();
-    }
-
-    private void addLimite() throws Exception {
-        ControlConta.validarContaSelecionada(linhaConta);
-        ControlConta.validarValorZero(jFormattedToDouble(jFormattedTextFieldValor));
-        ControlConta.addLimite(idConta, jFormattedToDouble(jFormattedTextFieldValor));
-        refreshContasCliente();
-    }
-
-    private void removeLimite() throws Exception {
-        ControlConta.validarContaSelecionada(linhaConta);
-        ControlConta.validarValorZero(jFormattedToDouble(jFormattedTextFieldValor));
-        ControlConta.removeLimite(idConta, jFormattedToDouble(jFormattedTextFieldValor));
-        refreshContasCliente();
-    }
-
     private double jFormattedToDouble(JFormattedTextField campo) throws Exception {
         try {
             return Double.parseDouble(
@@ -310,6 +309,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }
 
+    //--- FIM CONTAS ------------------------------------------------------------------------------|
+    //
+    //    
+    //--- CONSTRUTORES ---------------------------------------------------------------------------->
+    //
     public TelaPrincipal() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -325,6 +329,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }
 
+    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
+    //
+    //--- EVENTOS --------------------------------------------------------------------------------->
+    //
     /**
      * This method is called from within the constructor to initialize the form. WARNING: Do NOT
      * modify this code. The content of this method is always regenerated by the Form Editor.
@@ -810,7 +818,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             if (evt != null) { // Quando acionado pelo keyReleased, evt = null
                 switch (evt.getClickCount()) {
                     case 1:
-                        verContasCliente();
+                        refreshContasCliente();
                         break;
                     case 2:
                         editarCliente();
@@ -843,7 +851,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void jButtonDepositarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDepositarActionPerformed
         try {
             jPanelTransferir.setVisible(false);
-            depositar();
+            updateConta("depositar");
         } catch (Exception e) {
             jFormattedTextFieldValor.requestFocus();
             mensagemErro(e);
@@ -852,6 +860,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jTableContasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableContasMouseClicked
         try {
+            jPanelTransferir.setVisible(false);
             valoresIniciaisContas();
         } catch (Exception e) {
             mensagemErro(e);
@@ -869,7 +878,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jButtonSacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSacarActionPerformed
         try {
-            sacar();
+            updateConta("sacar");
             jPanelTransferir.setVisible(false);
         } catch (Exception e) {
             jFormattedTextFieldValor.requestFocus();
@@ -879,8 +888,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jButtonEncerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEncerrarActionPerformed
         try {
-            encerrar();
             jPanelTransferir.setVisible(false);
+            updateConta("encerrar");
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -888,8 +897,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jButtonReativarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReativarActionPerformed
         try {
-            reativar();
             jPanelTransferir.setVisible(false);
+            updateConta("reativar");
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -924,8 +933,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jButtonAddLimiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddLimiteActionPerformed
         try {
-            addLimite();
             jPanelTransferir.setVisible(false);
+            updateConta("addLimite");
         } catch (Exception e) {
             jFormattedTextFieldValor.requestFocus();
             mensagemErro(e);
@@ -934,8 +943,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jButtonRemoveLimiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveLimiteActionPerformed
         try {
-            removeLimite();
             jPanelTransferir.setVisible(false);
+            updateConta("removeLimite");
         } catch (Exception e) {
             jFormattedTextFieldValor.requestFocus();
             mensagemErro(e);
@@ -944,7 +953,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOKActionPerformed
         try {
-            transferir();
+            updateConta("transferir");
+            jPanelTransferir.setVisible(false);
         } catch (Exception e) {
             jFormattedTextFieldValor.requestFocus();
             mensagemErro(e);
@@ -953,14 +963,16 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jTextFieldPesquisaNomeClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldPesquisaNomeClienteKeyReleased
         try {
+            jPanelTransferir.setVisible(false);
             clientes = ControlCliente.getAllClientesLike(jTextFieldPesquisaNomeCliente.getText());
             refreshClientes();
         } catch (Exception e) {
             mensagemErro(e);
         }
-        // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldPesquisaNomeClienteKeyReleased
 
+    //--- FIM EVENTOS -----------------------------------------------------------------------------|
+    //    
     /**
      * @param args the command line arguments
      */
