@@ -1,0 +1,18 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix} ------------------------------------------------------------------------------------------------>
+${licensePrefix} Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
+${licensePrefix} Criado em  : ${date?date?string("dd/MM/yyyy")} ${time?time?string("HH:mm:ss")} 
+${licensePrefix} Instituição: FACULDADE SENAI FATESG
+${licensePrefix} Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+${licensePrefix} Disciplina : Arquitetura e Projeto de Software
+${licensePrefix} Aluno      : Vinicius Araujo Lopes
+${licensePrefix} Projeto    : Projeto MVC - Sistema Bancário Simples
+${licensePrefix} Exercício  : https://www.devmedia.com.br/java-se-aprendendo-o-padrao-mvc/29546
+${licensePrefix} -------------------------------------------------------------------------------------------------
+${licensePrefix} 
+${licensePrefix} ------------------------------------------------------------------------------------------------| 
+<#if licenseLast??>
+${licenseLast}
+</#if>

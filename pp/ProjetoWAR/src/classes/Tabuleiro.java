@@ -18,7 +18,7 @@ public class Tabuleiro {
 
     }
 
-    String getIdentificador() {
+    public String getIdentificador() {
         return identificador;
     }
 
