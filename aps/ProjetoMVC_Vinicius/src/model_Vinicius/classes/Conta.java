@@ -9,7 +9,7 @@
  *  Projeto    : Projeto MVC - Sistema Bancário Simples
  *  Exercício  : https://www.devmedia.com.br/java-se-aprendendo-o-padrao-mvc/29546
  *  ------------------------------------------------------------------------------------------------
- *  Modelo classe Conta
+ *  Modelo abstrato de Conta.
  *  -----------------------------------------------------------------------------------------------| 
  */
 package model_Vinicius.classes;

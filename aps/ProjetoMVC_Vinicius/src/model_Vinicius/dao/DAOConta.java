@@ -9,7 +9,7 @@
  *  Projeto    : Projeto MVC - Sistema Bancário Simples
  *  Exercício  : https://www.devmedia.com.br/java-se-aprendendo-o-padrao-mvc/29546
  *  ------------------------------------------------------------------------------------------------
- *  
+ *  Objeto de acesso a dados da Conta.
  *  -----------------------------------------------------------------------------------------------| 
  */
 package model_Vinicius.dao;
