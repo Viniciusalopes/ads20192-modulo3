@@ -59,6 +59,9 @@ public class ControlCliente {
                 throw new Exception("O nome deve ter apenas letras e espaços!");
             }
         }
+        if(nome.split(" ").length < 2){
+            throw new Exception("Infome o nome e um sobrenome!");
+        }
     }
 
     /**
