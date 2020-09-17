@@ -134,6 +134,7 @@ public class JDialogIncluir extends javax.swing.JDialog implements IModal {
 
             switch (acao) {
                 case "Incluir":
+                    
                     ControlEmpresa.getInstance().getClass().getMethod(acao + cadastro, String.class)
                             .invoke(ControlEmpresa.getInstance(), jTextFieldNome.getText());
                     break;
