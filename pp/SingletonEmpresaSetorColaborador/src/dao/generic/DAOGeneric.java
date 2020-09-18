@@ -215,6 +215,25 @@ public class DAOGeneric {
         return ret;
     }
 
+    /**
+     * Converte o vetor de strings com nomes de campos para objetos TableField.
+     *
+     * @param tableFields Vetor com nomes de campos da tabela.
+     * @return Lista de campos da tabela em uso pela DAOEspecialista.
+     */
+    private TableField[] fieldToTableField(Field[] fields) throws Exception {
+        TableField[] ret = new TableField[fields.length];
+        for (int i = 0; i < fields.length; i++) {
+            for (TableField fieldList : fieldsList) {
+                if (fields[i].getColumnName().equals(fieldList.getColumnName())) {
+                    ret[i] = fieldList;
+                    ret[i].setValue(fields[i].getValue());
+                }
+            }
+        }
+        return ret;
+    }
+
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
     //--- SET ------------------------------------------------------------------------------------->
@@ -255,9 +274,7 @@ public class DAOGeneric {
      * anteriores ao WHERE.
      */
     private void includeWhere(Where[] where, int pos) {
-        if (where == null) {
-            params = new Object[0];
-        } else {
+        if (where != null) {
             params = new Object[(where != null) ? where.length : 0];
 
             sql += " WHERE (";
@@ -269,6 +286,22 @@ public class DAOGeneric {
             }
             sql += ")";
         }
+    }
+
+    /**
+     * Redimensiona um vetor de objetos.
+     *
+     * @param vector Vetor com objetos que será red
+     * @param newLenght
+     * @return
+     */
+    private Object[] redimVector(Object[] vector, int newLenght) {
+        int lenght = (vector.length > newLenght) ? (vector.length - newLenght) : newLenght;
+        Object[] ret = new Object[lenght];
+        for (int i = 0; i < lenght; i++) {
+            ret[i] = vector[i];
+        }
+        return ret;
     }
 
     //--- FIM SET ---------------------------------------------------------------------------------|
@@ -283,7 +316,7 @@ public class DAOGeneric {
      * @throws Exception
      */
     protected void insert(Field[] field, Where[] where) throws Exception {
-        insert((TableField[]) field, where);
+        insert(fieldToTableField(field), where);
     }
 
     /**
