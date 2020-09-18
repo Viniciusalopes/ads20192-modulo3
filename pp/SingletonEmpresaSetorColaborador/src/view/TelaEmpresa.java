@@ -38,29 +38,34 @@ public class TelaEmpresa extends javax.swing.JFrame {
         for (Object linha : linhas) {
             model.addRow((Object[]) linha);
         }
+        selecionar();
     }
 
     private void acao(String actionCommand) throws Exception {
-
         IModal modal = new JDialogIncluir(this, true);
+        modal.setAcao(actionCommand);
+        modal.setCadastro(cadastro);
 
-        if (actionCommand.equals("Incluir")) {
-            modal.setAcao(actionCommand);
-            modal.setCadastro(cadastro);
-            modal.setObject(null);
-            modal.setVisible(true);
-            refreshGridSetor();
-        }
-        if (actionCommand.endsWith("Editar")) {
+        if (!actionCommand.equals("Incluir")) {
             if (objetoSelecionado == null) {
                 throw new Exception("Selecione um " + cadastro + "!");
             }
-            modal.setAcao(actionCommand);
-            modal.setCadastro(cadastro);
-            modal.setObject(objetoSelecionado);
-            modal.setVisible(true);
-            refreshGridSetor();
         }
+
+        if (actionCommand.equals("Excluir")) {
+            if (mensagemEscolher("Confirma a exclusão do cadastro de " + cadastro + "?", new String[]{"Sim", "Não... deixa quieto"}) == 0) {
+                controle.ExcluirSetor(Integer.parseInt(
+                        objetoSelecionado.getClass().getMethod("getId").invoke(objetoSelecionado).toString()
+                ));
+            }
+        } else {
+            if (actionCommand.equals("Editar")) {
+                modal.setObject(objetoSelecionado);
+            }
+            modal.setVisible(true);
+        }
+
+        refreshGridSetor();
     }
 
     private void selecionar() {
@@ -77,6 +82,8 @@ public class TelaEmpresa extends javax.swing.JFrame {
                     objetoSelecionado = controle.getSetor(id);
                     break;
             }
+        } else {
+            objetoSelecionado = null;
         }
     }
 
@@ -135,6 +142,11 @@ public class TelaEmpresa extends javax.swing.JFrame {
         });
 
         jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelBotoesAcaoLayout = new javax.swing.GroupLayout(jPanelBotoesAcao);
         jPanelBotoesAcao.setLayout(jPanelBotoesAcaoLayout);
@@ -295,6 +307,14 @@ public class TelaEmpresa extends javax.swing.JFrame {
             mensagemErro(e);
         }
     }//GEN-LAST:event_jButtonEditarActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        try {
+            acao(evt.getActionCommand());
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     /**
      * @param args the command line arguments

@@ -249,7 +249,7 @@ public class DAOGeneric {
      */
     private void createSqlSelect(Where[] where) throws Exception {
         this.fieldsListOnly = stringToTableField();
-
+        params = new Object[]{};
         sql = "SELECT ";
         if (fieldsOnly == null) {
             sql += "*";
@@ -275,7 +275,7 @@ public class DAOGeneric {
      */
     private void includeWhere(Where[] where, int pos) {
         if (where != null) {
-            params = new Object[(where != null) ? where.length : 0];
+            params = redimVector(params, params.length + where.length);
 
             sql += " WHERE (";
             int i = pos;
@@ -298,7 +298,7 @@ public class DAOGeneric {
     private Object[] redimVector(Object[] vector, int newLenght) {
         int lenght = (vector.length > newLenght) ? (vector.length - newLenght) : newLenght;
         Object[] ret = new Object[lenght];
-        for (int i = 0; i < lenght; i++) {
+        for (int i = 0; i < vector.length; i++) {
             ret[i] = vector[i];
         }
         return ret;
@@ -330,7 +330,7 @@ public class DAOGeneric {
 
         String strValues = "";
         sql = "INSERT INTO " + table + "(";
-        params = new Object[tableFields.length + ((where != null) ? where.length : 0)];
+        params = new Object[tableFields.length];
 
         int i = 0;
         for (TableField value : tableFields) {
@@ -427,7 +427,7 @@ public class DAOGeneric {
      * @throws Exception
      */
     protected void update(Field[] field, Where[] where) throws Exception {
-        update((TableField[]) field, where);
+        update(fieldToTableField(field), where);
     }
 
     /**
@@ -439,7 +439,7 @@ public class DAOGeneric {
      */
     protected void update(TableField[] tableFields, Where[] where) throws Exception {
         sql = "UPDATE " + table + " SET ";
-        params = new Object[tableFields.length + ((where != null) ? where.length : 0)];
+        params = new Object[tableFields.length];
 
         int i = 0;
         for (TableField value : tableFields) {
@@ -472,6 +472,7 @@ public class DAOGeneric {
         if (where == null) {
             throw new Exception("Faz isso não, parente... DELETE sem WHERE?!");
         }
+        params = new Object[]{};
         sql = "DELETE FROM " + table + " ";
         includeWhere(where, 0);
 
