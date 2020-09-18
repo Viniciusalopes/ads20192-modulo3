@@ -108,8 +108,13 @@ public class ControlEmpresa {
             if (e.toString().contains("ERROR: duplicate key value violates unique constraint \"setores_set_nome_key\"")) {
                 throw new Exception("Já existem um setor com este nome!");
             }
+            else{
+                throw e;
+            }
         }
-        empresa.getSetores().add(setor);
+        ArrayList<Setor> setores = empresa.getSetores();
+        setores.add(setor);
+        empresa.setSetores(setores);
     }
 
     public void IncluirColaborador(String nome) {
@@ -132,7 +137,17 @@ public class ControlEmpresa {
                 null,
                 empresa.getId()
         );
-        daoSetor.update(setor);
+        
+        try {
+            daoSetor.update(setor);
+        } catch (Exception e) {
+            if (e.toString().contains("ERROR: duplicate key value violates unique constraint \"setores_set_nome_key\"")) {
+                throw new Exception("Já existem um setor com este nome!");
+            }
+            else{
+                throw e;
+            }
+        }
         updateSetores();
     }
 
