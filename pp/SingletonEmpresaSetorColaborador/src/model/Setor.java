@@ -64,9 +64,9 @@ public class Setor extends GenericObject {
     public static Setor build(Object object) throws Exception {
         Object[] obj = (Object[]) object;
         Setor setor = new Setor();
-        setor.setId(Integer.parseInt(Field.getValue("set_id", obj[0]).toString()));
-        setor.setNome(Field.getValue("set_nome", obj[1]).toString());
-        setor.setIdEmpresa(Integer.parseInt(Field.getValue("emp_id", obj[2]).toString()));
+        setor.setId(Integer.parseInt(Field.getValue("setor_id", obj[0]).toString()));
+        setor.setNome(Field.getValue("setor_nome", obj[1]).toString());
+        setor.setIdEmpresa(Integer.parseInt(Field.getValue("setor_empresa_id", obj[2]).toString()));
         return setor;
     }
     //--- FIM GET ---------------------------------------------------------------------------------|

@@ -58,8 +58,8 @@ public class Empresa extends GenericObject {
     public static Empresa build(Object object) throws Exception {
         Object[] obj = (Object[]) object;
         Empresa empresa = new Empresa();
-        empresa.setId(Integer.parseInt(Field.getValue("emp_id", obj[0]).toString()));
-        empresa.setNome(Field.getValue("emp_nome", obj[1]).toString());
+        empresa.setId(Integer.parseInt(Field.getValue("empresa_id", obj[0]).toString()));
+        empresa.setNome(Field.getValue("empresa_nome", obj[1]).toString());
         return empresa;
     }
 

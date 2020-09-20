@@ -97,7 +97,7 @@ public class ControlEmpresa {
     public void IncluirSetor(String nome) throws Exception {
         validarNome(nome);
         Setor setor = new Setor(
-                daoSetor.getMaxId("set_id") + 1,
+                daoSetor.getMaxId("setor_id") + 1,
                 nome,
                 null,
                 empresa.getId()
@@ -105,7 +105,7 @@ public class ControlEmpresa {
         try {
             daoSetor.add(setor);
         } catch (Exception e) {
-            if (e.toString().contains("ERROR: duplicate key value violates unique constraint \"setores_set_nome_key\"")) {
+            if (e.toString().contains("ERROR: duplicate key value violates unique constraint \"setores_setor_nome_key\"")) {
                 throw new Exception("Já existem um setor com este nome!");
             }
             else{
@@ -141,7 +141,7 @@ public class ControlEmpresa {
         try {
             daoSetor.update(setor);
         } catch (Exception e) {
-            if (e.toString().contains("ERROR: duplicate key value violates unique constraint \"setores_set_nome_key\"")) {
+            if (e.toString().contains("ERROR: duplicate key value violates unique constraint \"setores_setor_nome_key\"")) {
                 throw new Exception("Já existem um setor com este nome!");
             }
             else{
@@ -158,7 +158,7 @@ public class ControlEmpresa {
     public void updateSetores() throws Exception {
         empresa.setSetores(daoSetor.retrieveByField(
                 null,
-                new Where("", "emp_id", Comparer.EQUAL, empresa.getId()))
+                new Where("", "setor_empresa_id", Comparer.EQUAL, empresa.getId()))
         );
     }
 

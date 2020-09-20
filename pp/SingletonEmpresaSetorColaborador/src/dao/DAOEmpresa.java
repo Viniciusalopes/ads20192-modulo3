@@ -50,7 +50,7 @@ public class DAOEmpresa extends DAOGeneric {
     //--- CREATE ---------------------------------------------------------------------------------->
     //
     public void add(Empresa empresa) throws Exception {
-        insert(new Field[]{new Field("emp_nome", empresa.getNome())}, null);
+        insert(new Field[]{new Field("empresa_nome", empresa.getNome())}, null);
     }
 
     //--- FIM CREATE ------------------------------------------------------------------------------|
@@ -62,7 +62,7 @@ public class DAOEmpresa extends DAOGeneric {
     }
 
     public Empresa retrieveById(int id) throws Exception {
-        return (Empresa) retrieveById(id, "emp_id", new Empresa());
+        return (Empresa) retrieveById(id, "empresa_id", new Empresa());
     }
 
     public ArrayList<Empresa> retrieveByField(String[] fieldsOnly, Where where) throws Exception {
@@ -87,8 +87,8 @@ public class DAOEmpresa extends DAOGeneric {
     //
     public void update(Empresa empresa) throws Exception {
         update(
-                new Field[]{new Field("set_nome", empresa.getNome())},
-                new Where[]{new Where("", "set_id", Comparer.EQUAL, empresa.getId())}
+                new Field[]{new Field("setor_nome", empresa.getNome())},
+                new Where[]{new Where("", "setor_id", Comparer.EQUAL, empresa.getId())}
         );
     }
 
@@ -97,7 +97,7 @@ public class DAOEmpresa extends DAOGeneric {
     //--- DELETE ---------------------------------------------------------------------------------->
     //
     public void delete(int id) throws Exception {
-        delete(new Where[]{new Where("", "emp_id", Comparer.EQUAL, id)});
+        delete(new Where[]{new Where("", "empresa_id", Comparer.EQUAL, id)});
     }
     //--- FIM DELETE ------------------------------------------------------------------------------|
     //

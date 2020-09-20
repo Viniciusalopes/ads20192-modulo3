@@ -40,7 +40,7 @@ public class ControlSetor {
     public ArrayList<Setor> getListaSetores(int idEmpresa) throws Exception {
         return new DAOSetor().retrieveByField(
                 null,
-                new Where("", "emp_id", Comparer.EQUAL, idEmpresa)
+                new Where("", "setor_empresa_id", Comparer.EQUAL, idEmpresa)
         );
     }
 

@@ -51,8 +51,8 @@ public class DAOSetor extends DAOGeneric {
     //
     public void add(Setor setor) throws Exception {
         insert(new Field[]{
-            new Field("set_nome", setor.getNome()),
-            new Field("emp_id", setor.getIdEmpresa())},
+            new Field("setor_nome", setor.getNome()),
+            new Field("setor_empresa_id", setor.getIdEmpresa())},
                 null
         );
     }
@@ -66,7 +66,7 @@ public class DAOSetor extends DAOGeneric {
     }
 
     public Setor retrieveById(int idSetor) throws Exception {
-        return (Setor) retrieveById(idSetor, "set_id", new Setor());
+        return (Setor) retrieveById(idSetor, "setor_id", new Setor());
     }
 
     public ArrayList<Setor> retrieveByField(String[] fieldsOnly, Where where) throws Exception {
@@ -91,8 +91,8 @@ public class DAOSetor extends DAOGeneric {
     //
     public void update(Setor setor) throws Exception {
         update(
-                new Field[]{new Field("set_nome", setor.getNome())},
-                new Where[]{new Where("", "set_id", Comparer.EQUAL, setor.getId())}
+                new Field[]{new Field("setor_nome", setor.getNome())},
+                new Where[]{new Where("", "setor_id", Comparer.EQUAL, setor.getId())}
         );
     }
 
@@ -101,7 +101,7 @@ public class DAOSetor extends DAOGeneric {
     //--- DELETE ---------------------------------------------------------------------------------->
     //
     public void delete(int id) throws Exception {
-        delete(new Where[]{new Where("", "set_id", Comparer.EQUAL, id)});
+        delete(new Where[]{new Where("", "setor_id", Comparer.EQUAL, id)});
     }
     //--- FIM DELETE ------------------------------------------------------------------------------|
     //
