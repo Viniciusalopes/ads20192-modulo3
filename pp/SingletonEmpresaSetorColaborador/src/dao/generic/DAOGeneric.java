@@ -234,10 +234,45 @@ public class DAOGeneric {
         return ret;
     }
 
-    //--- FIM GET ---------------------------------------------------------------------------------|
-    //
-    //--- SET ------------------------------------------------------------------------------------->
-    //
+    /**
+     * Valida as cláusulas WHERE para impedir UPDATE E DELETE sem WHERE ou com WHERE incompleto.
+     *
+     * @param where Cláusulas com condições e filtros.
+     * @param command Comando onde o WHERE será utilizado.
+     * @throws Exception
+     */
+    private void whereValidate(Where[] where, String command) throws Exception {
+
+        Exception e = new Exception("Faz isso não, parente... " + command.toUpperCase() + " sem WHERE?!");
+
+        if (where == null) {        // Sem WHERE
+            throw e;
+        }
+        if (where.length == 0) {    // Where[] vazio
+            throw e;
+        }
+        try {
+            for (Where w : where) {
+                if (w.getColumnName() == "") {              // Não informou a coluna.
+                    throw new Exception("column_name");
+                }
+                if (w.getComparer() == null) {              // Não informou o comparador.
+                    throw new Exception("comparer");
+                }
+                if (w.getValue() == null) {                 // Não informou o valor a ser comparado.
+                    throw new Exception("value");
+                }
+            }
+        } catch (Exception eAtributo) {
+            throw new Exception("O WHERE do comando '" + command + "' está com o atributo '"
+                    + eAtributo.getMessage() + "' inválido!");
+        }
+    }
+
+//--- FIM GET ---------------------------------------------------------------------------------|
+//
+//--- SET ------------------------------------------------------------------------------------->
+//
     /**
      * Cria uma query de SELECT com os campos que serão incluídos no resultado e com as condições e
      * filtros do select.
@@ -438,6 +473,9 @@ public class DAOGeneric {
      * @throws Exception
      */
     protected void update(TableField[] tableFields, Where[] where) throws Exception {
+
+        whereValidate(where, "UPDATE");
+
         sql = "UPDATE " + table + " SET ";
         params = new Object[tableFields.length];
 
@@ -468,10 +506,9 @@ public class DAOGeneric {
      * @throws Exception
      */
     protected void delete(Where[] where) throws Exception {
-        // e.e
-        if (where == null) {
-            throw new Exception("Faz isso não, parente... DELETE sem WHERE?!");
-        }
+
+        whereValidate(where, "DELETE");
+
         params = new Object[]{};
         sql = "DELETE FROM " + table + " ";
         includeWhere(where, 0);
