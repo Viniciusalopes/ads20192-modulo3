@@ -1,7 +1,7 @@
 /*
  *  ------------------------------------------------------------------------------------------------>
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 14/09/2020 05:06:43 
+ *  Criado em  : 25/09/2020 12:15:34 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
@@ -9,23 +9,23 @@
  *  Projeto    : PADRÃO DE PROJETOS - SINGLETON
  *  Exercício  : Colaboradores dos setores de uma empresa
  *  -------------------------------------------------------------------------------------------------
- *  Acesso a dados da tabela [setores].
+ *  
  *  ------------------------------------------------------------------------------------------------| 
  */
-package dao;
+package view;
 
-import dao.generic.util.Comparer;
-import dao.generic.DAOGeneric;
-import dao.generic.model.Field;
-import dao.generic.model.Where;
-import java.util.ArrayList;
-import model.Setor;
+import java.awt.Component;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author vovostudio
  */
-public class DAOSetor extends DAOGeneric {
+public class Tela extends javax.swing.JFrame {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
@@ -33,14 +33,58 @@ public class DAOSetor extends DAOGeneric {
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public DAOSetor() throws Exception {
-        super("setores");
-    }
-
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
+    public int getSelectedId(JTabbedPane tabs) throws Exception {
+        String accessibleName = tabs.getSelectedComponent().getAccessibleContext().getAccessibleName();
+        JPanel panel = getSelectedPanel(tabs, accessibleName);
+        JTable table = getJTable(panel, accessibleName);
+        int line = table.getSelectedRow();
+        int column = getIndexIdColumn(table);
+
+        return (line == -1) ? 0 : Integer.parseInt(table.getValueAt(table.getSelectedRow(), column).toString());
+    }
+
+    private int getIndexIdColumn(JTable table) {
+
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+        for (int i = 0; i < model.getColumnCount(); i++) {
+            if (model.getColumnName(i).equals("ID")) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    private JPanel getSelectedPanel(JTabbedPane oJTabbedPane, String accessibleName) {
+        for (Component component : oJTabbedPane.getComponents()) {
+            if (component instanceof JPanel) {
+                if (component.getAccessibleContext().getAccessibleName().equals(accessibleName)) {
+                    return (JPanel) component;
+                }
+            }
+        }
+        return null;
+    }
+
+    private JTable getJTable(JPanel panel, String accessibleName) {
+        for (Component component : panel.getComponents()) {
+            if (component instanceof JScrollPane) {
+                for (Component object : ((JScrollPane) component).getViewport().getComponents()) {
+                    if (object instanceof JTable) {
+                        if (object.getAccessibleContext().getAccessibleName().equals(accessibleName)) {
+                            return (JTable) object;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
     //--- SET ------------------------------------------------------------------------------------->
@@ -49,61 +93,25 @@ public class DAOSetor extends DAOGeneric {
     //
     //--- CREATE ---------------------------------------------------------------------------------->
     //
-    public void add(Setor setor) throws Exception {
-        insert(new Field[]{
-            new Field("setor_nome", setor.getNome()),
-            new Field("setor_empresa_id", setor.getIdEmpresa())},
-                null
-        );
-    }
-
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
     //--- READ ------------------------------------------------------------------------------------>
     //
-    public ArrayList<Setor> retrieveAll() throws Exception {
-        return cast(select(null, null, new Setor()));
-    }
-
-    public Setor retrieveById(int idSetor) throws Exception {
-        return (Setor) retrieveById(idSetor, "setor_id", new Setor());
-    }
-
-    public ArrayList<Setor> retrieveByField(String[] fieldsOnly, Where where) throws Exception {
-        return cast(select(fieldsOnly, new Where[]{where}, new Setor()));
-    }
-
-    public ArrayList<Setor> retrieveByFields(String[] fieldsOnly, Where[] where) throws Exception {
-        return cast(select(fieldsOnly, where, new Setor()));
-    }
-
-    private ArrayList<Setor> cast(ArrayList<Object> listObjects) {
-        ArrayList<Setor> ret = new ArrayList<>();
-        for (Object obj : listObjects) {
-            ret.add((Setor) obj);
-        }
-        return ret;
-    }
-
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
-    public void update(Setor setor) throws Exception {
-        update(
-                new Field[]{new Field("setor_nome", setor.getNome())},
-                new Where[]{new Where("", "setor_id", Comparer.EQUAL, setor.getId())}
-        );
+    public void refreshGrid(DefaultTableModel oModel, Object[] lines) {
+        oModel.setRowCount(0);
+        for (Object line : lines) {
+            Object[] values = (Object[]) line;
+            oModel.addRow(values);
+        }
     }
-
     //--- FIM UPDATE ------------------------------------------------------------------------------|
     //
     //--- DELETE ---------------------------------------------------------------------------------->
     //
-    public void delete(int id) throws Exception {
-        delete(new Where[]{new Where("", "setor_id", Comparer.EQUAL, id)});
-    }
     //--- FIM DELETE ------------------------------------------------------------------------------|
     //
-
 }

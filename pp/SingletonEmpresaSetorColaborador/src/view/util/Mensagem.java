@@ -12,7 +12,7 @@
  *  Mensagems para exibição em ambiente desktop.
  *  ------------------------------------------------------------------------------------------------| 
  */
-package view;
+package view.util;
 
 import javax.swing.JOptionPane;
 

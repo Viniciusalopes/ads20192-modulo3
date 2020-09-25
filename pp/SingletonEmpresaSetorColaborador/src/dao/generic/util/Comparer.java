@@ -12,7 +12,7 @@
  *  Comparadores para instruções SQL.
  *  ------------------------------------------------------------------------------------------------| 
  */
-package dao.generic;
+package dao.generic.util;
 
 import java.util.HashMap;
 import java.util.Map;

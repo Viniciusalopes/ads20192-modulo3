@@ -14,31 +14,34 @@
  */
 package view;
 
+import view.interfaces.IModal;
 import control.ControlEmpresa;
 import javax.swing.table.DefaultTableModel;
-import static view.Mensagem.*;
+import static view.util.Mensagem.*;
 
 /**
  *
  * @author vovostudio
  */
-public class TelaEmpresa extends javax.swing.JFrame {
+public class TelaEmpresa extends Tela {
 
     private ControlEmpresa controle = null;
     private Object objetoSelecionado = null;
     private String cadastro = "";
 
-    private void refreshGridSetor() throws Exception {
-        refreshGrid((DefaultTableModel) jTableSetor.getModel(), controle.getLinhasSetores());
-        jComboBoxSetor.removeAll();
+    private void selecionar() throws Exception {
+        cadastro = jTabbedPaneTabs.getSelectedComponent().getAccessibleContext().getAccessibleName();
+        int id = getSelectedId(jTabbedPaneTabs);
+
+        if (id > 0) {
+            objetoSelecionado = controle.getClass().getMethod("get" + cadastro, int.class).invoke(controle, id);
+        } else {
+            objetoSelecionado = null;
+        }
     }
 
-    private void refreshGrid(DefaultTableModel model, Object[] linhas) {
-        model.setRowCount(0);
-        for (Object linha : linhas) {
-            model.addRow((Object[]) linha);
-        }
-        selecionar();
+    private void refreshGridSetor() throws Exception {
+        refreshGrid((DefaultTableModel) jTableSetor.getModel(), controle.getLinhasSetores());
     }
 
     private void acao(String actionCommand) throws Exception {
@@ -53,7 +56,8 @@ public class TelaEmpresa extends javax.swing.JFrame {
         }
 
         if (actionCommand.equals("Excluir")) {
-            if (mensagemEscolher("Confirma a exclusão do cadastro de " + cadastro + "?", new String[]{"Sim", "Não... deixa quieto"}) == 0) {
+            if (mensagemEscolher("Confirma a exclusão do cadastro de " + cadastro + "?",
+                    new String[]{"Sim", "Não... melhor deixa."}) == 0) {
                 controle.ExcluirSetor(Integer.parseInt(
                         objetoSelecionado.getClass().getMethod("getId").invoke(objetoSelecionado).toString()
                 ));
@@ -66,25 +70,7 @@ public class TelaEmpresa extends javax.swing.JFrame {
         }
 
         refreshGridSetor();
-    }
-
-    private void selecionar() {
-        int indexTab = jTabbedPaneTabs.getSelectedIndex();
-        cadastro = jTabbedPaneTabs.getComponentAt(indexTab).getAccessibleContext().getAccessibleName();
-        int linha = linha = jTableSetor.getSelectedRow();
-
-        if (linha > -1) {
-            int id = 0;
-
-            switch (indexTab) {
-                case 0: // Setores
-                    id = Integer.parseInt(jTableSetor.getValueAt(linha, 0).toString());
-                    objetoSelecionado = controle.getSetor(id);
-                    break;
-            }
-        } else {
-            objetoSelecionado = null;
-        }
+        selecionar();
     }
 
     /**
@@ -123,7 +109,6 @@ public class TelaEmpresa extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSetor = new javax.swing.JTable();
         jPanelColaborador = new javax.swing.JPanel();
-        jComboBoxSetor = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -209,6 +194,7 @@ public class TelaEmpresa extends javax.swing.JFrame {
             jTableSetor.getColumnModel().getColumn(2).setPreferredWidth(150);
             jTableSetor.getColumnModel().getColumn(2).setMaxWidth(150);
         }
+        jTableSetor.getAccessibleContext().setAccessibleName("Setor");
 
         javax.swing.GroupLayout jPanelSetorLayout = new javax.swing.GroupLayout(jPanelSetor);
         jPanelSetor.setLayout(jPanelSetorLayout);
@@ -234,17 +220,11 @@ public class TelaEmpresa extends javax.swing.JFrame {
         jPanelColaborador.setLayout(jPanelColaboradorLayout);
         jPanelColaboradorLayout.setHorizontalGroup(
             jPanelColaboradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelColaboradorLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jComboBoxSetor, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(312, Short.MAX_VALUE))
+            .addGap(0, 628, Short.MAX_VALUE)
         );
         jPanelColaboradorLayout.setVerticalGroup(
             jPanelColaboradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelColaboradorLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jComboBoxSetor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(355, Short.MAX_VALUE))
+            .addGap(0, 386, Short.MAX_VALUE)
         );
 
         jTabbedPaneTabs.addTab("Colaboradores", jPanelColaborador);
@@ -272,6 +252,8 @@ public class TelaEmpresa extends javax.swing.JFrame {
                 .addComponent(jTabbedPaneTabs)
                 .addContainerGap())
         );
+
+        jTabbedPaneTabs.getAccessibleContext().setAccessibleName("Tabs");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -355,7 +337,6 @@ public class TelaEmpresa extends javax.swing.JFrame {
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonIncluir;
-    private javax.swing.JComboBox<String> jComboBoxSetor;
     private javax.swing.JPanel jPanelBotoesAcao;
     private javax.swing.JPanel jPanelColaborador;
     private javax.swing.JPanel jPanelSetor;

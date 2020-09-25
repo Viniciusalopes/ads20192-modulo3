@@ -14,7 +14,7 @@
  */
 package model;
 
-import dao.generic.Field;
+import dao.generic.model.Field;
 import java.util.ArrayList;
 import util.EnumConstantes;
 

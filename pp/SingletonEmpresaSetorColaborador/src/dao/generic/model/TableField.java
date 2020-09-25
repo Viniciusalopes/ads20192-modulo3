@@ -1,7 +1,7 @@
 /*
  *  ------------------------------------------------------------------------------------------------>
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 14/09/2020 01:24:56 
+ *  Criado em  : 14/09/2020 05:13:31 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
@@ -9,62 +9,59 @@
  *  Projeto    : PADRÃO DE PROJETOS - SINGLETON
  *  Exercício  : Colaboradores dos setores de uma empresa
  *  -------------------------------------------------------------------------------------------------
- *  Classe de objeto Field, base para composição de objetos para DAOGeneric.
+ *  Classe de objeto com os dados das colunas de uma tabela no banco PostgreSQL.
  *  ------------------------------------------------------------------------------------------------| 
  */
-package dao.generic;
+package dao.generic.model;
 
 /**
  *
  * @author vovostudio
  */
-public class Field {
+public class TableField extends Field {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    protected String column_name = "";
-    protected Object value;
+    private int ordinal_position = 0;
+    private String data_type = "";
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public Field() {
+    public TableField() {
 
     }
 
-    public Field(String column_name, Object value) {
+    public TableField(int ordinal_position, String column_name, String data_type, Object value) {
+        this.ordinal_position = ordinal_position;
         this.column_name = column_name;
-        this.value = value;
+        this.data_type = data_type;
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
-    public String getColumnName() {
-        return column_name;
+    public int getOrdinalPosition() {
+        return ordinal_position;
     }
 
-    public Object getValue() {
-        return value;
+    public String getDataType() {
+        return data_type;
     }
 
-    public static Object getValue(String column_name, Object object){
-        return ((TableField)object).getValue();
+    public static TableField build(Object object) throws Exception {
+        Object[] obj = (Object[]) object;
+        
+        return new TableField(
+                Integer.parseInt(obj[0].toString()), // ordinal_position
+                obj[1].toString(), // column_name
+                obj[2].toString(), // data_type
+                (Object) obj[3]
+        );
     }
+
     //--- FIM GET ---------------------------------------------------------------------------------|
-    //
-    //--- SET ------------------------------------------------------------------------------------->
-    //
-    public void setColumnName(String columnName) {
-        this.column_name = columnName;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
-    }
-
-    //--- FIM SET ---------------------------------------------------------------------------------|
     //
 }

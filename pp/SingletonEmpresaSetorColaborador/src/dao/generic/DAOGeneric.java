@@ -14,6 +14,10 @@
  */
 package dao.generic;
 
+import dao.generic.util.Comparer;
+import dao.generic.model.TableField;
+import dao.generic.model.Where;
+import dao.generic.model.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -14,9 +14,10 @@
  */
 package view;
 
+import view.interfaces.IModal;
 import control.ControlEmpresa;
 import model.GenericObject;
-import static view.Mensagem.*;
+import static view.util.Mensagem.*;
 
 /**
  *

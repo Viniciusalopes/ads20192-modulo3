@@ -15,14 +15,14 @@
 package control;
 
 import static bll.BllGeneric.validarNome;
-import dao.generic.Comparer;
+import dao.generic.util.Comparer;
 import dao.DAOSetor;
 import dao.DAOEmpresa;
-import dao.generic.Where;
+import dao.generic.model.Where;
 import java.util.ArrayList;
 import model.Empresa;
 import model.Setor;
-import static view.Mensagem.*;
+import static view.util.Mensagem.*;
 
 /**
  *

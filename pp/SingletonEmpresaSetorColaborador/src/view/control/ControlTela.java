@@ -1,31 +1,28 @@
 /*
  *  ------------------------------------------------------------------------------------------------>
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 14/09/2020 05:06:43 
+ *  Criado em  : 07/09/2020 13:10:33 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
- *  Projeto    : PADRÃO DE PROJETOS - SINGLETON
- *  Exercício  : Colaboradores dos setores de uma empresa
+ *  Projeto    : Projeto MVC - Sistema Bancário Simples
+ *  Exercício  : https://www.devmedia.com.br/java-se-aprendendo-o-padrao-mvc/29546
  *  -------------------------------------------------------------------------------------------------
- *  Acesso a dados da tabela [setores].
+ *  Controle de componentes da tela.
  *  ------------------------------------------------------------------------------------------------| 
  */
-package dao;
+package view.control;
 
-import dao.generic.util.Comparer;
-import dao.generic.DAOGeneric;
-import dao.generic.model.Field;
-import dao.generic.model.Where;
-import java.util.ArrayList;
-import model.Setor;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author vovostudio
  */
-public class DAOSetor extends DAOGeneric {
+public class ControlTela {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
@@ -33,77 +30,42 @@ public class DAOSetor extends DAOGeneric {
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public DAOSetor() throws Exception {
-        super("setores");
-    }
-
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
+    public static int getSelectedId(JTable oJTable, String columnIdTitle) {
+        int line = oJTable.getSelectedRow();
+        int column = oJTable.getColumnModel().getColumnIndex(columnIdTitle);
+
+        if (line > -1) {
+            return Integer.parseInt(oJTable.getValueAt(line, column).toString());
+        } else {
+            return 0;
+        }
+    }
+
     //--- SET ------------------------------------------------------------------------------------->
     //
     //--- FIM SET ---------------------------------------------------------------------------------|
     //
     //--- CREATE ---------------------------------------------------------------------------------->
     //
-    public void add(Setor setor) throws Exception {
-        insert(new Field[]{
-            new Field("setor_nome", setor.getNome()),
-            new Field("setor_empresa_id", setor.getIdEmpresa())},
-                null
-        );
-    }
-
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
     //--- READ ------------------------------------------------------------------------------------>
     //
-    public ArrayList<Setor> retrieveAll() throws Exception {
-        return cast(select(null, null, new Setor()));
-    }
-
-    public Setor retrieveById(int idSetor) throws Exception {
-        return (Setor) retrieveById(idSetor, "setor_id", new Setor());
-    }
-
-    public ArrayList<Setor> retrieveByField(String[] fieldsOnly, Where where) throws Exception {
-        return cast(select(fieldsOnly, new Where[]{where}, new Setor()));
-    }
-
-    public ArrayList<Setor> retrieveByFields(String[] fieldsOnly, Where[] where) throws Exception {
-        return cast(select(fieldsOnly, where, new Setor()));
-    }
-
-    private ArrayList<Setor> cast(ArrayList<Object> listObjects) {
-        ArrayList<Setor> ret = new ArrayList<>();
-        for (Object obj : listObjects) {
-            ret.add((Setor) obj);
-        }
-        return ret;
-    }
-
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
-    public void update(Setor setor) throws Exception {
-        update(
-                new Field[]{new Field("setor_nome", setor.getNome())},
-                new Where[]{new Where("", "setor_id", Comparer.EQUAL, setor.getId())}
-        );
-    }
-
     //--- FIM UPDATE ------------------------------------------------------------------------------|
     //
+
     //--- DELETE ---------------------------------------------------------------------------------->
     //
-    public void delete(int id) throws Exception {
-        delete(new Where[]{new Where("", "setor_id", Comparer.EQUAL, id)});
-    }
     //--- FIM DELETE ------------------------------------------------------------------------------|
     //
-
 }

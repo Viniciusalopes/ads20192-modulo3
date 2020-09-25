@@ -14,10 +14,10 @@
  */
 package dao;
 
-import dao.generic.Comparer;
+import dao.generic.util.Comparer;
 import dao.generic.DAOGeneric;
-import dao.generic.Field;
-import dao.generic.Where;
+import dao.generic.model.Field;
+import dao.generic.model.Where;
 import java.util.ArrayList;
 import model.Empresa;
 
