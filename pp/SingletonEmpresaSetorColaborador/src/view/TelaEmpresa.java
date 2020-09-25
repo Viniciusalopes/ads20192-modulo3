@@ -6,16 +6,14 @@
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
- *  Projeto    : PADRÃO DE PROJETOS - SINGLETON
+ *  Projeto    : PADRÃO DE PROJETOS - TEMPLATE METHOD
  *  Exercício  : Colaboradores dos setores de uma empresa
  *  -------------------------------------------------------------------------------------------------
- *  
+ *  Tela de cadastros relacionados à Empresa.
  *  ------------------------------------------------------------------------------------------------| 
  */
 package view;
 
-import view.interfaces.IModal;
-import control.ControlEmpresa;
 import javax.swing.table.DefaultTableModel;
 import static view.util.Mensagem.*;
 
@@ -23,73 +21,35 @@ import static view.util.Mensagem.*;
  *
  * @author vovostudio
  */
-public class TelaEmpresa extends Tela {
+public class TelaEmpresa extends TelaTemplate {
 
-    private ControlEmpresa controle = null;
-    private Object objetoSelecionado = null;
-    private String cadastro = "";
+    @Override
+    public void select() throws Exception {
+        register = jTabbedPaneTabs.getSelectedComponent().getAccessibleContext().getAccessibleName();
+        setSelectedObject(getSelectedId(jTabbedPaneTabs, "ID"));
+    }
 
-    private void selecionar() throws Exception {
-        cadastro = jTabbedPaneTabs.getSelectedComponent().getAccessibleContext().getAccessibleName();
-        int id = getSelectedId(jTabbedPaneTabs);
-
-        if (id > 0) {
-            objetoSelecionado = controle.getClass().getMethod("get" + cadastro, int.class).invoke(controle, id);
-        } else {
-            objetoSelecionado = null;
-        }
+    @Override
+    public void action(String actionCommand) throws Exception {
+        getActionModal(actionCommand);
+        refreshGridSetor();
+        select();
     }
 
     private void refreshGridSetor() throws Exception {
-        refreshGrid((DefaultTableModel) jTableSetor.getModel(), controle.getLinhasSetores());
-    }
-
-    private void acao(String actionCommand) throws Exception {
-        IModal modal = new JDialogIncluir(this, true);
-        modal.setAcao(actionCommand);
-        modal.setCadastro(cadastro);
-
-        if (!actionCommand.equals("Incluir")) {
-            if (objetoSelecionado == null) {
-                throw new Exception("Selecione um " + cadastro + "!");
-            }
-        }
-
-        if (actionCommand.equals("Excluir")) {
-            if (mensagemEscolher("Confirma a exclusão do cadastro de " + cadastro + "?",
-                    new String[]{"Sim", "Não... melhor deixa."}) == 0) {
-                controle.ExcluirSetor(Integer.parseInt(
-                        objetoSelecionado.getClass().getMethod("getId").invoke(objetoSelecionado).toString()
-                ));
-            }
-        } else {
-            if (actionCommand.equals("Editar")) {
-                modal.setObject(objetoSelecionado);
-            }
-            modal.setVisible(true);
-        }
-
-        refreshGridSetor();
-        selecionar();
+        refreshGrid((DefaultTableModel) jTableSetor.getModel(), control.getLinhasSetores());
     }
 
     /**
      * Creates new form TelaEmpresa
      */
-    public TelaEmpresa() {
+    public TelaEmpresa() throws Exception {
+        // Chama o construtor do TEMPLATE para inicializar o control SINGLETON
+        super();
         initComponents();
         this.setLocationRelativeTo(null);
-
-        try {
-            controle = ControlEmpresa.getInstance();
-            this.setTitle(controle.getEmpresa().getNome());
-            controle.updateSetores();
-            refreshGridSetor();
-            selecionar();
-        } catch (Exception e) {
-            mensagemErro(e);
-            System.exit(1);
-        }
+        refreshGridSetor();
+        select();
     }
 
     /**
@@ -260,7 +220,7 @@ public class TelaEmpresa extends Tela {
 
     private void jButtonIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirActionPerformed
         try {
-            acao(evt.getActionCommand());
+            action(evt.getActionCommand());
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -268,7 +228,7 @@ public class TelaEmpresa extends Tela {
 
     private void jTableSetorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableSetorKeyReleased
         try {
-            selecionar();
+            select();
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -276,7 +236,7 @@ public class TelaEmpresa extends Tela {
 
     private void jTableSetorMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSetorMouseReleased
         try {
-            selecionar();
+            select();
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -284,7 +244,7 @@ public class TelaEmpresa extends Tela {
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
         try {
-            acao(evt.getActionCommand());
+            action(evt.getActionCommand());
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -292,7 +252,7 @@ public class TelaEmpresa extends Tela {
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
         try {
-            acao(evt.getActionCommand());
+            action(evt.getActionCommand());
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -328,7 +288,11 @@ public class TelaEmpresa extends Tela {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaEmpresa().setVisible(true);
+                try {
+                    new TelaEmpresa().setVisible(true);
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                }
             }
         });
     }
