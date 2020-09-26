@@ -34,7 +34,7 @@ public class Setor extends GenericObject {
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
     public Setor() {
-        this.colaboradores =  new ArrayList<>();
+        this.colaboradores = new ArrayList<>();
     }
 
     public Setor(int id, String nome, ArrayList<Colaborador> colaboradores, int idEmpresa) {
@@ -76,6 +76,10 @@ public class Setor extends GenericObject {
     //
     public void setIdEmpresa(int idEmpresa) {
         Setor.idEmpresa = idEmpresa;
+    }
+
+    public void setColaboradores(ArrayList<Colaborador> colaboradores) {
+        this.colaboradores = colaboradores;
     }
     //--- FIM SET ---------------------------------------------------------------------------------|
     //

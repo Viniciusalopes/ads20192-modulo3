@@ -8,7 +8,7 @@ ${licensePrefix} Instituição: FACULDADE SENAI FATESG
 ${licensePrefix} Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
 ${licensePrefix} Disciplina : Arquitetura e Projeto de Software
 ${licensePrefix} Aluno      : Vinicius Araujo Lopes
-${licensePrefix} Projeto    : PADRÃO DE PROJETOS - SINGLETON
+${licensePrefix} Projeto    : PADRÃO DE PROJETOS - DECORATOR
 ${licensePrefix} Exercício  : Colaboradores dos setores de uma empresa
 ${licensePrefix} ------------------------------------------------------------------------------------------------
 ${licensePrefix} 

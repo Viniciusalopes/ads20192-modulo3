@@ -1,67 +1,67 @@
 /*
- *  ------------------------------------------------------------------------------------------------>
+ *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 12/09/2020 08:28:38 
+ *  Criado em  : 25/09/2020 20:20:19 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
- *  Projeto    : PADRÃO DE PROJETOS - SINGLETON
+ *  Projeto    : PADRÃO DE PROJETOS - DECORATOR
  *  Exercício  : Colaboradores dos setores de uma empresa
- *  -------------------------------------------------------------------------------------------------
+ *  ------------------------------------------------------------------------------------------------
  *  
- *  ------------------------------------------------------------------------------------------------| 
+ *  -----------------------------------------------------------------------------------------------| 
  */
-package model;
+package model.habilidades;
 
 import java.util.ArrayList;
-import util.EnumConstantes;
+import model.HabilidadesDecorator;
+import model.programadores.Programador;
 import util.EnumHabilidades;
 
 /**
  *
  * @author vovostudio
  */
-public abstract class Pessoa extends GenericObject {
+public class Java extends HabilidadesDecorator {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    protected ArrayList<EnumHabilidades> habilidades = null;
+    private Programador programador;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public Pessoa() {
-
+    public Java(Programador programador) {
+        this.programador = programador;
     }
-
-    public Pessoa(int id, String nome) {
-        this.id = id;
-        this.nome = nome;
-    }
-
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
+
     //--- GET ------------------------------------------------------------------------------------->
     //
+    @Override
     public ArrayList<EnumHabilidades> getHabilidades() {
-        return habilidades;
+        addHabilidade(EnumHabilidades.Java);
+        return programador.getHabilidades();
+    }
+
+    //--- FIM GET ---------------------------------------------------------------------------------|
+    //
+    //--- SET ------------------------------------------------------------------------------------->
+    //
+    @Override
+    public void addHabilidade(EnumHabilidades habilidade) {
+        if (!programador.getHabilidades().contains(habilidade)) {
+            programador.addHabilidade(habilidade);
+        }
     }
 
     @Override
-    public String toString() {
-        return id + EnumConstantes.SeparadorSplit.getConstante() + nome;
+    public void removeHabilidade(EnumHabilidades habilidade) {
+        programador.removeHabilidade(habilidade);
     }
-    //--- FIM GET ---------------------------------------------------------------------------------|
-    //
-
-    //--- SET ------------------------------------------------------------------------------------->
-    //
-    public void setHabilidades(ArrayList<EnumHabilidades> habilidades) {
-        this.habilidades = habilidades;
-    }
-
     //--- FIM SET ---------------------------------------------------------------------------------|
     //
 }

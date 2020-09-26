@@ -22,6 +22,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import static util.VectorUtil.redimVector;
 
 /**
  *
@@ -325,22 +326,6 @@ public class DAOGeneric {
             }
             sql += ")";
         }
-    }
-
-    /**
-     * Redimensiona um vetor de objetos.
-     *
-     * @param vector Vetor com objetos que será red
-     * @param newLenght
-     * @return
-     */
-    private Object[] redimVector(Object[] vector, int newLenght) {
-        int lenght = (vector.length > newLenght) ? (vector.length - newLenght) : newLenght;
-        Object[] ret = new Object[lenght];
-        for (int i = 0; i < vector.length; i++) {
-            ret[i] = vector[i];
-        }
-        return ret;
     }
 
     //--- FIM SET ---------------------------------------------------------------------------------|

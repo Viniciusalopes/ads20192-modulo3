@@ -31,7 +31,7 @@ public class Colaborador extends Pessoa {
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
     public Colaborador() {
-        
+
     }
 
     public Colaborador(int id, String nome, Setor setor) {
@@ -39,13 +39,13 @@ public class Colaborador extends Pessoa {
         this.nome = nome;
         this.setor = setor;
     }
-    
-    public Colaborador(Pessoa pessoa, Setor setor){
+
+    public Colaborador(Pessoa pessoa, Setor setor) {
         id = pessoa.getId();
         nome = pessoa.getNome();
         this.setor = setor;
     }
-    
+
     public Colaborador(Colaborador colaborador) {
         id = colaborador.getId();
         nome = colaborador.getNome();
@@ -72,5 +72,6 @@ public class Colaborador extends Pessoa {
     public void setSetor(Setor setor) {
         this.setor = setor;
     }
+
     //--- FIM SET ---------------------------------------------------------------------------------|
 }

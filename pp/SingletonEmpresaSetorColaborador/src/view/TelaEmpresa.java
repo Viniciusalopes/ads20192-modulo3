@@ -14,6 +14,11 @@
  */
 package view;
 
+import java.awt.Component;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import static view.util.Mensagem.*;
 
@@ -24,16 +29,63 @@ import static view.util.Mensagem.*;
 public class TelaEmpresa extends TelaTemplate {
 
     @Override
+    public String getRegister() {
+        return jTabbedPaneTabs.getSelectedComponent().getAccessibleContext().getAccessibleName();
+    }
+
+    @Override
     public void select() throws Exception {
-        register = jTabbedPaneTabs.getSelectedComponent().getAccessibleContext().getAccessibleName();
+        getRegister();
         setSelectedObject(getSelectedId(jTabbedPaneTabs, "ID"));
     }
 
     @Override
     public void action(String actionCommand) throws Exception {
+        getRegister();
         getActionModal(actionCommand);
         refreshGridSetor();
         select();
+    }
+
+    @Override
+    public int getIndexIdColumn(JTable table, String idColumnName) {
+
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+        for (int i = 0; i < model.getColumnCount(); i++) {
+            if (model.getColumnName(i).equals(idColumnName)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public JPanel getSelectedPanel() {
+        for (Component component : jTabbedPaneTabs.getComponents()) {
+            if (component instanceof JPanel) {
+                if (component.getAccessibleContext().getAccessibleName().equals(getRegister())) {
+                    return (JPanel) component;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public JTable getJTable(JPanel panel) {
+        for (Component component : panel.getComponents()) {
+            if (component instanceof JScrollPane) {
+                for (Component object : ((JScrollPane) component).getViewport().getComponents()) {
+                    if (object instanceof JTable) {
+                        if (object.getAccessibleContext().getAccessibleName().equals(getRegister())) {
+                            return (JTable) object;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     private void refreshGridSetor() throws Exception {
@@ -69,6 +121,8 @@ public class TelaEmpresa extends TelaTemplate {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSetor = new javax.swing.JTable();
         jPanelColaborador = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -169,22 +223,53 @@ public class TelaEmpresa extends TelaTemplate {
             jPanelSetorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSetorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPaneTabs.addTab("Setores", jPanelSetor);
         jPanelSetor.getAccessibleContext().setAccessibleName("Setor");
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nome do Colaborador", "Setor"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setMinWidth(100);
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(100);
+        }
+        jTable1.getAccessibleContext().setAccessibleName("Colaborador");
+
         javax.swing.GroupLayout jPanelColaboradorLayout = new javax.swing.GroupLayout(jPanelColaborador);
         jPanelColaborador.setLayout(jPanelColaboradorLayout);
         jPanelColaboradorLayout.setHorizontalGroup(
             jPanelColaboradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 628, Short.MAX_VALUE)
+            .addGroup(jPanelColaboradorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 616, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanelColaboradorLayout.setVerticalGroup(
             jPanelColaboradorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 386, Short.MAX_VALUE)
+            .addGroup(jPanelColaboradorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPaneTabs.addTab("Colaboradores", jPanelColaborador);
@@ -305,7 +390,9 @@ public class TelaEmpresa extends TelaTemplate {
     private javax.swing.JPanel jPanelColaborador;
     private javax.swing.JPanel jPanelSetor;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPaneTabs;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTableSetor;
     // End of variables declaration//GEN-END:variables
 }

@@ -34,7 +34,6 @@ public abstract class TelaTemplate extends javax.swing.JFrame {
     //
     protected ControlEmpresa control = null;
     protected Object selectedObject = null;
-    protected String register = "";
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
@@ -51,80 +50,48 @@ public abstract class TelaTemplate extends javax.swing.JFrame {
     //
     //--- ABSTRATOS ------------------------------------------------------------------------------->
     //
+    public abstract String getRegister();
+
     public abstract void select() throws Exception;
 
     public abstract void action(String actionCommand) throws Exception;
+
+    public abstract int getIndexIdColumn(JTable table, String idColumnName);
+
+    public abstract JPanel getSelectedPanel();
+
+    public abstract JTable getJTable(JPanel panel);
 
     //--- FIM ABSTRATOS ---------------------------------------------------------------------------|
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
     public int getSelectedId(JTabbedPane tabs, String idColumnName) throws Exception {
-        String accessibleName = tabs.getSelectedComponent().getAccessibleContext().getAccessibleName();
-        JPanel panel = getSelectedPanel(tabs, accessibleName);
-        JTable table = getJTable(panel, accessibleName);
+        JPanel panel = getSelectedPanel();
+        JTable table = getJTable(panel);
         int line = table.getSelectedRow();
         int column = getIndexIdColumn(table, idColumnName);
-
         return (line == -1) ? 0 : Integer.parseInt(table.getValueAt(table.getSelectedRow(), column).toString());
-    }
-
-    private int getIndexIdColumn(JTable table, String idColumnName) {
-
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-        for (int i = 0; i < model.getColumnCount(); i++) {
-            if (model.getColumnName(i).equals(idColumnName)) {
-                return i;
-            }
-        }
-        return 0;
-    }
-
-    private JPanel getSelectedPanel(JTabbedPane oJTabbedPane, String accessibleName) {
-        for (Component component : oJTabbedPane.getComponents()) {
-            if (component instanceof JPanel) {
-                if (component.getAccessibleContext().getAccessibleName().equals(accessibleName)) {
-                    return (JPanel) component;
-                }
-            }
-        }
-        return null;
-    }
-
-    private JTable getJTable(JPanel panel, String accessibleName) {
-        for (Component component : panel.getComponents()) {
-            if (component instanceof JScrollPane) {
-                for (Component object : ((JScrollPane) component).getViewport().getComponents()) {
-                    if (object instanceof JTable) {
-                        if (object.getAccessibleContext().getAccessibleName().equals(accessibleName)) {
-                            return (JTable) object;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
     }
 
     public void getActionModal(String actionCommand) throws Exception {
         IModal modal = new JDialogIncluir(this, true);
         modal.setAcao(actionCommand);
-        modal.setCadastro(register);
+        modal.setCadastro(getRegister());
 
         if (!actionCommand.equals("Incluir")) {
             if (selectedObject == null) {
-                throw new Exception("Selecione um " + register + "!");
+                throw new Exception("Selecione um " + getRegister() + "!");
             }
         }
 
         if (actionCommand.equals("Excluir")) {
-            if (mensagemEscolher("Confirma a exclusão do cadastro de " + register + "?",
+            if (mensagemEscolher("Confirma a exclusão do cadastro de " + getRegister() + "?",
                     new String[]{"Sim", "Não... melhor deixa."}) == 0) {
                 control.ExcluirSetor(Integer.parseInt(
                         selectedObject.getClass().getMethod("getId").invoke(selectedObject).toString()
                 ));
-                mensagem("Sucesso!", register + " excluído com sucesso!");
+                mensagem("Sucesso!", getRegister() + " excluído com sucesso!");
             }
         } else {
             if (actionCommand.equals("Editar")) {
@@ -140,7 +107,7 @@ public abstract class TelaTemplate extends javax.swing.JFrame {
     //
     public void setSelectedObject(int id) throws Exception {
         if (id > 0) {
-            selectedObject = control.getClass().getMethod("get" + register, int.class).invoke(control, id);
+            selectedObject = control.getClass().getMethod("get" + getRegister(), int.class).invoke(control, id);
         } else {
             selectedObject = null;
         }
@@ -159,9 +126,5 @@ public abstract class TelaTemplate extends javax.swing.JFrame {
     }
 
     //--- FIM UPDATE ------------------------------------------------------------------------------|
-    //
-    //--- DELETE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM DELETE ------------------------------------------------------------------------------|
     //
 }

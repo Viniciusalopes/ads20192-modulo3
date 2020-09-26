@@ -17,6 +17,7 @@ package view;
 import view.interfaces.IModal;
 import control.ControlEmpresa;
 import model.GenericObject;
+import model.Setor;
 import static view.util.Mensagem.*;
 
 /**
@@ -139,9 +140,15 @@ public class JDialogIncluir extends javax.swing.JDialog implements IModal {
 
             switch (acao) {
                 case "Incluir":
-
+                    if(cadastro.equals("Setor")){
                     ControlEmpresa.getInstance().getClass().getMethod(acao + cadastro, String.class)
                             .invoke(ControlEmpresa.getInstance(), jTextFieldNome.getText());
+                    }
+                    if(cadastro.equals("Colaborador")){
+                        
+                        ControlEmpresa.getInstance().getClass().getMethod(acao + cadastro, String.class, Setor.class)
+                            .invoke(ControlEmpresa.getInstance(), jTextFieldNome.getText(), (Setor)object);
+                    }
                     break;
 
                 case "Editar":

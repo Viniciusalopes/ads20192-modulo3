@@ -15,14 +15,17 @@
 package control;
 
 import static bll.BllGeneric.validarNome;
+import dao.DAOColaborador;
 import dao.generic.util.Comparer;
 import dao.DAOSetor;
 import dao.DAOEmpresa;
 import dao.generic.model.Where;
 import java.util.ArrayList;
+import model.Colaborador;
 import model.Empresa;
 import model.Setor;
 import static view.util.Mensagem.*;
+import static util.VectorUtil.redimVector;
 
 /**
  *
@@ -33,8 +36,11 @@ public class ControlEmpresa {
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
     private static ControlEmpresa control = null;
+    private static ControlSetor controlSetor = null;
+    private static ControlColaborador controlColaborador = null;
     private static DAOEmpresa daoEmpresa = null;
     private static DAOSetor daoSetor = null;
+    private static DAOColaborador daoColaborador = null;
     private Empresa empresa = null;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
@@ -42,8 +48,11 @@ public class ControlEmpresa {
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
     private ControlEmpresa() throws Exception {
+        controlSetor = new ControlSetor();
+        controlColaborador = new ControlColaborador();
         daoEmpresa = new DAOEmpresa();
         daoSetor = new DAOSetor();
+        daoColaborador = new DAOColaborador();
         empresa = daoEmpresa.retrieveById(1);
     }
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
@@ -58,22 +67,23 @@ public class ControlEmpresa {
         return control;
     }
 
-    public Setor getSetor(int idSetor) {
-        for (Setor setor : empresa.getSetores()) {
-            if (setor.getId() == idSetor) {
-                return setor;
-            }
-        }
-        return null;
+    public Setor getSetor(int idSetor) throws Exception {
+        return daoSetor.retrieveById(idSetor);
     }
+
+    public Colaborador getColaborador(int idColaborador) throws Exception {
+        return daoColaborador.retrieveById(idColaborador);
+    }
+
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
-
     public Empresa getEmpresa() {
         return empresa;
     }
 
     public Object[] getLinhasSetores() throws Exception {
+        // Atualiza a lista de setores no objeto empresa
+        updateSetores();
 
         ArrayList<Setor> setores = empresa.getSetores();
         Object[] linhas = new Object[setores.size()];
@@ -84,16 +94,31 @@ public class ControlEmpresa {
         return linhas;
     }
 
-    public Object[] getLinhasColaboradores() {
-        return new Object[]{};
-    }
+    public Object[] getLinhasColaboradores() throws Exception {
+        // Atualiza a lista de colaboradores dos setores da empresa
+        updateSetores();
+        updateColaboradores();
+        Object[] linhas = new Object[0];
 
+        int i = 0;
+        ArrayList<Setor> setores = empresa.getSetores();
+        for (Setor setor : setores) {
+            linhas = redimVector(linhas, setores.size());
+            ArrayList<Colaborador> colaboradores = setor.getColaboradores();
+            for (; i < colaboradores.size(); i++) {
+                Colaborador colaborador = colaboradores.get(i);
+                linhas[i] = new Object[]{colaborador.getId(), colaborador.getNome(), setor.getNome()};
+            }
+        }
+        return linhas;
+    }
     //--- SET ------------------------------------------------------------------------------------->
     //
     //--- FIM SET ---------------------------------------------------------------------------------|
     //
     //--- CREATE ---------------------------------------------------------------------------------->
     //
+
     public void IncluirSetor(String nome) throws Exception {
         validarNome(nome);
         Setor setor = new Setor(
@@ -107,8 +132,7 @@ public class ControlEmpresa {
         } catch (Exception e) {
             if (e.toString().contains("ERROR: duplicate key value violates unique constraint \"setores_setor_nome_key\"")) {
                 throw new Exception("Já existem um setor com este nome!");
-            }
-            else{
+            } else {
                 throw e;
             }
         }
@@ -117,8 +141,13 @@ public class ControlEmpresa {
         empresa.setSetores(setores);
     }
 
-    public void IncluirColaborador(String nome) {
-        mensagem("Reflection2", nome);
+    public void IncluirColaborador(String nome, Setor setor) throws Exception {
+        validarNome(nome);
+        Colaborador colaborador = new Colaborador(
+                daoColaborador.getMaxId("colaborador_id") + 1,
+                nome, setor
+        );
+        daoColaborador.add(colaborador);
     }
 
     //--- FIM CREATE ------------------------------------------------------------------------------|
@@ -137,22 +166,26 @@ public class ControlEmpresa {
                 null,
                 empresa.getId()
         );
-        
+
         try {
             daoSetor.update(setor);
         } catch (Exception e) {
             if (e.toString().contains("ERROR: duplicate key value violates unique constraint \"setores_setor_nome_key\"")) {
                 throw new Exception("Já existem um setor com este nome!");
-            }
-            else{
+            } else {
                 throw e;
             }
         }
         updateSetores();
     }
 
-    public void EditarColaborador(String nome) {
-        mensagem("Reflection3", nome);
+    public void EditarColaborador(String nome, Setor setor) throws Exception {
+        validarNome(nome);
+        Colaborador colaborador = new Colaborador(
+                daoColaborador.getMaxId("colaborador_id") + 1,
+                nome, setor
+        );
+        daoColaborador.add(colaborador);
     }
 
     public void updateSetores() throws Exception {
@@ -160,6 +193,14 @@ public class ControlEmpresa {
                 null,
                 new Where("", "setor_empresa_id", Comparer.EQUAL, empresa.getId()))
         );
+    }
+
+    public void updateColaboradores() throws Exception {
+        ArrayList<Setor> setores = empresa.getSetores();
+        for (Setor setor : setores) {
+            ArrayList<Colaborador> colaboradores = controlColaborador.getListaColaboradores(setor.getId());
+            setor.setColaboradores(colaboradores);
+        }
     }
 
     //--- FIM UPDATE ------------------------------------------------------------------------------|
@@ -171,8 +212,8 @@ public class ControlEmpresa {
         updateSetores();
     }
 
-    public void ExcluirColaborador(String nome) {
-        mensagem("Reflection2", nome);
+    public void ExcluirColaborador(int id) throws Exception {
+        daoColaborador.delete(id);
     }
 
     //--- FIM DELETE ------------------------------------------------------------------------------|
