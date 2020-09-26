@@ -14,6 +14,8 @@
  */
 package model;
 
+import control.ControlEmpresa;
+import dao.generic.model.Field;
 import util.EnumConstantes;
 
 /**
@@ -63,6 +65,19 @@ public class Colaborador extends Pessoa {
     @Override
     public String toString() {
         return super.toString() + EnumConstantes.SeparadorSplit.getConstante() + setor.getId();
+    }
+
+    public static Colaborador build(Object object) throws Exception {
+        Object[] obj = (Object[]) object;
+        Colaborador colaborador = new Colaborador();
+        colaborador.setId(Integer.parseInt(Field.getValue("colaborador_id", obj[0]).toString()));
+        colaborador.setNome(Field.getValue("colaborador_nome", obj[1]).toString());
+        
+        int idSetor = Integer.parseInt(Field.getValue("_colaborador_setor_id", obj[2]).toString());
+        Setor setor = ControlEmpresa.getInstance().getSetor(idSetor);
+        colaborador.setSetor(setor);
+        
+        return colaborador;
     }
 
     //--- FIM GET ---------------------------------------------------------------------------------|

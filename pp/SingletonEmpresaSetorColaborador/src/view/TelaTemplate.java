@@ -15,14 +15,12 @@
 package view;
 
 import control.ControlEmpresa;
-import java.awt.Component;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import view.interfaces.IModal;
 import static view.util.Mensagem.*;
+import view.interfaces.IModal;
 
 /**
  *
@@ -43,7 +41,7 @@ public abstract class TelaTemplate extends javax.swing.JFrame {
         super();
         control = ControlEmpresa.getInstance();
         this.setTitle(control.getEmpresa().getNome());
-        control.updateSetores();
+        control.updateAll();
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
@@ -75,23 +73,40 @@ public abstract class TelaTemplate extends javax.swing.JFrame {
     }
 
     public void getActionModal(String actionCommand) throws Exception {
-        IModal modal = new JDialogIncluir(this, true);
+
+        String register = getRegister();
+        IModal modal = null;
+
+        switch (register) {
+            case "Setor":
+                modal = new JDialogNome(this, true);
+                break;
+
+            case "Colaborador":
+                modal = new JDialogNomeFkCombobox(this, true);
+                break;
+        }
+
         modal.setAcao(actionCommand);
-        modal.setCadastro(getRegister());
+        modal.setCadastro(register);
 
         if (!actionCommand.equals("Incluir")) {
             if (selectedObject == null) {
-                throw new Exception("Selecione um " + getRegister() + "!");
+                throw new Exception("Selecione um " + register + "!");
             }
         }
 
         if (actionCommand.equals("Excluir")) {
-            if (mensagemEscolher("Confirma a exclusão do cadastro de " + getRegister() + "?",
+            if (mensagemEscolher("Confirma a exclusão do cadastro de " + register + "?",
                     new String[]{"Sim", "Não... melhor deixa."}) == 0) {
-                control.ExcluirSetor(Integer.parseInt(
-                        selectedObject.getClass().getMethod("getId").invoke(selectedObject).toString()
-                ));
-                mensagem("Sucesso!", getRegister() + " excluído com sucesso!");
+
+                control.getClass()
+                        .getMethod("Excluir" + register, int.class)
+                        .invoke(control, Integer.parseInt(selectedObject.getClass()
+                                .getMethod("getId").invoke(selectedObject).toString()
+                        ));
+
+                mensagem("Sucesso!", register + " excluído com sucesso!");
             }
         } else {
             if (actionCommand.equals("Editar")) {

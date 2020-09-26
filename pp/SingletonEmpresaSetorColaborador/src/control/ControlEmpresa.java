@@ -19,12 +19,12 @@ import dao.DAOColaborador;
 import dao.generic.util.Comparer;
 import dao.DAOSetor;
 import dao.DAOEmpresa;
+import dao.generic.model.Field;
 import dao.generic.model.Where;
 import java.util.ArrayList;
 import model.Colaborador;
 import model.Empresa;
 import model.Setor;
-import static view.util.Mensagem.*;
 import static util.VectorUtil.redimVector;
 
 /**
@@ -71,6 +71,10 @@ public class ControlEmpresa {
         return daoSetor.retrieveById(idSetor);
     }
 
+    public Setor getSetor(String nome) throws Exception {
+        return daoSetor.retrieveByField(null, new Where("", "setor_nome", Comparer.EQUAL, nome)).get(0);
+    }
+
     public Colaborador getColaborador(int idColaborador) throws Exception {
         return daoColaborador.retrieveById(idColaborador);
     }
@@ -83,28 +87,27 @@ public class ControlEmpresa {
 
     public Object[] getLinhasSetores() throws Exception {
         // Atualiza a lista de setores no objeto empresa
-        updateSetores();
-
+        updateAll();
         ArrayList<Setor> setores = empresa.getSetores();
         Object[] linhas = new Object[setores.size()];
         for (int i = 0; i < setores.size(); i++) {
             Setor setor = setores.get(i);
-            linhas[i] = new Object[]{setor.getId(), setor.getNome(), setor.getColaboradores().size()};
+            int qtd = setor.getColaboradores().size();
+            linhas[i] = new Object[]{setor.getId(), setor.getNome(), qtd};
         }
         return linhas;
     }
 
     public Object[] getLinhasColaboradores() throws Exception {
         // Atualiza a lista de colaboradores dos setores da empresa
-        updateSetores();
-        updateColaboradores();
+        updateAll();
         Object[] linhas = new Object[0];
 
         int i = 0;
         ArrayList<Setor> setores = empresa.getSetores();
         for (Setor setor : setores) {
-            linhas = redimVector(linhas, setores.size());
             ArrayList<Colaborador> colaboradores = setor.getColaboradores();
+            linhas = redimVector(linhas, colaboradores.size());
             for (; i < colaboradores.size(); i++) {
                 Colaborador colaborador = colaboradores.get(i);
                 linhas[i] = new Object[]{colaborador.getId(), colaborador.getNome(), setor.getNome()};
@@ -176,16 +179,27 @@ public class ControlEmpresa {
                 throw e;
             }
         }
-        updateSetores();
+        updateAll();
     }
 
-    public void EditarColaborador(String nome, Setor setor) throws Exception {
+    public void EditarColaborador(int id, String nome, Setor setor) throws Exception {
         validarNome(nome);
-        Colaborador colaborador = new Colaborador(
-                daoColaborador.getMaxId("colaborador_id") + 1,
-                nome, setor
-        );
-        daoColaborador.add(colaborador);
+        Colaborador colaborador = new Colaborador(id, nome, setor);
+        try {
+            daoColaborador.update(colaborador);
+        } catch (Exception e) {
+            if (e.toString().contains("ERROR: duplicate key value violates unique constraint \"colaboradores_colaborador_nome_key\"")) {
+                throw new Exception("Já existem um colaborador com este nome!");
+            } else {
+                String msg = e.getMessage();
+                throw e;
+            }
+        }
+    }
+
+    public void updateAll() throws Exception {
+        updateSetores();
+        updateColaboradores();
     }
 
     public void updateSetores() throws Exception {
@@ -209,11 +223,12 @@ public class ControlEmpresa {
     //
     public void ExcluirSetor(int id) throws Exception {
         daoSetor.delete(id);
-        updateSetores();
+        updateAll();
     }
 
     public void ExcluirColaborador(int id) throws Exception {
         daoColaborador.delete(id);
+        updateAll();
     }
 
     //--- FIM DELETE ------------------------------------------------------------------------------|

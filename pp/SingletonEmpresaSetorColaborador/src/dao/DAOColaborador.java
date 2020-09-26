@@ -91,8 +91,11 @@ public class DAOColaborador extends DAOGeneric {
     //
     public void update(Colaborador colaborador) throws Exception {
         update(
-                new Field[]{new Field("setor_nome", colaborador.getNome())},
-                new Where[]{new Where("", "setor_id", Comparer.EQUAL, colaborador.getId())}
+                new Field[]{
+                    new Field("colaborador_nome", colaborador.getNome()),
+                    new Field("colaborador_setor_id", colaborador.getSetor().getId())
+                },
+                new Where[]{new Where("", "colaborador_id", Comparer.EQUAL, colaborador.getId())}
         );
     }
 
@@ -101,7 +104,7 @@ public class DAOColaborador extends DAOGeneric {
     //--- DELETE ---------------------------------------------------------------------------------->
     //
     public void delete(int id) throws Exception {
-        delete(new Where[]{new Where("", "setor_id", Comparer.EQUAL, id)});
+        delete(new Where[]{new Where("", "colaborador_id", Comparer.EQUAL, id)});
     }
     //--- FIM DELETE ------------------------------------------------------------------------------|
     //

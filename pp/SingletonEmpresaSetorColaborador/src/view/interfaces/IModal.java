@@ -21,10 +21,10 @@ package view.interfaces;
 public interface IModal {
 
     void setAcao(String acao);
-    
+
     void setCadastro(String cadastro);
 
-    void setObject(Object object);
-    
+    void setObject(Object object) throws Exception;
+
     void setVisible(boolean b);
 }

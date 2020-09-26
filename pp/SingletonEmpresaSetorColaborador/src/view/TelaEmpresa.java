@@ -17,7 +17,6 @@ package view;
 import java.awt.Component;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import static view.util.Mensagem.*;
@@ -44,14 +43,13 @@ public class TelaEmpresa extends TelaTemplate {
         getRegister();
         getActionModal(actionCommand);
         refreshGridSetor();
+        refreshGridColaborador();
         select();
     }
 
     @Override
     public int getIndexIdColumn(JTable table, String idColumnName) {
-
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-
         for (int i = 0; i < model.getColumnCount(); i++) {
             if (model.getColumnName(i).equals(idColumnName)) {
                 return i;
@@ -92,6 +90,10 @@ public class TelaEmpresa extends TelaTemplate {
         refreshGrid((DefaultTableModel) jTableSetor.getModel(), control.getLinhasSetores());
     }
 
+    private void refreshGridColaborador() throws Exception {
+        refreshGrid((DefaultTableModel) jTableColaborador.getModel(), control.getLinhasColaboradores());
+    }
+
     /**
      * Creates new form TelaEmpresa
      */
@@ -101,6 +103,7 @@ public class TelaEmpresa extends TelaTemplate {
         initComponents();
         this.setLocationRelativeTo(null);
         refreshGridSetor();
+        refreshGridColaborador();
         select();
     }
 
@@ -122,7 +125,7 @@ public class TelaEmpresa extends TelaTemplate {
         jTableSetor = new javax.swing.JTable();
         jPanelColaborador = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableColaborador = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -230,7 +233,7 @@ public class TelaEmpresa extends TelaTemplate {
         jTabbedPaneTabs.addTab("Setores", jPanelSetor);
         jPanelSetor.getAccessibleContext().setAccessibleName("Setor");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableColaborador.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -246,14 +249,24 @@ public class TelaEmpresa extends TelaTemplate {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(100);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(100);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(100);
+        jTableColaborador.getTableHeader().setReorderingAllowed(false);
+        jTableColaborador.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableColaboradorMouseReleased(evt);
+            }
+        });
+        jTableColaborador.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTableColaboradorKeyReleased(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTableColaborador);
+        if (jTableColaborador.getColumnModel().getColumnCount() > 0) {
+            jTableColaborador.getColumnModel().getColumn(0).setMinWidth(100);
+            jTableColaborador.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTableColaborador.getColumnModel().getColumn(0).setMaxWidth(100);
         }
-        jTable1.getAccessibleContext().setAccessibleName("Colaborador");
+        jTableColaborador.getAccessibleContext().setAccessibleName("Colaborador");
 
         javax.swing.GroupLayout jPanelColaboradorLayout = new javax.swing.GroupLayout(jPanelColaborador);
         jPanelColaborador.setLayout(jPanelColaboradorLayout);
@@ -343,6 +356,22 @@ public class TelaEmpresa extends TelaTemplate {
         }
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
+    private void jTableColaboradorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableColaboradorKeyReleased
+        try {
+            select();
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jTableColaboradorKeyReleased
+
+    private void jTableColaboradorMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableColaboradorMouseReleased
+        try {
+            select();
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jTableColaboradorMouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -392,7 +421,7 @@ public class TelaEmpresa extends TelaTemplate {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPaneTabs;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableColaborador;
     private javax.swing.JTable jTableSetor;
     // End of variables declaration//GEN-END:variables
 }
