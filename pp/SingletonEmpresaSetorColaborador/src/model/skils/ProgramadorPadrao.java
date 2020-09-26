@@ -1,7 +1,7 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 25/09/2020 20:20:19 
+ *  Criado em  : 25/09/2020 17:45:37 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
@@ -12,55 +12,48 @@
  *  
  *  -----------------------------------------------------------------------------------------------| 
  */
-package model.habilidades;
+package model.skils;
 
 import java.util.ArrayList;
-import model.HabilidadesDecorator;
-import model.skils.Programador;
 import util.EnumHabilidades;
 
 /**
  *
  * @author vovostudio
  */
-public class CSharp extends HabilidadesDecorator {
+public class ProgramadorPadrao extends Programador {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private Programador programador;
+    private ArrayList<EnumHabilidades> habilidades;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public CSharp(Programador programador) {
-        this.programador = programador;
+    public ProgramadorPadrao() {
+        habilidades = super.getHabilidades();
+        habilidades.add(EnumHabilidades.BeberCafe);
     }
+
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
-
     //--- GET ------------------------------------------------------------------------------------->
     //
-    @Override
     public ArrayList<EnumHabilidades> getHabilidades() {
-        addHabilidade(EnumHabilidades.CSharp);
-        return programador.getHabilidades();
+        return habilidades;
     }
 
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
     //--- SET ------------------------------------------------------------------------------------->
     //
-    @Override
     public void addHabilidade(EnumHabilidades habilidade) {
-        if (!programador.getHabilidades().contains(habilidade)) {
-            programador.addHabilidade(habilidade);
-        }
+        habilidades.add(habilidade);
     }
 
-    @Override
     public void removeHabilidade(EnumHabilidades habilidade) {
-        programador.removeHabilidade(habilidade);
+        habilidades.remove(habilidade);
     }
     //--- FIM SET ---------------------------------------------------------------------------------|
     //

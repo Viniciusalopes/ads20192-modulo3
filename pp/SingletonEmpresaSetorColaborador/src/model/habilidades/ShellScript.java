@@ -16,7 +16,7 @@ package model.habilidades;
 
 import java.util.ArrayList;
 import model.HabilidadesDecorator;
-import model.programadores.Programador;
+import model.skils.Programador;
 import util.EnumHabilidades;
 
 /**

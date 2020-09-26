@@ -1,67 +1,50 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 25/09/2020 20:20:19 
+ *  Criado em  : 25/09/2020 17:32:08 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
  *  Projeto    : PADRÃO DE PROJETOS - DECORATOR
- *  Exercício  : Colaboradores dos setores de uma empresa
+ *  Exercício  : Programador dos setores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  
+ *  Classe base para DECORATOR de habilidades de um profissional.
  *  -----------------------------------------------------------------------------------------------| 
  */
-package model.habilidades;
+package model.skils;
 
 import java.util.ArrayList;
-import model.HabilidadesDecorator;
-import model.skils.Programador;
 import util.EnumHabilidades;
 
 /**
  *
  * @author vovostudio
  */
-public class CSharp extends HabilidadesDecorator {
+public abstract class Programador {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private Programador programador;
+    private ArrayList<EnumHabilidades> habilidades;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
-    //--- CONSTRUTORES ---------------------------------------------------------------------------->
-    //
-    public CSharp(Programador programador) {
-        this.programador = programador;
-    }
-    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
-    //
-
     //--- GET ------------------------------------------------------------------------------------->
     //
-    @Override
     public ArrayList<EnumHabilidades> getHabilidades() {
-        addHabilidade(EnumHabilidades.CSharp);
-        return programador.getHabilidades();
+        habilidades = new ArrayList<>();
+        habilidades.add(EnumHabilidades.BeberCafe);
+        return habilidades;
     }
 
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
     //--- SET ------------------------------------------------------------------------------------->
     //
-    @Override
-    public void addHabilidade(EnumHabilidades habilidade) {
-        if (!programador.getHabilidades().contains(habilidade)) {
-            programador.addHabilidade(habilidade);
-        }
-    }
+    public abstract void addHabilidade(EnumHabilidades habilidade);
 
-    @Override
-    public void removeHabilidade(EnumHabilidades habilidade) {
-        programador.removeHabilidade(habilidade);
-    }
+    public abstract void removeHabilidade(EnumHabilidades habilidade);
+
     //--- FIM SET ---------------------------------------------------------------------------------|
     //
 }

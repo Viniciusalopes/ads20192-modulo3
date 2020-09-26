@@ -191,6 +191,7 @@ public class TelaEmpresa extends TelaTemplate {
                 return canEdit [columnIndex];
             }
         });
+        jTableSetor.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableSetor.getTableHeader().setReorderingAllowed(false);
         jTableSetor.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -249,6 +250,7 @@ public class TelaEmpresa extends TelaTemplate {
                 return canEdit [columnIndex];
             }
         });
+        jTableColaborador.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableColaborador.getTableHeader().setReorderingAllowed(false);
         jTableColaborador.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
