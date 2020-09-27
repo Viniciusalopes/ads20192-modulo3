@@ -22,7 +22,7 @@ import util.EnumHabilidades;
  *
  * @author vovostudio
  */
-public class Css extends HabilidadesDecoratorGeneric {
+public class JavaScript extends HabilidadesDecoratorGeneric {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
@@ -32,7 +32,7 @@ public class Css extends HabilidadesDecoratorGeneric {
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public Css(Programador programador) {
+    public JavaScript(Programador programador) {
         super(programador);
         super.setHabilidade(habilidade);
     }

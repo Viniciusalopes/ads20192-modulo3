@@ -1,7 +1,7 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 25/09/2020 20:20:19 
+ *  Criado em  : 27/09/2020 15:37:18 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
@@ -9,13 +9,12 @@
  *  Projeto    : PADRÃO DE PROJETOS - DECORATOR
  *  Exercício  : Colaboradores dos setores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  
+ *  Classe genérica para métodos do HabilidadesDecorator
  *  -----------------------------------------------------------------------------------------------| 
  */
-package model.habilidades;
+package model;
 
 import java.util.ArrayList;
-import model.HabilidadesDecorator;
 import model.skills.Programador;
 import util.EnumHabilidades;
 
@@ -23,27 +22,26 @@ import util.EnumHabilidades;
  *
  * @author vovostudio
  */
-public class javaScript extends HabilidadesDecorator {
+public class HabilidadesDecoratorGeneric extends HabilidadesDecorator {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
     private Programador programador;
+    private EnumHabilidades habilidade;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public javaScript(Programador programador) {
+    public HabilidadesDecoratorGeneric(Programador programador) {
         this.programador = programador;
     }
+
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
-
     //--- GET ------------------------------------------------------------------------------------->
     //
-    @Override
     public ArrayList<EnumHabilidades> getHabilidades() {
-        addHabilidade(EnumHabilidades.JavaScript);
         return programador.getHabilidades();
     }
 
@@ -51,6 +49,10 @@ public class javaScript extends HabilidadesDecorator {
     //
     //--- SET ------------------------------------------------------------------------------------->
     //
+    protected void setHabilidade(EnumHabilidades habilidade) {
+        this.habilidade = habilidade;
+    }
+
     @Override
     public void addHabilidade(EnumHabilidades habilidade) {
         if (!programador.getHabilidades().contains(habilidade)) {
@@ -60,7 +62,9 @@ public class javaScript extends HabilidadesDecorator {
 
     @Override
     public void removeHabilidade(EnumHabilidades habilidade) {
-        programador.removeHabilidade(habilidade);
+        if (programador.getHabilidades().contains(habilidade)) {
+            programador.removeHabilidade(habilidade);
+        }
     }
     //--- FIM SET ---------------------------------------------------------------------------------|
     //

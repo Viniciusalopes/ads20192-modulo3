@@ -14,6 +14,7 @@
  */
 package control;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import model.skills.Programador;
 import model.skills.ProgramadorPadrao;
@@ -29,7 +30,7 @@ public class ControlDecorator {
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
     private static ControlDecorator control = null;
-    private Programador programador = null;
+    private static Programador programador = null;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
@@ -46,28 +47,30 @@ public class ControlDecorator {
     public static ControlDecorator getInstance() {
         if (control == null) {
             control = new ControlDecorator();
+            programador = new ProgramadorPadrao();
         }
         return control;
     }
 
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
-    public ArrayList<EnumHabilidades> getHabilidades(){
+    public ArrayList<EnumHabilidades> getHabilidades() {
         return programador.getHabilidades();
     }
+
     //--- SET ------------------------------------------------------------------------------------->
     //
-    public void setHabilidades(ArrayList<EnumHabilidades> habilidades){
-        programador
+    public void setHabilidades(ArrayList<EnumHabilidades> habilidades) {
+        programador = new ProgramadorPadrao();
+        for (EnumHabilidades habilidade : habilidades) {
+            programador.addHabilidade(habilidade);
+        }
     }
+
     //--- FIM SET ---------------------------------------------------------------------------------|
     //
     //--- CREATE ---------------------------------------------------------------------------------->
     //
-    public void newProgramadorPadrao() {
-        programador = new ProgramadorPadrao();
-    }
-
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
     //--- READ ------------------------------------------------------------------------------------>
@@ -80,8 +83,24 @@ public class ControlDecorator {
 
     }
 
-    public void addHabilidade(EnumHabilidades habilidade) {
+    public void addHabilidade(EnumHabilidades habilidade) throws Exception {
+        /**
+         * FONTES:<br>
+         * https://stackoverflow.com/questions/10470263/create-new-object-using-reflection
+         * https://stackoverflow.com/questions/2408789/getting-class-type-from-string
+         * https://stackoverflow.com/questions/4767088/creating-an-instance-from-string-in-java
+         * https://o.que.eu.ja.conhecia.de.reflection
+         */
 
+        try {
+            Class<?> classe = Class.forName("model.habilidades." + habilidade.toString());
+            Constructor construtor = classe.getConstructor(Programador.class);
+            programador = (Programador) construtor.newInstance(programador);
+            
+        } catch (ClassNotFoundException ex) {
+            // Não tem a classe do decorativo
+            programador.addHabilidade(habilidade);
+        }
     }
 
     //--- FIM UPDATE ------------------------------------------------------------------------------|
@@ -91,7 +110,7 @@ public class ControlDecorator {
     public void removeHabilidade(EnumHabilidades habilidade) {
 
     }
-    
+
     //--- FIM DELETE ------------------------------------------------------------------------------|
     //
 }

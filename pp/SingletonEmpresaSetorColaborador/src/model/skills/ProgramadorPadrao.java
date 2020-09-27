@@ -9,7 +9,7 @@
  *  Projeto    : PADRÃO DE PROJETOS - DECORATOR
  *  Exercício  : Colaboradores dos setores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  
+ *  Classe a ser decorada.
  *  -----------------------------------------------------------------------------------------------| 
  */
 package model.skills;

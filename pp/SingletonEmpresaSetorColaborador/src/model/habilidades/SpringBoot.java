@@ -1,7 +1,7 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 25/09/2020 20:20:19 
+ *  Criado em  : 27/09/2020 20:20:19 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
@@ -9,13 +9,12 @@
  *  Projeto    : PADRÃO DE PROJETOS - DECORATOR
  *  Exercício  : Colaboradores dos setores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  
+ *  Classe do acessório decorativo.
  *  -----------------------------------------------------------------------------------------------| 
  */
 package model.habilidades;
 
-import java.util.ArrayList;
-import model.HabilidadesDecorator;
+import model.HabilidadesDecoratorGeneric;
 import model.skills.Programador;
 import util.EnumHabilidades;
 
@@ -23,45 +22,23 @@ import util.EnumHabilidades;
  *
  * @author vovostudio
  */
-public class SpringBoot extends HabilidadesDecorator {
+public class SpringBoot extends HabilidadesDecoratorGeneric {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private Programador programador;
+    private EnumHabilidades habilidade = EnumHabilidades.valueOf(this.getClass().getName());
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
     public SpringBoot(Programador programador) {
-        this.programador = programador;
+        super(programador);
+        super.setHabilidade(habilidade);
+        
+    
     }
+
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
-    //
-
-    //--- GET ------------------------------------------------------------------------------------->
-    //
-    @Override
-    public ArrayList<EnumHabilidades> getHabilidades() {
-        addHabilidade(EnumHabilidades.SpringBoot);
-        return programador.getHabilidades();
-    }
-
-    //--- FIM GET ---------------------------------------------------------------------------------|
-    //
-    //--- SET ------------------------------------------------------------------------------------->
-    //
-    @Override
-    public void addHabilidade(EnumHabilidades habilidade) {
-        if (!programador.getHabilidades().contains(habilidade)) {
-            programador.addHabilidade(habilidade);
-        }
-    }
-
-    @Override
-    public void removeHabilidade(EnumHabilidades habilidade) {
-        programador.removeHabilidade(habilidade);
-    }
-    //--- FIM SET ---------------------------------------------------------------------------------|
     //
 }
