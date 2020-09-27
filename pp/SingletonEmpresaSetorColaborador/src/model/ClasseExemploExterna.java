@@ -1,7 +1,7 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 25/09/2020 20:20:19 
+ *  Criado em  : 27/09/2020 01:54:03 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
@@ -12,56 +12,77 @@
  *  
  *  -----------------------------------------------------------------------------------------------| 
  */
-package model.habilidades;
 
-import java.util.ArrayList;
-import model.HabilidadesDecorator;
-import model.skills.Programador;
-import util.EnumHabilidades;
+package model;
 
 /**
  *
  * @author vovostudio
  */
-public class Html extends HabilidadesDecorator {
+public class ClasseExemploExterna {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private Programador programador;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
+    
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public Html(Programador programador) {
-        this.programador = programador;
+    private void vai(){
+        
+        ClasseExemplo ce = new ClasseExemplo();
+        
+        int x = ce.atributoPublico;
+        int y = ce.getAtributoPrivado();
+        int z = ClasseExemplo.atributoEstatico;
+        
+        ce.atributoPublico = 2;
+        
+        ClasseExemplo.atributoEstatico = 7;
+        
+        ce.setAtributoPrivado(78);
+        
+        
+        
     }
+    
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
-
+    
     //--- GET ------------------------------------------------------------------------------------->
     //
-    @Override
-    public ArrayList<EnumHabilidades> getHabilidades() {
-        addHabilidade(EnumHabilidades.HTML);
-        return programador.getHabilidades();
-    }
 
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
+    
     //--- SET ------------------------------------------------------------------------------------->
     //
-    @Override
-    public void addHabilidade(EnumHabilidades habilidade) {
-        if (!programador.getHabilidades().contains(habilidade)) {
-            programador.addHabilidade(habilidade);
-        }
-    }
 
-    @Override
-    public void removeHabilidade(EnumHabilidades habilidade) {
-        programador.removeHabilidade(habilidade);
-    }
     //--- FIM SET ---------------------------------------------------------------------------------|
+    //
+
+    //--- CREATE ---------------------------------------------------------------------------------->
+    //
+
+    //--- FIM CREATE ------------------------------------------------------------------------------|
+    //
+    
+    //--- READ ------------------------------------------------------------------------------------>
+    //
+
+    //--- FIM READ --------------------------------------------------------------------------------|
+    //
+    
+    //--- UPDATE ---------------------------------------------------------------------------------->
+    //
+
+    //--- FIM UPDATE ------------------------------------------------------------------------------|
+    //
+    
+    //--- DELETE ---------------------------------------------------------------------------------->
+    //
+
+    //--- FIM DELETE ------------------------------------------------------------------------------|
     //
 }

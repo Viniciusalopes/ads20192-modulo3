@@ -12,7 +12,7 @@
  *  
  *  -----------------------------------------------------------------------------------------------| 
  */
-package model.skils;
+package model.skills;
 
 import java.util.ArrayList;
 import util.EnumHabilidades;
@@ -21,7 +21,7 @@ import util.EnumHabilidades;
  *
  * @author vovostudio
  */
-public class ProgramadorPadrao extends Programador {
+public class BdAdmin extends Programador {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
@@ -31,9 +31,11 @@ public class ProgramadorPadrao extends Programador {
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public ProgramadorPadrao() {
+    public BdAdmin() {
         habilidades = super.getHabilidades();
-        habilidades.add(EnumHabilidades.BeberCafe);
+        habilidades.add(EnumHabilidades.MySql);
+        habilidades.add(EnumHabilidades.Oracle);
+        habilidades.add(EnumHabilidades.PostgreSQL);
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|

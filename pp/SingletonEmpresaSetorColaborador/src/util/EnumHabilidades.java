@@ -55,7 +55,7 @@ public enum EnumHabilidades {
     Python("Python"),
     ReactJs("ReactJs"),
     ShellScript("ShellScript"),
-    SpringBoot("Spring Boot"), // 24
+    SpringBoot("Spring Boot"), // 33
     TabelaoExcel("Tabelão de Excel"),
     ColorirDeRoxo("Colorir de Roxo"),
     DormirNaAula("Dormir na aula e continuar conectado"),

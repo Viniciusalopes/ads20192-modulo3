@@ -1,18 +1,18 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 25/09/2020 17:32:08 
+ *  Criado em  : 25/09/2020 17:45:37 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
  *  Projeto    : PADRÃO DE PROJETOS - DECORATOR
- *  Exercício  : Programador dos setores de uma empresa
+ *  Exercício  : Colaboradores dos setores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Classe base para DECORATOR de habilidades de um profissional.
+ *  
  *  -----------------------------------------------------------------------------------------------| 
  */
-package model.skils;
+package model.skills;
 
 import java.util.ArrayList;
 import util.EnumHabilidades;
@@ -21,7 +21,7 @@ import util.EnumHabilidades;
  *
  * @author vovostudio
  */
-public abstract class Programador {
+public class ProgramadorCSharp extends Programador {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
@@ -29,11 +29,18 @@ public abstract class Programador {
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
+    //--- CONSTRUTORES ---------------------------------------------------------------------------->
+    //
+    public ProgramadorCSharp() {
+        habilidades = super.getHabilidades();
+        habilidades.add(EnumHabilidades.CSharp);
+    }
+
+    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
+    //
     //--- GET ------------------------------------------------------------------------------------->
     //
     public ArrayList<EnumHabilidades> getHabilidades() {
-        habilidades = new ArrayList<>();
-        habilidades.add(EnumHabilidades.BeberCafe);
         return habilidades;
     }
 
@@ -41,10 +48,13 @@ public abstract class Programador {
     //
     //--- SET ------------------------------------------------------------------------------------->
     //
-    public abstract void addHabilidade(EnumHabilidades habilidade);
+    public void addHabilidade(EnumHabilidades habilidade) {
+        habilidades.add(habilidade);
+    }
 
-    public abstract void removeHabilidade(EnumHabilidades habilidade);
-
+    public void removeHabilidade(EnumHabilidades habilidade) {
+        habilidades.remove(habilidade);
+    }
     //--- FIM SET ---------------------------------------------------------------------------------|
     //
 }

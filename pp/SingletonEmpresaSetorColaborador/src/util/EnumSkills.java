@@ -16,13 +16,13 @@ package util;
 
 import java.util.HashMap;
 import java.util.Map;
-import static util.EnumSkils.values;
+import static util.EnumSkills.values;
 
 /**
  *
  * @author vovostudio
  */
-public enum EnumSkils {
+public enum EnumSkills {
     CSharp("C#"),
     Java("Java"),
     Php("Php"),
@@ -37,19 +37,19 @@ public enum EnumSkils {
      * FONTE:
      * https://www.guj.com.br/t/enum-obter-o-valor-do-atributo-do-enum-atraves-do-metodos/109311/2
      */
-    private static Map<String, EnumSkils> relations;
+    private static Map<String, EnumSkills> relations;
 
     /**
      * Bloco estatico que popula o hashmap com as relacoes entre tipo e elementos da enum
      */
     static {
-        relations = new HashMap<String, EnumSkils>();
-        for (EnumSkils nome : values()) {
+        relations = new HashMap<String, EnumSkills>();
+        for (EnumSkills nome : values()) {
             relations.put(nome.getNome(), nome);
         }
     }
 
-    EnumSkils(String nome) {
+    EnumSkills(String nome) {
         this.nome = nome;
     }
 
@@ -57,7 +57,7 @@ public enum EnumSkils {
         return nome;
     }
 
-    public static EnumSkils getNome(String nome) {
+    public static EnumSkills getNome(String nome) {
         return relations.get(nome);
     }
 

@@ -1,7 +1,7 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 25/09/2020 17:45:37 
+ *  Criado em  : 27/09/2020 01:52:27 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
@@ -12,51 +12,68 @@
  *  
  *  -----------------------------------------------------------------------------------------------| 
  */
-package model.skils;
 
-import java.util.ArrayList;
-import util.EnumHabilidades;
+package model;
 
 /**
  *
  * @author vovostudio
  */
-public class BdAdmin extends Programador {
+public class ClasseExemplo {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private ArrayList<EnumHabilidades> habilidades;
-
+    public static int atributoEstatico = 0;
+    private int atributoPrivado = 1;
+    public int atributoPublico = 2;
+    
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
+    
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public BdAdmin() {
-        habilidades = super.getHabilidades();
-        habilidades.add(EnumHabilidades.MySql);
-        habilidades.add(EnumHabilidades.Oracle);
-        habilidades.add(EnumHabilidades.PostgreSQL);
-    }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
+    
     //--- GET ------------------------------------------------------------------------------------->
     //
-    public ArrayList<EnumHabilidades> getHabilidades() {
-        return habilidades;
+    public int getAtributoPrivado(){
+        return atributoPrivado;
     }
 
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
+    
     //--- SET ------------------------------------------------------------------------------------->
     //
-    public void addHabilidade(EnumHabilidades habilidade) {
-        habilidades.add(habilidade);
-    }
-
-    public void removeHabilidade(EnumHabilidades habilidade) {
-        habilidades.remove(habilidade);
+    public void setAtributoPrivado(int valor){
+        atributoPrivado = valor;
     }
     //--- FIM SET ---------------------------------------------------------------------------------|
+    //
+
+    //--- CREATE ---------------------------------------------------------------------------------->
+    //
+
+    //--- FIM CREATE ------------------------------------------------------------------------------|
+    //
+    
+    //--- READ ------------------------------------------------------------------------------------>
+    //
+
+    //--- FIM READ --------------------------------------------------------------------------------|
+    //
+    
+    //--- UPDATE ---------------------------------------------------------------------------------->
+    //
+
+    //--- FIM UPDATE ------------------------------------------------------------------------------|
+    //
+    
+    //--- DELETE ---------------------------------------------------------------------------------->
+    //
+
+    //--- FIM DELETE ------------------------------------------------------------------------------|
     //
 }
