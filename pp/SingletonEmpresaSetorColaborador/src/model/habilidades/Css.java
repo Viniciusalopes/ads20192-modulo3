@@ -15,7 +15,7 @@
 package model.habilidades;
 
 import model.HabilidadesDecoratorGeneric;
-import model.skills.Programador;
+import model.ProgramadorBaseDecorator;
 import util.EnumHabilidades;
 
 /**
@@ -32,7 +32,7 @@ public class Css extends HabilidadesDecoratorGeneric {
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public Css(Programador programador) {
+    public Css(ProgramadorBaseDecorator programador) {
         super(programador);
         super.setHabilidade(habilidade);
     }

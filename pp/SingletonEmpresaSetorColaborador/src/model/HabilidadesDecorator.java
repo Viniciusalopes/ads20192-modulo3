@@ -7,14 +7,13 @@
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
  *  Projeto    : PADRÃO DE PROJETOS - DECORATOR
- *  Exercício  : Programador dos setores de uma empresa
+ *  Exercício  : ProgramadorBaseDecorator dos setores de uma empresa
  *  ------------------------------------------------------------------------------------------------
  *  Classe DECORATOR para habilidades de um profissional.
  *  -----------------------------------------------------------------------------------------------| 
  */
 package model;
 
-import model.skills.Programador;
 import java.util.ArrayList;
 import util.EnumHabilidades;
 
@@ -22,7 +21,7 @@ import util.EnumHabilidades;
  *
  * @author vovostudio
  */
-public abstract class HabilidadesDecorator extends Programador {
+public abstract class HabilidadesDecorator extends ProgramadorBaseDecorator {
 
     //--- GET ------------------------------------------------------------------------------------->
     //

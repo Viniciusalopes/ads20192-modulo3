@@ -16,7 +16,7 @@ package control;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import model.skills.Programador;
+import model.ProgramadorBaseDecorator;
 import model.skills.ProgramadorPadrao;
 import util.EnumHabilidades;
 import util.EnumSkills;
@@ -30,7 +30,7 @@ public class ControlDecorator {
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
     private static ControlDecorator control = null;
-    private static Programador programador = null;
+    private static ProgramadorBaseDecorator programador = null;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
@@ -79,8 +79,19 @@ public class ControlDecorator {
     //
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
-    public void addSkill(EnumSkills skill) {
+    public void addSkill(EnumSkills skill) throws Exception {
+        try {
+            Class<?> classe = Class.forName("model.habilidades.Programador" + skill.toString());
+            Constructor construtor = classe.getConstructor(ProgramadorBaseDecorator.class);
+            ProgramadorBaseDecorator pSkill = (ProgramadorBaseDecorator) construtor.newInstance(classe);
 
+            for (EnumHabilidades habilidade : pSkill.getHabilidades()) {
+                addHabilidade(habilidade);
+            }
+            
+        } catch (Exception e) {
+            throw new Exception("Erro ao adicionar skill!\n" + e.getMessage());
+        }
     }
 
     public void addHabilidade(EnumHabilidades habilidade) throws Exception {
@@ -94,9 +105,9 @@ public class ControlDecorator {
 
         try {
             Class<?> classe = Class.forName("model.habilidades." + habilidade.toString());
-            Constructor construtor = classe.getConstructor(Programador.class);
-            programador = (Programador) construtor.newInstance(programador);
-            
+            Constructor construtor = classe.getConstructor(ProgramadorBaseDecorator.class);
+            programador = (ProgramadorBaseDecorator) construtor.newInstance(programador);
+
         } catch (ClassNotFoundException ex) {
             // Não tem a classe do decorativo
             programador.addHabilidade(habilidade);

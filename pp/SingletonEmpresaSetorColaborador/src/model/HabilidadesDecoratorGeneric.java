@@ -15,7 +15,6 @@
 package model;
 
 import java.util.ArrayList;
-import model.skills.Programador;
 import util.EnumHabilidades;
 
 /**
@@ -26,14 +25,14 @@ public class HabilidadesDecoratorGeneric extends HabilidadesDecorator {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private Programador programador;
+    private ProgramadorBaseDecorator programador;
     private EnumHabilidades habilidade;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public HabilidadesDecoratorGeneric(Programador programador) {
+    public HabilidadesDecoratorGeneric(ProgramadorBaseDecorator programador) {
         this.programador = programador;
     }
 

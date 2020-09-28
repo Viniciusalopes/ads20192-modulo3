@@ -14,6 +14,7 @@
  */
 package model.skills;
 
+import model.ProgramadorBaseDecorator;
 import java.util.ArrayList;
 import util.EnumHabilidades;
 
@@ -21,7 +22,7 @@ import util.EnumHabilidades;
  *
  * @author vovostudio
  */
-public class ProgramadorCSharp extends Programador {
+public class ProgramadorCSharp extends ProgramadorBaseDecorator {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //

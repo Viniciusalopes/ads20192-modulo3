@@ -14,6 +14,7 @@
  */
 package model.skills;
 
+import model.ProgramadorBaseDecorator;
 import java.util.ArrayList;
 import util.EnumHabilidades;
 
@@ -21,7 +22,7 @@ import util.EnumHabilidades;
  *
  * @author vovostudio
  */
-public class BdAdmin extends Programador {
+public class BdAdmin extends ProgramadorBaseDecorator {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //

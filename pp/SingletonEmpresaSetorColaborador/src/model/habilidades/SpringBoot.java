@@ -15,7 +15,7 @@
 package model.habilidades;
 
 import model.HabilidadesDecoratorGeneric;
-import model.skills.Programador;
+import model.ProgramadorBaseDecorator;
 import util.EnumHabilidades;
 
 /**
@@ -32,7 +32,7 @@ public class SpringBoot extends HabilidadesDecoratorGeneric {
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public SpringBoot(Programador programador) {
+    public SpringBoot(ProgramadorBaseDecorator programador) {
         super(programador);
         super.setHabilidade(habilidade);
         

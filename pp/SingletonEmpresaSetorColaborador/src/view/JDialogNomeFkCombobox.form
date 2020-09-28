@@ -33,9 +33,9 @@
                       <Component id="jLabelFk" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jComboBoxFk" alignment="0" min="-2" pref="230" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPanelHabilidadesColaborador" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jPanelHabilidades" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -60,8 +60,8 @@
                       <Component id="jComboBoxFk" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jPanel2" max="32767" attributes="0"/>
-                          <Component id="jPanel1" max="32767" attributes="0"/>
+                          <Component id="jPanelHabilidadesColaborador" max="32767" attributes="0"/>
+                          <Component id="jPanelHabilidades" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanelBotoes" min="-2" max="-2" attributes="0"/>
@@ -141,7 +141,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="jPanelHabilidades">
 
       <Layout>
         <DimensionLayout dim="0">
@@ -211,6 +211,12 @@
                   <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <AccessibilityProperties>
+                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="HabilidadesDePessoas"/>
+              </AccessibilityProperties>
+              <Events>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableHabilidadesPessoaMouseReleased"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -242,6 +248,12 @@
                   <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <AccessibilityProperties>
+                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Skills"/>
+              </AccessibilityProperties>
+              <Events>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableSkilsMouseReleased"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -273,6 +285,12 @@
                   <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <AccessibilityProperties>
+                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="HabilidadesDeAlunos"/>
+              </AccessibilityProperties>
+              <Events>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableHabilidadesAlunoMouseReleased"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -304,12 +322,18 @@
                   <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <AccessibilityProperties>
+                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="HabilidadesDeProfissionais"/>
+              </AccessibilityProperties>
+              <Events>
+                <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableHabilidadesProfissionalMouseReleased"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanel2">
+    <Container class="javax.swing.JPanel" name="jPanelHabilidadesColaborador">
 
       <Layout>
         <DimensionLayout dim="0">
@@ -360,6 +384,9 @@
                   <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <AccessibilityProperties>
+                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="HabilidadesDoColaborador"/>
+              </AccessibilityProperties>
             </Component>
           </SubComponents>
         </Container>
