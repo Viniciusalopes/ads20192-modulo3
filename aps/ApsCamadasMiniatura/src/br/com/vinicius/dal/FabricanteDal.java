@@ -9,12 +9,12 @@
  *  Projeto    : ARQUITETURA EM CAMADAS
  *  Exercício  : Cadastro de Miniatura em camadas
  *  ------------------------------------------------------------------------------------------------
- *  Camada de acesso a dados da tabela [Temas]
+ *  Camada de acesso a dados da tabela [Fabricantes]
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.dal;
 
-import br.com.vinicius.model.Tema;
+import br.com.vinicius.model.Fabricante;
 import java.util.ArrayList;
 import java.sql.ResultSet;
 
@@ -22,21 +22,21 @@ import java.sql.ResultSet;
  *
  * @author vovostudio
  */
-public class TemaDal extends GenericDal {
+public class FabricanteDal extends GenericDal {
 
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public TemaDal() throws Exception {
-        super("\"Temas\"", "tema_id");
+    public FabricanteDal() throws Exception {
+        super("\"Fabricantes\"", "fabricante_id");
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
     //--- CREATE ---------------------------------------------------------------------------------->
     //
-    public void add(Tema tema) throws Exception {
-        sql = "INSERT INTO " + table + " (tema_nome) VALUES (?);";
-        args = new Object[]{tema.getTema_nome()};
+    public void add(Fabricante fabricante) throws Exception {
+        sql = "INSERT INTO " + table + " (fabricante_nome) VALUES (?);";
+        args = new Object[]{fabricante.getFabricante_nome()};
         execute(sql, args);
     }
 
@@ -45,29 +45,29 @@ public class TemaDal extends GenericDal {
     //--- READ ------------------------------------------------------------------------------------>
     //
     @Override
-    protected ArrayList<Tema> build(ResultSet rs) throws Exception {
-        ArrayList<Tema> ret = new ArrayList<>();
+    protected ArrayList<Fabricante> build(ResultSet rs) throws Exception {
+        ArrayList<Fabricante> ret = new ArrayList<>();
         while (rs.next()) {
-            ret.add(new Tema(rs.getInt("tema_id"), rs.getString("tema_nome")));
+            ret.add(new Fabricante(rs.getInt("fabricante_id"), rs.getString("fabricante_nome")));
         }
         return ret;
     }
 
-    public Tema getById(int id) throws Exception {
-        return (Tema) getBy(fieldIdColumn, id).get(0);
+    public Fabricante getById(int id) throws Exception {
+        return (Fabricante) getBy(fieldIdColumn, id).get(0);
     }
 
-    public Tema getByNome(String nome) throws Exception {
-        return (Tema) getBy("tema_nome", nome).get(0);
+    public Fabricante getByNome(String nome) throws Exception {
+        return (Fabricante) getBy("fabricante_nome", nome).get(0);
     }
 
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
-    public void update(Tema tema) throws Exception {
-        sql = "UPDATE " + table + " SET tema_nome = ? WHERE tema_id = ?;";
-        args = new Object[]{tema.getTema_nome(), tema.getTema_id()};
+    public void update(Fabricante fabricante) throws Exception {
+        sql = "UPDATE " + table + " SET fabricante_nome = ? WHERE fabricante_id = ?;";
+        args = new Object[]{fabricante.getFabricante_nome(), fabricante.getFabricante_id()};
         execute(sql, args);
     }
 

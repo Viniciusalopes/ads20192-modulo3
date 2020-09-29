@@ -9,12 +9,12 @@
  *  Projeto    : ARQUITETURA EM CAMADAS
  *  Exercício  : Cadastro de Miniatura em camadas
  *  ------------------------------------------------------------------------------------------------
- *  Camada de acesso a dados da tabela [Temas]
+ *  Camada de acesso a dados da tabela [TiposMiniaturas]
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.dal;
 
-import br.com.vinicius.model.Tema;
+import br.com.vinicius.model.TipoMiniatura;
 import java.util.ArrayList;
 import java.sql.ResultSet;
 
@@ -22,21 +22,21 @@ import java.sql.ResultSet;
  *
  * @author vovostudio
  */
-public class TemaDal extends GenericDal {
+public class TipoMiniaturaDal extends GenericDal {
 
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public TemaDal() throws Exception {
-        super("\"Temas\"", "tema_id");
+    public TipoMiniaturaDal() throws Exception {
+        super("\"TiposMiniaturas\"", "tipo_id");
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
     //--- CREATE ---------------------------------------------------------------------------------->
     //
-    public void add(Tema tema) throws Exception {
-        sql = "INSERT INTO " + table + " (tema_nome) VALUES (?);";
-        args = new Object[]{tema.getTema_nome()};
+    public void add(TipoMiniatura tipoMiniatura) throws Exception {
+        sql = "INSERT INTO " + table + " (tipo_nome) VALUES (?);";
+        args = new Object[]{tipoMiniatura.getTipo_nome()};
         execute(sql, args);
     }
 
@@ -45,29 +45,29 @@ public class TemaDal extends GenericDal {
     //--- READ ------------------------------------------------------------------------------------>
     //
     @Override
-    protected ArrayList<Tema> build(ResultSet rs) throws Exception {
-        ArrayList<Tema> ret = new ArrayList<>();
+    protected ArrayList<TipoMiniatura> build(ResultSet rs) throws Exception {
+        ArrayList<TipoMiniatura> ret = new ArrayList<>();
         while (rs.next()) {
-            ret.add(new Tema(rs.getInt("tema_id"), rs.getString("tema_nome")));
+            ret.add(new TipoMiniatura(rs.getInt("tipo_id"), rs.getString("tipo_nome")));
         }
         return ret;
     }
 
-    public Tema getById(int id) throws Exception {
-        return (Tema) getBy(fieldIdColumn, id).get(0);
+    public TipoMiniatura getById(int id) throws Exception {
+        return (TipoMiniatura) getBy(fieldIdColumn, id).get(0);
     }
 
-    public Tema getByNome(String nome) throws Exception {
-        return (Tema) getBy("tema_nome", nome).get(0);
+    public TipoMiniatura getByNome(String nome) throws Exception {
+        return (TipoMiniatura) getBy("tipo_nome", nome).get(0);
     }
 
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
-    public void update(Tema tema) throws Exception {
-        sql = "UPDATE " + table + " SET tema_nome = ? WHERE tema_id = ?;";
-        args = new Object[]{tema.getTema_nome(), tema.getTema_id()};
+    public void update(TipoMiniatura tipoMiniatura) throws Exception {
+        sql = "UPDATE " + table + " SET tipo_nome = ? WHERE tipo_id = ?;";
+        args = new Object[]{tipoMiniatura.getTipo_nome(), tipoMiniatura.getTipo_id()};
         execute(sql, args);
     }
 
