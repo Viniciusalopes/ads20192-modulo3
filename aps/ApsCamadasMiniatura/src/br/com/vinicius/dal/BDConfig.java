@@ -25,7 +25,7 @@ public class BDConfig {
     private static BDConfig config = null;
     private final String server = "//srv-ubuntu";
     private final String port = "5432";
-    private final String database = "ppsingleton";
+    private final String database = "apsminiatura";
     private final String user = "postgres";
     private final String password = "vin";
     private final String driver = "org.postgresql.Driver";

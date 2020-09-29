@@ -1,7 +1,7 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 28/09/2020 19:10:13 
+ *  Criado em  : 29/09/2020 11:01:47 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
@@ -12,56 +12,95 @@
  *  
  *  -----------------------------------------------------------------------------------------------| 
  */
-package br.com.vinicius.model;
+package br.com.vinicius.app;
+
+import br.com.vinicius.dal.TemaDal;
+import br.com.vinicius.model.Tema;
+import java.util.ArrayList;
 
 /**
  *
  * @author vovostudio
  */
-public class Tema {
+public class ConsoleApp {
 
+    public static void main(String[] args) {
+        testTema();
+    }
+
+    private static void testTema() {
+        try {
+            Tema tema;
+            ArrayList<Tema> temas;
+
+            TemaDal dao = new TemaDal();
+            tema = new Tema(0, "Tema " + Math.random());
+            dao.add(tema);
+            System.out.println(tema.getTema_nome() + " incluído.");
+
+            tema = new Tema(0, "Tema " + Math.random());
+            dao.add(tema);
+            System.out.println(tema.getTema_nome() + " incluído.");
+
+            tema = new Tema(0, "Tema " + Math.random());
+            dao.add(tema);
+            System.out.println(tema.getTema_nome() + " incluído.");
+
+            System.out.println("-- FIM CREATE --");
+
+            temas = (ArrayList<Tema>) dao.getAll();
+            imprimirTemas(temas);
+            
+            System.out.println("-- FIM READ--");
+            dao.delete(temas.get(2).getTema_id());
+            temas = (ArrayList<Tema>) dao.getAll();
+            imprimirTemas(temas);
+            System.out.println("-- FIM READ --");
+
+            tema = temas.get(0);
+            dao = new TemaDal();
+            tema = dao.getById(tema.getTema_id());
+            tema.setTema_nome("Tema B");
+            dao.update(tema);
+            temas = (ArrayList<Tema>) dao.getAll();
+            imprimirTemas(temas);
+
+            System.out.println("-- FIM UPDATE --");
+
+            dao.delete(tema.getTema_id());
+            temas = (ArrayList<Tema>) dao.getAll();
+            for (Tema t : temas) {
+                dao.delete(t.getTema_id());
+            }
+            temas = (ArrayList<Tema>) dao.getAll();
+            imprimirTemas(temas);
+            System.out.println("-- FIM DELETE --");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void imprimirTemas(ArrayList<Tema> temas) throws Exception {
+        System.out.println("\n TEMAS: ");
+        for (Tema tema : temas) {
+            System.out.println(tema.getTema_id() + " - " + tema.getTema_nome());
+        }
+    }
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private int tema_id = 0;
-    private String tema_nome = "";
-
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public Tema() {
-
-    }
-
-    public Tema(int tema_id, String tema_nome) {
-        this.tema_id = tema_id;
-        this.tema_nome = tema_nome;
-    }
-
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
-    public int getTema_id() {
-        return tema_id;
-    }
-
-    public String getTema_nome() {
-        return tema_nome;
-    }
-
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
     //--- SET ------------------------------------------------------------------------------------->
     //
-    public void setTema_id(int tema_id) {
-        this.tema_id = tema_id;
-    }
-
-    public void setTema_nome(String tema_nome) {
-        this.tema_nome = tema_nome;
-    }
-
     //--- FIM SET ---------------------------------------------------------------------------------|
     //
     //--- CREATE ---------------------------------------------------------------------------------->

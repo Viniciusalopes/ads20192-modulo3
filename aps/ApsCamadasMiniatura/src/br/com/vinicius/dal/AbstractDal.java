@@ -14,38 +14,44 @@
  */
 package br.com.vinicius.dal;
 
+import br.com.vinicius.model.Tema;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  *
  * @author vovostudio
  */
-public class GenericDal {
+public abstract class AbstractDal {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private static BDConn bdConn = null;
+    private BDConn bdConn = null;
     private Connection conn = null;
+    protected String sql = "";
+    protected Object[] args = null;
+    protected String table = "";
+    protected String fieldIdColumn = "";
 
-    //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
-    //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    protected GenericDal(String table) throws Exception {
+    public AbstractDal(String table, String fieldIdColumn) throws Exception {
         bdConn = BDConn.getInstance();
+        this.table = table;
+        this.fieldIdColumn = fieldIdColumn;
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
-    private ResultSet executeQuery(String sql, Object[] args) throws Exception {
+    public ResultSet executeQuery(String sql, Object[] args) throws Exception {
         return (ResultSet) execute(sql, args, true);
     }
 
-    private Object execute(String sql, Object[] args) throws Exception {
+    public Object execute(String sql, Object[] args) throws Exception {
         return execute(sql, args, false);
     }
 
@@ -55,7 +61,7 @@ public class GenericDal {
             PreparedStatement pstm = conn.prepareStatement(sql);
 
             for (int i = 0; i < args.length; i++) {
-                pstm.setObject(i + 1, args[i]);
+                pstm.setObject((i + 1), args[i]);
             }
 
             return (isQuery) ? pstm.executeQuery() : pstm.execute();
@@ -70,5 +76,33 @@ public class GenericDal {
     }
 
     //--- FIM GET ---------------------------------------------------------------------------------|
+    //
+    //--- READ ------------------------------------------------------------------------------------>
+    //
+    protected abstract ArrayList<?> build(ResultSet rs) throws Exception;
+
+    public ArrayList<?> getAll() throws Exception {
+        sql = "SELECT * FROM " + table + ";";
+        args = new Object[]{};
+        return build(executeQuery(sql, args));
+    }
+
+    public ArrayList<?> getBy(String field, Object value) throws Exception {
+        sql = "SELECT * FROM " + table + " WHERE " + field + " = ?;";
+        args = new Object[]{value};
+        return build(executeQuery(sql, args));
+    }
+
+    //--- FIM READ --------------------------------------------------------------------------------|
+    //
+    //--- DELETE ---------------------------------------------------------------------------------->
+    //
+    public void delete(int id) throws Exception {
+        sql = "DELETE FROM " + table + " WHERE " + fieldIdColumn + " = ?;";
+        args = new Object[]{id};
+        execute(sql, args);
+    }
+
+    //--- FIM DELETE ------------------------------------------------------------------------------|
     //
 }
