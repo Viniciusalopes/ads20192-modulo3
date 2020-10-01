@@ -27,7 +27,7 @@ public class TemaDal extends GenericDal {
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
     public TemaDal() throws Exception {
-        super("\"Temas\"", "tema_id");
+        super("\"Temas\"", "tema_id", "tema_nome");
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|

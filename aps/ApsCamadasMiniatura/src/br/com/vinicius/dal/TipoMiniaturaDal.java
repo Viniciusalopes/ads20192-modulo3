@@ -27,7 +27,7 @@ public class TipoMiniaturaDal extends GenericDal {
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
     public TipoMiniaturaDal() throws Exception {
-        super("\"TiposMiniaturas\"", "tipo_id");
+        super("\"TiposMiniaturas\"", "tipo_id", "tipo_nome");
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
@@ -36,7 +36,7 @@ public class TipoMiniaturaDal extends GenericDal {
     //
     public void add(TipoMiniatura tipoMiniatura) throws Exception {
         sql = "INSERT INTO " + table + " (tipo_nome) VALUES (?);";
-        args = new Object[]{tipoMiniatura.getTipo_nome()};
+        args = new Object[]{tipoMiniatura.getTipoMiniatura_nome()};
         execute(sql, args);
     }
 
@@ -67,7 +67,7 @@ public class TipoMiniaturaDal extends GenericDal {
     //
     public void update(TipoMiniatura tipoMiniatura) throws Exception {
         sql = "UPDATE " + table + " SET tipo_nome = ? WHERE tipo_id = ?;";
-        args = new Object[]{tipoMiniatura.getTipo_nome(), tipoMiniatura.getTipo_id()};
+        args = new Object[]{tipoMiniatura.getTipoMiniatura_nome(), tipoMiniatura.getTipoMiniatura_id()};
         execute(sql, args);
     }
 

@@ -33,46 +33,46 @@ public class ConsoleApp {
             Tema tema;
             ArrayList<Tema> temas;
 
-            TemaDal dao = new TemaDal();
+            TemaDal dal = new TemaDal();
             tema = new Tema(0, "Tema " + Math.random());
-            dao.add(tema);
+            dal.add(tema);
             System.out.println(tema.getTema_nome() + " incluído.");
 
             tema = new Tema(0, "Tema " + Math.random());
-            dao.add(tema);
+            dal.add(tema);
             System.out.println(tema.getTema_nome() + " incluído.");
 
             tema = new Tema(0, "Tema " + Math.random());
-            dao.add(tema);
+            dal.add(tema);
             System.out.println(tema.getTema_nome() + " incluído.");
 
             System.out.println("-- FIM CREATE --");
 
-            temas = (ArrayList<Tema>) dao.getAll();
+            temas = (ArrayList<Tema>) dal.getAll();
             imprimirTemas(temas);
             
             System.out.println("-- FIM READ--");
-            dao.delete(temas.get(2).getTema_id());
-            temas = (ArrayList<Tema>) dao.getAll();
+            dal.delete(temas.get(2).getTema_id());
+            temas = (ArrayList<Tema>) dal.getAll();
             imprimirTemas(temas);
             System.out.println("-- FIM READ --");
 
             tema = temas.get(0);
-            dao = new TemaDal();
-            tema = dao.getById(tema.getTema_id());
+            dal = new TemaDal();
+            tema = dal.getById(tema.getTema_id());
             tema.setTema_nome("Tema B");
-            dao.update(tema);
-            temas = (ArrayList<Tema>) dao.getAll();
+            dal.update(tema);
+            temas = (ArrayList<Tema>) dal.getAll();
             imprimirTemas(temas);
 
             System.out.println("-- FIM UPDATE --");
 
-            dao.delete(tema.getTema_id());
-            temas = (ArrayList<Tema>) dao.getAll();
+            dal.delete(tema.getTema_id());
+            temas = (ArrayList<Tema>) dal.getAll();
             for (Tema t : temas) {
-                dao.delete(t.getTema_id());
+                dal.delete(t.getTema_id());
             }
-            temas = (ArrayList<Tema>) dao.getAll();
+            temas = (ArrayList<Tema>) dal.getAll();
             imprimirTemas(temas);
             System.out.println("-- FIM DELETE --");
 

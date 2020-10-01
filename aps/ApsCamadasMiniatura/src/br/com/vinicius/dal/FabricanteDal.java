@@ -27,7 +27,7 @@ public class FabricanteDal extends GenericDal {
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
     public FabricanteDal() throws Exception {
-        super("\"Fabricantes\"", "fabricante_id");
+        super("\"Fabricantes\"", "fabricante_id", "fabricante_nome");
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|

@@ -42,23 +42,30 @@ public class TipoMiniatura {
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
-    public int getTipo_id() {
+    public int getTipoMiniatura_id() {
         return tipo_id;
     }
 
-    public String getTipo_nome() {
+    public String getTipoMiniatura_nome() {
         return tipo_nome;
+    }
+
+    public static Object[] toArray(TipoMiniatura tipoMiniatura) {
+        return new Object[]{
+            tipoMiniatura.tipo_id,
+            tipoMiniatura.tipo_nome
+        };
     }
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
 
     //--- SET ------------------------------------------------------------------------------------->
     //
-    public void setTipo_id(int tipo_id) {
+    public void setTipoMiniatura_id(int tipo_id) {
         this.tipo_id = tipo_id;
     }
 
-    public void setTipo_nome(String tipo_nome) {
+    public void setTipoMiniatura_nome(String tipo_nome) {
         this.tipo_nome = tipo_nome;
     }
 

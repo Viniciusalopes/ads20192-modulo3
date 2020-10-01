@@ -51,7 +51,7 @@ public class MiniaturaDal extends GenericDal {
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
     public MiniaturaDal() throws Exception {
-        super("\"Miniaturas\"", "miniatura_id");
+        super("\"Miniaturas\"", "miniatura_id", "miniatura_modelo");
     }
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
@@ -67,7 +67,7 @@ public class MiniaturaDal extends GenericDal {
             miniatura.getEscala(),
             miniatura.getValor(),
             miniatura.getFabricante().getFabricante_id(),
-            miniatura.getTipo().getTipo_id(),
+            miniatura.getTipo().getTipoMiniatura_id(),
             miniatura.getTema().getTema_id()
         };
     }
@@ -116,6 +116,9 @@ public class MiniaturaDal extends GenericDal {
                     new Tema(rs.getInt("tema_id"), rs.getString("tema_nome"))
             ));
         }
+        
+        Fabricante fab = (Fabricante) new FabricanteDal().getAll().get(0);
+        
         return ret;
     }
 

@@ -14,11 +14,7 @@
  */
 package br.com.vinicius.dal;
 
-import br.com.vinicius.model.Fabricante;
 import br.com.vinicius.model.Foto;
-import br.com.vinicius.model.Miniatura;
-import br.com.vinicius.model.Tema;
-import br.com.vinicius.model.TipoMiniatura;
 import java.util.ArrayList;
 import java.sql.ResultSet;
 
@@ -41,7 +37,7 @@ public class FotoDal extends GenericDal {
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
     public FotoDal() throws Exception {
-        super("\"Fotos\"", "foto_id");
+        super("\"Fotos\"", "foto_id", "foto_id DESC");
     }
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //

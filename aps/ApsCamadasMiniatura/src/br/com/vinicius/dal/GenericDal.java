@@ -33,22 +33,22 @@ public abstract class GenericDal {
     protected Object[] args = null;
     protected String table = "";
     protected String fieldIdColumn = "";
+    protected String orderBy = "";
 
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    protected GenericDal(String table, String fieldIdColumn) throws Exception {
+    protected GenericDal(String table, String fieldIdColumn, String orderBy) throws Exception {
         bdConn = BDConn.getInstance();
         this.table = table;
         this.fieldIdColumn = fieldIdColumn;
+        this.orderBy = (orderBy.equals("") ? "" : " ORDER BY " + orderBy);
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
-    
     //SELECT ordinal_position, column_name, data_type FROM information_schema.columns WHERE table_name = ?
-    
     protected ResultSet executeQuery(String sql, Object[] args) throws Exception {
         return (ResultSet) execute(sql, args, true);
     }
@@ -83,23 +83,32 @@ public abstract class GenericDal {
     //
     protected abstract ArrayList<?> build(ResultSet rs) throws Exception;
 
-    public ArrayList<?> getAll() throws Exception {
-        sql = "SELECT * FROM " + table + ";";
+    public ResultSet getAllFields() throws Exception {
+        sql = "SELECT * FROM " + table + orderBy + ";";
         args = new Object[]{};
-        return build(executeQuery(sql, args));
+        ResultSet r = executeQuery(sql, args);
+        return r;
+    }
+
+    public ArrayList<?> getAll() throws Exception {
+        return build(getAllFields());
+    }
+
+    public ResultSet getAllFields(String sql) throws Exception {
+        args = new Object[]{};
+        return executeQuery(sql, args);
     }
 
     public ArrayList<?> getAll(String sql) throws Exception {
-        args = new Object[]{};
-        return build(executeQuery(sql, args));
+        return build(getAllFields(sql));
     }
 
     protected ArrayList<?> getBy(String field, Object value) throws Exception {
-        sql = "SELECT * FROM " + table + " WHERE " + field + " = ?;";
+        sql = "SELECT * FROM " + table + " WHERE " + field + " = ?" + orderBy + ";";
         args = new Object[]{value};
         return build(executeQuery(sql, args));
     }
-    
+
     protected ArrayList<?> getBy(String field, Object value, String sql) throws Exception {
         args = new Object[]{value};
         return build(executeQuery(sql, args));

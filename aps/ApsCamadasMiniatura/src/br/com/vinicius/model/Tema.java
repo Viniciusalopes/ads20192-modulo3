@@ -50,6 +50,13 @@ public class Tema {
         return tema_nome;
     }
 
+    public static Object[] toArray(Tema tema) {
+        return new Object[]{
+            tema.tema_id,
+            tema.tema_nome
+        };
+    }
+
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
     //--- SET ------------------------------------------------------------------------------------->
