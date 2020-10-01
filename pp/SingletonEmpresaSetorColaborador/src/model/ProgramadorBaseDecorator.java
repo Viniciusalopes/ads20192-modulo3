@@ -3,7 +3,7 @@
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
  *  Criado em  : 25/09/2020 17:32:08 
  *  Instituição: FACULDADE SENAI FATESG
- *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ *  Curso      : Análise e Desenvolvimento de Sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
  *  Projeto    : PADRÃO DE PROJETOS - DECORATOR
@@ -40,6 +40,8 @@ public abstract class ProgramadorBaseDecorator {
     //
     //--- SET ------------------------------------------------------------------------------------->
     //
+    public abstract void setHabilidades(ArrayList<EnumHabilidades> habilidades);
+    
     public abstract void addHabilidade(EnumHabilidades habilidade);
 
     public abstract void removeHabilidade(EnumHabilidades habilidade);

@@ -3,7 +3,7 @@
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
  *  Criado em  : 14/09/2020 05:06:43 
  *  Instituição: FACULDADE SENAI FATESG
- *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ *  Curso      : Análise e Desenvolvimento de Sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
  *  Projeto    : PADRÃO DE PROJETOS - SINGLETON
@@ -29,6 +29,10 @@ public class DAOHabilidade extends DAOGeneric {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
+    private String joinSql = "SELECT * FROM habilidades h"
+            + "JOIN habilidades_origem o "
+            + "ON h.habilidade_origem_id = o.origem_id";
+
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
@@ -52,7 +56,7 @@ public class DAOHabilidade extends DAOGeneric {
     public void add(Habilidade habilidade) throws Exception {
         insert(new Field[]{
             new Field("habilidade_id", habilidade.getId()),
-            new Field("habilidade_codigo", habilidade.getCodigo()),
+            new Field("habilidade_origem_id", habilidade.getHabilidadeOrigem().getId()),
             new Field("habilidade_descricao", habilidade.getDescricao())},
                 null
         );
@@ -63,19 +67,29 @@ public class DAOHabilidade extends DAOGeneric {
     //--- READ ------------------------------------------------------------------------------------>
     //
     public ArrayList<Habilidade> retrieveAll() throws Exception {
-        return cast(select(null, null, new Habilidade()));
+        sql = joinSql;
+        params = new Object[]{};
+        return cast(executeQuery(sql, params, new Habilidade()));
     }
 
     public Habilidade retrieveById(int idHabilidade) throws Exception {
-        return (Habilidade) retrieveById(idHabilidade, "habilidade_id", new Habilidade());
+        sql = joinSql + " WHERE habilidade_id = ?";
+        params = new Object[]{idHabilidade};
+        return cast(executeQuery(sql, params, new Habilidade())).get(0);
     }
 
     public ArrayList<Habilidade> retrieveByField(String[] fieldsOnly, Where where) throws Exception {
-        return cast(select(fieldsOnly, new Where[]{where}, new Habilidade()));
+        sql = joinSql;
+        this.fieldsOnly = fieldsOnly;
+        includeWhere(new Where[]{where}, 0);
+        return cast(executeQuery(sql, params, new Habilidade()));
     }
 
     public ArrayList<Habilidade> retrieveByFields(String[] fieldsOnly, Where[] where) throws Exception {
-        return cast(select(fieldsOnly, where, new Habilidade()));
+        this.fieldsOnly = fieldsOnly;
+        sql = joinSql;
+        includeWhere(where, 0);
+        return cast(executeQuery(sql, params, new Habilidade()));
     }
 
     private ArrayList<Habilidade> cast(ArrayList<Object> listObjects) {
@@ -93,7 +107,7 @@ public class DAOHabilidade extends DAOGeneric {
     public void update(Habilidade habilidade) throws Exception {
         update(
                 new Field[]{
-                    new Field("habilidade_codigo", habilidade.getCodigo()),
+                    new Field("habilidade_origem_id", habilidade.getHabilidadeOrigem().getId()),
                     new Field("habilidade_descricao", habilidade.getDescricao())
                 },
                 new Where[]{new Where("", "habilidade_id", Comparer.EQUAL, habilidade.getId())}

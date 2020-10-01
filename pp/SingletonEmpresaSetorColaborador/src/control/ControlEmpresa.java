@@ -3,7 +3,7 @@
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
  *  Criado em  : 12/09/2020 09:25:17 
  *  Instituição: FACULDADE SENAI FATESG
- *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ *  Curso      : Análise e Desenvolvimento de Sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
  *  Projeto    : PADRÃO DE PROJETOS - SINGLETON
@@ -19,7 +19,7 @@ import dao.DAOColaborador;
 import dao.generic.util.Comparer;
 import dao.DAOSetor;
 import dao.DAOEmpresa;
-import dao.generic.model.Field;
+import dao.DAOHabilidade;
 import dao.generic.model.Where;
 import java.util.ArrayList;
 import model.Colaborador;
@@ -41,6 +41,8 @@ public class ControlEmpresa {
     private static DAOEmpresa daoEmpresa = null;
     private static DAOSetor daoSetor = null;
     private static DAOColaborador daoColaborador = null;
+    private static DAOHabilidade daoHabilidade = null;
+
     private Empresa empresa = null;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
@@ -53,6 +55,8 @@ public class ControlEmpresa {
         daoEmpresa = new DAOEmpresa();
         daoSetor = new DAOSetor();
         daoColaborador = new DAOColaborador();
+        daoHabilidade = new DAOHabilidade();
+
         empresa = daoEmpresa.retrieveById(1);
     }
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|

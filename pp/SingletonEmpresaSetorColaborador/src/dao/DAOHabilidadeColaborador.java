@@ -3,7 +3,7 @@
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
  *  Criado em  : 14/09/2020 05:06:43 
  *  Instituição: FACULDADE SENAI FATESG
- *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ *  Curso      : Análise e Desenvolvimento de Sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
  *  Projeto    : PADRÃO DE PROJETOS - SINGLETON
@@ -19,6 +19,7 @@ import dao.generic.DAOGeneric;
 import dao.generic.model.Field;
 import dao.generic.model.Where;
 import java.util.ArrayList;
+import model.Habilidade;
 import model.HabilidadeColaborador;
 
 /**
@@ -29,6 +30,9 @@ public class DAOHabilidadeColaborador extends DAOGeneric {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
+    String joinSql = "SELECT * FROM habilidades h"
+            + "JOIN habilidades_colaborador hc ON h.habilidade_id = hc.habilidade_id ";
+
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
@@ -63,14 +67,15 @@ public class DAOHabilidadeColaborador extends DAOGeneric {
     //--- READ ------------------------------------------------------------------------------------>
     //
     public ArrayList<HabilidadeColaborador> retrieveAll() throws Exception {
-        return cast(select(null, null, new HabilidadeColaborador()));
+        sql = joinSql;
+        params = new Object[]{};
+        return cast(executeQuery(sql, params, new HabilidadeColaborador()));
     }
 
     // Ver como fazer quando é PK Composta
     //    public HabilidadeColaborador retrieveById(int idHabilidadeColaborador) throws Exception {
     //        return (HabilidadeColaborador) retrieveById(idHabilidadeColaborador, "habilidade_id", new HabilidadeColaborador());
     //    }
-
     public ArrayList<HabilidadeColaborador> retrieveByField(String[] fieldsOnly, Where where) throws Exception {
         return cast(select(fieldsOnly, new Where[]{where}, new HabilidadeColaborador()));
     }
@@ -91,7 +96,6 @@ public class DAOHabilidadeColaborador extends DAOGeneric {
     //
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
-
     //--- FIM UPDATE ------------------------------------------------------------------------------|
     //
     //--- DELETE ---------------------------------------------------------------------------------->

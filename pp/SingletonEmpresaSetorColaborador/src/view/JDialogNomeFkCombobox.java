@@ -3,7 +3,7 @@
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
  *  Criado em  : 26/09/2020 12:12:33 
  *  Instituição: FACULDADE SENAI FATESG
- *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ *  Curso      : Análise e Desenvolvimento de Sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
  *  Projeto    : PADRÃO DE PROJETOS - DECORATOR
@@ -18,6 +18,7 @@ package view;
 
 import control.ControlDecorator;
 import control.ControlEmpresa;
+import dao.DAOHabilidade;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -25,12 +26,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Colaborador;
+import model.Habilidade;
 import model.Setor;
 import util.EnumHabilidades;
 import util.EnumSkills;
 import view.interfaces.IModal;
-import static view.util.Mensagem.mensagem;
-import static view.util.Mensagem.mensagemErro;
+import static view.util.Mensagem.*;
+import static view.util.ViewUtil.*;
 
 /**
  *
@@ -48,6 +50,12 @@ public class JDialogNomeFkCombobox extends javax.swing.JDialog implements IModal
     private DefaultTableModel modelHabilidadesProfissional = null;
     private DefaultTableModel modelHabilidadesAluno = null;
     private ControlDecorator controlDecorator = null;
+
+    private DAOHabilidade daoHabilidade = null;
+    private ArrayList<Habilidade> habilidadesColaborador = null;
+    private ArrayList<Habilidade> habilidadesPessoa = null;
+    private ArrayList<Habilidade> habilidadesProfissional = null;
+    private ArrayList<Habilidade> habilidadesAluno = null;
 
     @Override
     public void setAcao(String acao) {
@@ -76,7 +84,7 @@ public class JDialogNomeFkCombobox extends javax.swing.JDialog implements IModal
             modelHabilidadesPessoa = (DefaultTableModel) jTableHabilidadesPessoa.getModel();
             modelHabilidadesProfissional = (DefaultTableModel) jTableHabilidadesProfissional.getModel();
             modelHabilidadesAluno = (DefaultTableModel) jTableHabilidadesAluno.getModel();
-            controlDecorator = ControlDecorator.getInstance();
+            controlDecorator = new ControlDecorator();
 
             jComboBoxFk.removeAllItems();
             for (Setor setor : collection) {
@@ -110,7 +118,9 @@ public class JDialogNomeFkCombobox extends javax.swing.JDialog implements IModal
 
     private void carregarHabilidades() {
 
-        ArrayList<EnumHabilidades> habilidadesDecorado = controlDecorator.getHabilidades();
+        habilidadesColaborador = daoHabilidade.retrieveByField(null, new Where)
+        );
+
         modelHabilidadesColaborador.setRowCount(0);
         for (EnumHabilidades habilidade : habilidadesDecorado) {
             modelHabilidadesColaborador.addRow(new Object[]{habilidade.getNome()});
@@ -144,20 +154,6 @@ public class JDialogNomeFkCombobox extends javax.swing.JDialog implements IModal
         }
     }
 
-    private void selecionar(String accessibleName, MouseEvent evt) {
-        try {
-            // Clique duplo, mostra detalhes do cadastro
-            desmarcarOutrosGrids(accessibleName);
-            if (evt != null) { // Quando acionado pelo keyReleased, evt = null
-                if (evt.getClickCount() == 2) {
-                    //selecionarSkil();
-                }
-            }
-        } catch (Exception e) {
-            mensagemErro(e);
-        }
-    }
-
     private void desmarcarOutrosGrids(String accessibleName) {
         for (Component component : jPanelHabilidades.getComponents()) {
             if (component instanceof JScrollPane) {
@@ -169,6 +165,27 @@ public class JDialogNomeFkCombobox extends javax.swing.JDialog implements IModal
                     }
                 }
             }
+        }
+    }
+
+    private void selecionar(String accessibleName, MouseEvent evt) {
+        try {
+            // Clique duplo, mostra detalhes do cadastro
+            desmarcarOutrosGrids(accessibleName);
+            if (evt != null) { // Quando acionado pelo keyReleased, evt = null
+                if (evt.getClickCount() == 2) {
+                    if (accessibleName.equals(jTableSkils.getAccessibleContext().getAccessibleName())) {
+                        controlDecorator.addSkill(EnumSkills.valueOf(jTableSkils.getValueAt(jTableSkils.getSelectedRow(), 1).toString()));
+                    } else {
+                        JTable table = getJTable(jPanelHabilidades, accessibleName);
+                        int linha = table.getSelectedRow();
+                        EnumHabilidades habilidade = EnumHabilidades.getNome(table.getValueAt(linha, 0).toString());
+                        controlDecorator.addHabilidade(habilidade);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            mensagemErro(e);
         }
     }
 

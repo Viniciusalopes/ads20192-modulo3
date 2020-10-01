@@ -3,7 +3,7 @@
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
  *  Criado em  : 12/09/2020 14:58:12 
  *  Instituição: FACULDADE SENAI FATESG
- *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ *  Curso      : Análise e Desenvolvimento de Sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
  *  Projeto    : PADRÃO DE PROJETOS - TEMPLATE METHOD
@@ -16,10 +16,11 @@ package view;
 
 import java.awt.Component;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import static view.util.Mensagem.*;
+import view.util.ViewUtil;
+import static view.util.ViewUtil.getJTable;
 
 /**
  *
@@ -71,19 +72,8 @@ public class TelaEmpresa extends TelaTemplate {
     }
 
     @Override
-    public JTable getJTable(JPanel panel) {
-        for (Component component : panel.getComponents()) {
-            if (component instanceof JScrollPane) {
-                for (Component object : ((JScrollPane) component).getViewport().getComponents()) {
-                    if (object instanceof JTable) {
-                        if (object.getAccessibleContext().getAccessibleName().equals(getRegister())) {
-                            return (JTable) object;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
+    public JTable getJTable(JPanel panel) throws Exception {
+        return ViewUtil.getJTable(panel, getRegister());
     }
 
     private void refreshGridSetor() throws Exception {

@@ -3,10 +3,10 @@
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
  *  Criado em  : 26/09/2020 15:28:46 
  *  Instituição: FACULDADE SENAI FATESG
- *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ *  Curso      : Análise e Desenvolvimento de Sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
- *  Projeto    : PADRÃO DE PROJETOS - DECORATOR / SINGLETON
+ *  Projeto    : PADRÃO DE PROJETOS - DECORATOR
  *  Exercício  : Colaboradores dos setores de uma empresa
  *  ------------------------------------------------------------------------------------------------
  *  Centraliza operações do DECORATOR.
@@ -29,28 +29,21 @@ public class ControlDecorator {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private static ControlDecorator control = null;
-    private static ProgramadorBaseDecorator programador = null;
+    
+    private ProgramadorBaseDecorator programador = null;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    private ControlDecorator() {
-
+    public ControlDecorator() {
+        programador = new ProgramadorPadrao();
     }
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
 
     //--- GET ------------------------------------------------------------------------------------->
     //
-    public static ControlDecorator getInstance() {
-        if (control == null) {
-            control = new ControlDecorator();
-            programador = new ProgramadorPadrao();
-        }
-        return control;
-    }
 
     //--- FIM GET ---------------------------------------------------------------------------------|
     //

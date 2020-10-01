@@ -3,7 +3,7 @@
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
  *  Criado em  : 12/09/2020 08:28:38 
  *  Instituição: FACULDADE SENAI FATESG
- *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ *  Curso      : Análise e Desenvolvimento de Sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
  *  Projeto    : PADRÃO DE PROJETOS - SINGLETON
@@ -26,7 +26,7 @@ public abstract class Pessoa extends GenericObject {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    protected ArrayList<EnumHabilidades> habilidades = null;
+    protected ArrayList<Habilidade> habilidades = null;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
@@ -45,7 +45,7 @@ public abstract class Pessoa extends GenericObject {
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
-    public ArrayList<EnumHabilidades> getHabilidades() {
+    public ArrayList<Habilidade> getHabilidades() {
         return habilidades;
     }
 
@@ -58,7 +58,7 @@ public abstract class Pessoa extends GenericObject {
 
     //--- SET ------------------------------------------------------------------------------------->
     //
-    public void setHabilidades(ArrayList<EnumHabilidades> habilidades) {
+    public void setHabilidades(ArrayList<Habilidade> habilidades) {
         this.habilidades = habilidades;
     }
 

@@ -3,7 +3,7 @@
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
  *  Criado em  : 14/09/2020 05:06:43 
  *  Instituição: FACULDADE SENAI FATESG
- *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ *  Curso      : Análise e Desenvolvimento de Sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
  *  Projeto    : PADRÃO DE PROJETOS - SINGLETON
@@ -20,6 +20,7 @@ import dao.generic.model.Field;
 import dao.generic.model.Where;
 import java.util.ArrayList;
 import model.Colaborador;
+import model.Habilidade;
 
 /**
  *
@@ -29,6 +30,11 @@ public class DAOColaborador extends DAOGeneric {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
+    private String joinSql = "SELECT * FROM colaboradores c "
+            + "JOIN habilidades_colaborador hc ON c.colaborador_id = hc.colaborador_id "
+            + "JOIN habilidades h ON hc.habilidade_id = h.habilidade_id "
+            + "JOIN setores s ON c.colaborador_setor_id = s.setor_id ";
+
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
@@ -62,19 +68,29 @@ public class DAOColaborador extends DAOGeneric {
     //--- READ ------------------------------------------------------------------------------------>
     //
     public ArrayList<Colaborador> retrieveAll() throws Exception {
-        return cast(select(null, null, new Colaborador()));
+        sql = joinSql;
+        params = new Object[]{};
+        return cast(executeQuery(sql, params, new Habilidade()));
     }
 
     public Colaborador retrieveById(int idColaborador) throws Exception {
-        return (Colaborador) retrieveById(idColaborador, "colaborador_id", new Colaborador());
+         sql = joinSql + " WHERE colaborador_id = ?";
+        params = new Object[]{idColaborador};
+        return cast(executeQuery(sql, params, new Colaborador())).get(0);
     }
 
     public ArrayList<Colaborador> retrieveByField(String[] fieldsOnly, Where where) throws Exception {
-        return cast(select(fieldsOnly, new Where[]{where}, new Colaborador()));
+        sql = joinSql;
+        this.fieldsOnly = fieldsOnly;
+        includeWhere(new Where[]{where}, 0);
+        return cast(executeQuery(sql, params, new Colaborador()));
     }
 
     public ArrayList<Colaborador> retrieveByFields(String[] fieldsOnly, Where[] where) throws Exception {
-        return cast(select(fieldsOnly, where, new Colaborador()));
+        this.fieldsOnly = fieldsOnly;
+        sql = joinSql;
+        includeWhere(where, 0);
+        return cast(executeQuery(sql, params, new Colaborador()));
     }
 
     private ArrayList<Colaborador> cast(ArrayList<Object> listObjects) {

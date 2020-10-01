@@ -16,35 +16,35 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Vaga veiculo1 = new Programador();
+        Pessoa veiculo1 = new Captiva();
         System.out.println("-------------------------------------------------");
         System.out.println("Carro:   "+ veiculo1.getDescricao());
         System.out.println("Preco:  " + veiculo1.preco());
         System.out.println("-------------------------------------------------");
-        veiculo1 = new Habilidade3(veiculo1);
+        veiculo1 = new KitMultimidia(veiculo1);
         System.out.println("Carro:   "+ veiculo1.getDescricao());
         System.out.println("Preco:  " + veiculo1.preco());
         System.out.println("-------------------------------------------------");
         System.out.println("-------------------------------------------------");
-        veiculo1 = new Habilidade4(veiculo1);
+        veiculo1 = new KitTurbo(veiculo1);
         System.out.println("Carro:   "+ veiculo1.getDescricao());
         System.out.println("Preco:  " + veiculo1.preco());
         System.out.println("-------------------------------------------------");
         System.out.println();
         
-        Vaga veiculo2 = new Analista();
+        Pessoa veiculo2 = new Profissional();
         System.out.println("-------------------------------------------------");
         System.out.println("Carro:   "+ veiculo2.getDescricao());
         System.out.println("Preco:  " + veiculo2.preco());
-        veiculo2 = new Habilidade1(veiculo2);
+        veiculo2 = new ArCondicionado(veiculo2);
          System.out.println("-------------------------------------------------");
         System.out.println("Carro:   "+ veiculo2.getDescricao());
         System.out.println("Preco:  " + veiculo2.preco());
-        veiculo2 = new Habilidade5(veiculo2);
+        veiculo2 = new TrioEletrico(veiculo2);
          System.out.println("-------------------------------------------------");
         System.out.println("Carro:   "+ veiculo2.getDescricao());
         System.out.println("Preco:  " + veiculo2.preco());
-        veiculo2 = new Habilidade2(veiculo2);
+        veiculo2 = new Habilidade(veiculo2);
          System.out.println("-------------------------------------------------");
         System.out.println("Carro:   "+ veiculo2.getDescricao());
         System.out.println("Preco:  " + veiculo2.preco());

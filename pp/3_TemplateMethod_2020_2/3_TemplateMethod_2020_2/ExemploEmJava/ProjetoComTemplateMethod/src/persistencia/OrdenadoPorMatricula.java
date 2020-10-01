@@ -11,14 +11,15 @@ import classededados.Aluno;
  *
  * @author eugeniojulio
  */
-public class OrdenadoPorNome extends AlunoPersistenciaTemplateMethod {
+public class OrdenadoPorMatricula extends AlunoPersistenciaTemplateMethod {
 
-    public OrdenadoPorNome(String nome) {
+    public OrdenadoPorMatricula(String nome) {
         super(nome);
     }
     @Override
     public  boolean ePrimeiro(Aluno aluno1, Aluno aluno2){
-        if(aluno1.getNome().compareToIgnoreCase(aluno2.getNome()) <= 0) return true;
+        if(aluno1.getCurso().compareToIgnoreCase(aluno2.getCurso()) <= 0) return true;
         else return false;
     }
+    
 }
