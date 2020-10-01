@@ -93,7 +93,7 @@ public class Miniatura {
         return fabricante;
     }
 
-    public TipoMiniatura getTipo() {
+    public TipoMiniatura getTipoMiniatura() {
         return tipo;
     }
 
