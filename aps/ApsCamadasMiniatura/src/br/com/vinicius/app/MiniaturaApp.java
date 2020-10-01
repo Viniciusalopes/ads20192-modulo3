@@ -14,7 +14,10 @@
  */
 package br.com.vinicius.app;
 
+import br.com.vinicius.bll.*;
 import br.com.vinicius.model.Miniatura;
+import static br.com.vinicius.app.MensagemApp.*;
+import static br.com.vinicius.bll.FactoryBll.*;
 
 /**
  *
@@ -24,6 +27,7 @@ public class MiniaturaApp extends javax.swing.JDialog implements IModal {
 
     private String action = "Incluir ";
     private Miniatura mini;
+    private MiniaturaBll bll = null;
 
     @Override
     public void setObject(Object object) throws Exception {
@@ -32,11 +36,49 @@ public class MiniaturaApp extends javax.swing.JDialog implements IModal {
 
     @Override
     public void setVisible(boolean b) {
-        if (mini.getMiniatura_id() > 0) {
-            action = "Editar ";
+        try {
+            bll = new MiniaturaBll();
+            if (mini.getMiniatura_id() > 0) {
+                action = "Editar ";
+            }
+            this.setTitle(action + this.getTitle());
+
+            fillComboBoxes(jPanelCombos);
+
+            if (jComboBoxFabricante.getItemCount() == 0) {
+                simpleModal("Fabricante", "Incluir", null, new SimpleForm(null, true));
+                fillComboBox(jComboBoxFabricante, "Fabricante");
+            }
+
+            if (jComboBoxTipoMiniatura.getItemCount() == 0) {
+                simpleModal("TipoMiniatura", "Incluir", null, new SimpleForm(null, true));
+                fillComboBox(jComboBoxTipoMiniatura, "TipoMiniatura");
+            }
+
+            if (jComboBoxTema.getItemCount() == 0) {
+                simpleModal("Tema", "Incluir", null, new SimpleForm(null, true));
+                fillComboBox(jComboBoxTema, "Tema");
+            }
+
+            super.setVisible(b);
+        } catch (Exception e) {
+            mensagemErro(e);
         }
-        this.setTitle(action + this.getTitle());
-        super.setVisible(b);
+    }
+
+    private void salvar() throws Exception {
+        mini.setModelo(jTextFieldModelo.getText());
+        mini.setAno(jSpinnerAno.getValue() + "");
+        mini.setEdicao(jSpinnerEdicao.getValue() + "");
+        mini.setEscala(jSpinnerEscalaUm.getValue() + ":" + jSpinnerEscalaPor.getValue());
+        mini.setFabricante(new FabricanteBll().getByNome(jComboBoxFabricante.getSelectedItem() + ""));
+        mini.setTipo(new TipoMiniaturaBll().getByNome(jComboBoxTipoMiniatura.getSelectedItem() + ""));
+        mini.setTema(new TemaBll().getByNome(jComboBoxTema.getSelectedItem() + ""));
+
+        bll.validar(mini);
+        bll.incluir(mini);
+        mensagem("Sucesso", "Miniatura " + (action.equals("Incluir") ? "incluída" : "editada") + " com sucesso!");
+        this.dispose();
     }
 
     /**
@@ -66,12 +108,13 @@ public class MiniaturaApp extends javax.swing.JDialog implements IModal {
         jSpinnerEscalaUm = new javax.swing.JSpinner();
         jLabelDoisPontosEscala = new javax.swing.JLabel();
         jSpinnerEscalaPor = new javax.swing.JSpinner();
+        jPanelCombos = new javax.swing.JPanel();
         jLabelFabricante = new javax.swing.JLabel();
         jComboBoxFabricante = new javax.swing.JComboBox<>();
-        jLabelTipoMiniatura = new javax.swing.JLabel();
-        jComboBoxTipoMiniatura = new javax.swing.JComboBox<>();
         jLabelTema = new javax.swing.JLabel();
         jComboBoxTema = new javax.swing.JComboBox<>();
+        jComboBoxTipoMiniatura = new javax.swing.JComboBox<>();
+        jLabelTipoMiniatura = new javax.swing.JLabel();
         jLabelValor = new javax.swing.JLabel();
         jFormattedTextFieldValor = new javax.swing.JFormattedTextField();
         jButtonAdicionarFoto = new javax.swing.JButton();
@@ -88,23 +131,78 @@ public class MiniaturaApp extends javax.swing.JDialog implements IModal {
 
         jLabelAno.setText("Ano");
 
+        jSpinnerAno.setModel(new javax.swing.SpinnerNumberModel(2020, 1900, 2020, 1));
+
         jLabelEdicao.setText("Edição");
 
-        jLabelEscala.setText("Escala");
+        jSpinnerEdicao.setModel(new javax.swing.SpinnerNumberModel(1, 1, 100, 1));
+
+        jLabelEscala.setText("Escala em centímetros");
+
+        jSpinnerEscalaUm.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
 
         jLabelDoisPontosEscala.setText(":");
 
-        jLabelFabricante.setText("Fabricante");
+        jSpinnerEscalaPor.setModel(new javax.swing.SpinnerNumberModel(2, 2, 10000, 1));
 
-        jLabelTipoMiniatura.setText("Tipo de Miniatura");
+        jLabelFabricante.setText("Fabricante");
 
         jLabelTema.setText("Tema");
 
+        jLabelTipoMiniatura.setText("Tipo de Miniatura");
+
+        javax.swing.GroupLayout jPanelCombosLayout = new javax.swing.GroupLayout(jPanelCombos);
+        jPanelCombos.setLayout(jPanelCombosLayout);
+        jPanelCombosLayout.setHorizontalGroup(
+            jPanelCombosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCombosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelCombosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBoxFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelFabricante))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelCombosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBoxTema, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTema))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelCombosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBoxTipoMiniatura, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTipoMiniatura))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelCombosLayout.setVerticalGroup(
+            jPanelCombosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelCombosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelCombosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelCombosLayout.createSequentialGroup()
+                        .addComponent(jLabelTipoMiniatura)
+                        .addComponent(jComboBoxTipoMiniatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelCombosLayout.createSequentialGroup()
+                        .addComponent(jLabelTema)
+                        .addComponent(jComboBoxTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelCombosLayout.createSequentialGroup()
+                        .addComponent(jLabelFabricante)
+                        .addComponent(jComboBoxFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jComboBoxFabricante.getAccessibleContext().setAccessibleName("Fabricante");
+        jComboBoxTema.getAccessibleContext().setAccessibleName("Tema");
+        jComboBoxTipoMiniatura.getAccessibleContext().setAccessibleName("TipoMiniatura");
+
         jLabelValor.setText("Valor");
+
+        jFormattedTextFieldValor.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         jButtonAdicionarFoto.setText("Adicionar Foto");
 
         jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
 
         jTableGaleria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -137,42 +235,30 @@ public class MiniaturaApp extends javax.swing.JDialog implements IModal {
                             .addComponent(jSpinnerEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelEscala)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jSpinnerEscalaUm, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabelDoisPontosEscala)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSpinnerEscalaPor, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabelEscala)))
+                                .addComponent(jSpinnerEscalaPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonAdicionarFoto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonSalvar))
                     .addComponent(jScrollPaneGaleria)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jButtonAdicionarFoto)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBoxFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabelFabricante))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBoxTipoMiniatura, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabelTipoMiniatura))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBoxTema, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabelTema))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanelCombos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFormattedTextFieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelValor)
-                            .addComponent(jButtonSalvar, javax.swing.GroupLayout.Alignment.TRAILING))))
+                            .addComponent(jFormattedTextFieldValor, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelValor))))
                 .addGap(20, 20, 20))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 42, Short.MAX_VALUE)
                     .addComponent(jTableGaleria, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 43, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,19 +286,12 @@ public class MiniaturaApp extends javax.swing.JDialog implements IModal {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelFabricante)
-                            .addComponent(jLabelTipoMiniatura)
-                            .addComponent(jLabelTema)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelValor)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBoxFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxTipoMiniatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextFieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
+                        .addComponent(jLabelValor)
+                        .addComponent(jFormattedTextFieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanelCombos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAdicionarFoto)
                     .addComponent(jButtonSalvar))
@@ -221,13 +300,21 @@ public class MiniaturaApp extends javax.swing.JDialog implements IModal {
                 .addGap(20, 20, 20))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addGap(0, 180, Short.MAX_VALUE)
                     .addComponent(jTableGaleria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGap(0, 181, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        try {
+            salvar();
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -287,6 +374,7 @@ public class MiniaturaApp extends javax.swing.JDialog implements IModal {
     private javax.swing.JLabel jLabelTema;
     private javax.swing.JLabel jLabelTipoMiniatura;
     private javax.swing.JLabel jLabelValor;
+    private javax.swing.JPanel jPanelCombos;
     private javax.swing.JScrollPane jScrollPaneGaleria;
     private javax.swing.JSpinner jSpinnerAno;
     private javax.swing.JSpinner jSpinnerEdicao;

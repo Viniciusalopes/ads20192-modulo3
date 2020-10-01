@@ -61,6 +61,10 @@ public class TemaDal extends GenericDal {
         return (Tema) getBy("tema_nome", nome).get(0);
     }
 
+    public boolean exists(int id) throws Exception {
+        return exists(id, "tema_id");
+    }
+
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->

@@ -61,6 +61,10 @@ public class TipoMiniaturaDal extends GenericDal {
         return (TipoMiniatura) getBy("tipo_nome", nome).get(0);
     }
 
+    public boolean exists(int id) throws Exception {
+        return exists(id, "tipo_id");
+    }
+
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->

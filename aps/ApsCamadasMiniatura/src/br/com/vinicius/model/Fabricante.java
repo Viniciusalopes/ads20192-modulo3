@@ -50,12 +50,6 @@ public class Fabricante {
         return fabricante_nome;
     }
 
-    public static Object[] toArray(Fabricante fabricante) {
-        return new Object[]{
-            fabricante.fabricante_id,
-            fabricante.fabricante_nome
-        };
-    }
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
 

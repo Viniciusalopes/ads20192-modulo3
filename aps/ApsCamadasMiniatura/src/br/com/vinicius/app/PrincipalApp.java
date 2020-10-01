@@ -24,14 +24,14 @@ import java.awt.event.KeyEvent;
  *
  * @author vovostudio
  */
-public class PrinciapalApp extends javax.swing.JFrame {
+public class PrincipalApp extends javax.swing.JFrame {
 
     private MiniaturaBll mbll;
 
     /**
      * Creates new form JFramePrincipal
      */
-    public PrinciapalApp() {
+    public PrincipalApp() {
         initComponents();
         this.setLocationRelativeTo(null);
         try {
@@ -432,7 +432,9 @@ public class PrinciapalApp extends javax.swing.JFrame {
 
     private void jButtonIncluirTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirTemaActionPerformed
         try {
-            modalCadastroSimples("Tema", "add", jTableTema, new CadastroSimplesApp(this, true));
+            simpleModal("Tema", "add", jTableTema, new SimpleForm(this, true));
+            fillGrid(jTableTema);
+
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -441,7 +443,8 @@ public class PrinciapalApp extends javax.swing.JFrame {
 
     private void jButtonIncluirFabricanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirFabricanteActionPerformed
         try {
-            modalCadastroSimples("Fabricante", "add", jTableFabricante, new CadastroSimplesApp(this, true));
+            simpleModal("Fabricante", "add", jTableFabricante, new SimpleForm(this, true));
+            fillGrid(jTableFabricante);
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -449,7 +452,8 @@ public class PrinciapalApp extends javax.swing.JFrame {
 
     private void jButtonIncluirTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirTipoActionPerformed
         try {
-            modalCadastroSimples("TipoMiniatura", "add", jTableTipo, new CadastroSimplesApp(this, true));
+            simpleModal("TipoMiniatura", "add", jTableTipo, new SimpleForm(this, true));
+            fillGrid(jTableTipo);
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -458,7 +462,8 @@ public class PrinciapalApp extends javax.swing.JFrame {
     private void jTableFabricanteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableFabricanteMouseReleased
         try {
             if (evt.getClickCount() == 2) {
-                modalCadastroSimples("Fabricante", "update", jTableFabricante, new CadastroSimplesApp(this, true));
+                simpleModal("Fabricante", "update", jTableFabricante, new SimpleForm(this, true));
+                fillGrid(jTableFabricante);
             }
         } catch (Exception e) {
             mensagemErro(e);
@@ -468,7 +473,8 @@ public class PrinciapalApp extends javax.swing.JFrame {
     private void jTableTemaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTemaMouseReleased
         try {
             if (evt.getClickCount() == 2) {
-                modalCadastroSimples("Tema", "update", jTableTema, new CadastroSimplesApp(this, true));
+                simpleModal("Tema", "update", jTableTema, new SimpleForm(this, true));
+                fillGrid(jTableTema);
             }
         } catch (Exception e) {
             mensagemErro(e);
@@ -478,7 +484,8 @@ public class PrinciapalApp extends javax.swing.JFrame {
     private void jTableTipoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTipoMouseReleased
         try {
             if (evt.getClickCount() == 2) {
-                modalCadastroSimples("TipoMiniatura", "update", jTableTipo, new CadastroSimplesApp(this, true));
+                simpleModal("TipoMiniatura", "update", jTableTipo, new SimpleForm(this, true));
+                fillGrid(jTableTipo);
             }
         } catch (Exception e) {
             mensagemErro(e);
@@ -565,14 +572,18 @@ public class PrinciapalApp extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PrinciapalApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PrincipalApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PrinciapalApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PrincipalApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PrinciapalApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PrincipalApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PrinciapalApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PrincipalApp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -581,7 +592,7 @@ public class PrinciapalApp extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PrinciapalApp().setVisible(true);
+                new PrincipalApp().setVisible(true);
             }
         });
     }

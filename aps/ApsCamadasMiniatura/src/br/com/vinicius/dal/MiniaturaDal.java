@@ -116,9 +116,9 @@ public class MiniaturaDal extends GenericDal {
                     new Tema(rs.getInt("tema_id"), rs.getString("tema_nome"))
             ));
         }
-        
+
         Fabricante fab = (Fabricante) new FabricanteDal().getAll().get(0);
-        
+
         return ret;
     }
 
@@ -128,6 +128,10 @@ public class MiniaturaDal extends GenericDal {
 
     public Miniatura getById(int id) throws Exception {
         return (Miniatura) getBy(fieldIdColumn, id, sqlSelect).get(0);
+    }
+
+    public boolean exists(int id) throws Exception {
+        return exists(id, "miniatura_id");
     }
 
     //--- FIM READ --------------------------------------------------------------------------------|

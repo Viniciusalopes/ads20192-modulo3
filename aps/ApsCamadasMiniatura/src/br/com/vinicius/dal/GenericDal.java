@@ -114,6 +114,12 @@ public abstract class GenericDal {
         return build(executeQuery(sql, args));
     }
 
+    protected boolean exists(int id, String field) throws Exception {
+        sql = "SELECT COUNT(" + field + ") FROM " + table + ";";
+        args = new Object[]{};
+        return executeQuery(sql, args).getInt("COUNT") > 0;
+    }
+
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- DELETE ---------------------------------------------------------------------------------->

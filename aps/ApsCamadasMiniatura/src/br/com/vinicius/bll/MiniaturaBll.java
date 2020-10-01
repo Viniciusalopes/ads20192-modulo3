@@ -15,8 +15,10 @@
 package br.com.vinicius.bll;
 
 import br.com.vinicius.dal.MiniaturaDal;
-import static br.com.vinicius.bll.FactoryBll.getObjectByid;
-import static br.com.vinicius.bll.FactoryBll.getSelectedId;
+import static br.com.vinicius.bll.FactoryBll.*;
+import static br.com.vinicius.bll.GenericBll.*;
+import br.com.vinicius.model.Miniatura;
+import java.lang.reflect.Method;
 import javax.swing.JTable;
 
 /**
@@ -57,6 +59,39 @@ public class MiniaturaBll {
     //
     //--- CREATE ---------------------------------------------------------------------------------->
     //
+    public void validar(Miniatura miniatura) throws Exception {
+
+        validarCampo(miniatura.getModelo(), "modelo");
+
+        if (miniatura.getAno().trim().length() != 4) {
+            throw new Exception("O ano deve ter 4 dígitos!");
+        }
+
+        String[] escala = miniatura.getEscala().split(":");
+        int escalaUm = Integer.parseInt(escala[0]);
+        int escalaPor = Integer.parseInt(escala[1]);
+        if (escalaUm > escalaPor) {
+            throw new Exception("O primeiro valor da escala deve ser menor que o segundo!");
+        }
+
+        String[] fks = new String[]{"Fabricante", "Tema", "TipoMiniatura"};
+
+        for (String fk : fks) {
+            Method metodo = getBll(fk).getClass().getMethod("exists", int.class);
+            if (!(boolean) metodo.invoke(
+                    miniatura.getFabricante(), miniatura.getFabricante().getFabricante_id())) {
+                throw new Exception(fk.replace("TipoMiniatura", "Tipo de Miniatura") + " inválido");
+            }
+        }
+
+        validarCampo(miniatura.getFabricante().getFabricante_nome(), "nome do fabricante");
+        validarCampo(miniatura.getTema().getTema_nome(), "nome do tema");
+        validarCampo(miniatura.getTipo().getTipoMiniatura_nome(), "nome do tipo de miniatura");
+    }
+
+    public void incluir(Miniatura miniatura) throws Exception {
+        dal.add(miniatura);
+    }
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
     //--- READ ------------------------------------------------------------------------------------>

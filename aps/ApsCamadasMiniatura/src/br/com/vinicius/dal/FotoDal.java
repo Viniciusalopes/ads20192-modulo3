@@ -99,6 +99,10 @@ public class FotoDal extends GenericDal {
         return (Foto) getBy(fieldIdColumn, id).get(0);
     }
 
+    public boolean exists(int id) throws Exception {
+        return exists(id, "foto_id");
+    }
+
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->

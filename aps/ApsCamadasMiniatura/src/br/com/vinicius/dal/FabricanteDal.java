@@ -61,6 +61,10 @@ public class FabricanteDal extends GenericDal {
         return (Fabricante) getBy("fabricante_nome", nome).get(0);
     }
 
+    public boolean exists(int id) throws Exception {
+        return exists(id, "fabricante_id");
+    }
+
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->

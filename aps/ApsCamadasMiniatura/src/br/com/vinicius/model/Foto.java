@@ -80,15 +80,6 @@ public class Foto {
         this.miniatura = miniatura;
     }
 
-    public static Object[] toArray(Foto foto) {
-        return new Object[]{
-            foto.foto_id,
-            foto.foto_caminho,
-            foto.foto_descricao,
-            foto.miniatura
-        };
-    }
-
     //--- SET ------------------------------------------------------------------------------------->
     //
     //--- FIM SET ---------------------------------------------------------------------------------|
