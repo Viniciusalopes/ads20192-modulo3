@@ -72,8 +72,12 @@ public class BllFactory {
         return object.getClass().getMethod(methodName).invoke(object);
     }
 
+    public static Object invoke(Object object, String methodName, Class classe, Object arg) throws Exception {
+        return object.getClass().getMethod(methodName, classe).invoke(object, arg);
+    }
+
     public static Object getObjectByid(int idObject, String className) throws Exception {
-        return invoke(getDal(className), "getById");
+        return invoke(getDal(className), "getById", int.class, idObject);
     }
 
     public static void fillGrid(JTable jTable) throws Exception {
@@ -142,8 +146,7 @@ public class BllFactory {
         }
     }
 
-    public static void simpleModal(
-            String className, String action, JTable jTable, AppIModal modal) throws Exception {
+    public static void getModal(String className, String action, JTable jTable, AppIModal modal) throws Exception {
 
         Object dal = getDal(className);
         Object obj = getNewInstance(getClassFromPackage("model", className));

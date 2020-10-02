@@ -29,10 +29,10 @@ public class DalMiniatura extends DalGeneric {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private String sqlSelect = "SELECT * FROM " + table
-            + "JOIN \"Fabricantes\" f ON m.miniatura_fabricante_id = f.fabricante_id "
-            + "JOIN \"Temas\" t ON m.miniatura_tema_id = t.tema_id "
-            + "JOIN \"TiposMiniaturas\" tm ON m.miniatura_tipo_id = tm.tipo_id ";
+    private String sqlSelect = "SELECT * FROM " + table + " m"
+            + " JOIN \"Fabricantes\" f ON m.miniatura_fabricante_id = f.fabricante_id"
+            + " JOIN \"Temas\" t ON m.miniatura_tema_id = t.tema_id"
+            + " JOIN \"TiposMiniaturas\" tm ON m.miniatura_tipo_id = tm.tipo_id ";
 
     private String fields
             = " (miniatura_modelo, "
@@ -127,7 +127,7 @@ public class DalMiniatura extends DalGeneric {
     }
 
     public Miniatura getById(int id) throws Exception {
-        return (Miniatura) getBy(fieldIdColumn, id, sqlSelect).get(0);
+        return (Miniatura) getBy(fieldIdColumn, id, sqlSelect + "WHERE miniatura_id = ?").get(0);
     }
 
     public boolean exists(int id) throws Exception {

@@ -39,11 +39,12 @@ public class AppPrincipal extends javax.swing.JFrame {
             fillGrid(jTableFabricante);
             fillGrid(jTableTipo);
             fillGrid(jTableMiniatura);
+            mbll = new BllMiniatura();
+
         } catch (Exception e) {
             mensagemErro(e);
             System.exit(1);
         }
-
     }
 
     /**
@@ -432,18 +433,16 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void jButtonIncluirTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirTemaActionPerformed
         try {
-            simpleModal("Tema", "add", jTableTema, new AppSimpleForm(this, true));
+            getModal("Tema", "add", jTableTema, new AppSimpleForm(this, true));
             fillGrid(jTableTema);
-
         } catch (Exception e) {
             mensagemErro(e);
         }
-// TODO add your handling code here:
     }//GEN-LAST:event_jButtonIncluirTemaActionPerformed
 
     private void jButtonIncluirFabricanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirFabricanteActionPerformed
         try {
-            simpleModal("Fabricante", "add", jTableFabricante, new AppSimpleForm(this, true));
+            getModal("Fabricante", "add", jTableFabricante, new AppSimpleForm(this, true));
             fillGrid(jTableFabricante);
         } catch (Exception e) {
             mensagemErro(e);
@@ -452,7 +451,7 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void jButtonIncluirTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirTipoActionPerformed
         try {
-            simpleModal("TipoMiniatura", "add", jTableTipo, new AppSimpleForm(this, true));
+            getModal("TipoMiniatura", "add", jTableTipo, new AppSimpleForm(this, true));
             fillGrid(jTableTipo);
         } catch (Exception e) {
             mensagemErro(e);
@@ -462,7 +461,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jTableFabricanteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableFabricanteMouseReleased
         try {
             if (evt.getClickCount() == 2) {
-                simpleModal("Fabricante", "update", jTableFabricante, new AppSimpleForm(this, true));
+                getModal("Fabricante", "update", jTableFabricante, new AppSimpleForm(this, true));
                 fillGrid(jTableFabricante);
             }
         } catch (Exception e) {
@@ -473,7 +472,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jTableTemaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTemaMouseReleased
         try {
             if (evt.getClickCount() == 2) {
-                simpleModal("Tema", "update", jTableTema, new AppSimpleForm(this, true));
+                getModal("Tema", "update", jTableTema, new AppSimpleForm(this, true));
                 fillGrid(jTableTema);
             }
         } catch (Exception e) {
@@ -484,7 +483,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jTableTipoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTipoMouseReleased
         try {
             if (evt.getClickCount() == 2) {
-                simpleModal("TipoMiniatura", "update", jTableTipo, new AppSimpleForm(this, true));
+                getModal("TipoMiniatura", "update", jTableTipo, new AppSimpleForm(this, true));
                 fillGrid(jTableTipo);
             }
         } catch (Exception e) {
@@ -534,11 +533,20 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void jTableMiniaturaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMiniaturaMouseReleased
         try {
+            Miniatura miniatura = new Miniatura();
             if (jTableMiniatura.getSelectedRow() > -1) {
-                jTextAreaObservacoes.setText(
-                        mbll.getDescricaoMiniatura(getSelectedId(jTableMiniatura))
-                );
+                miniatura = (Miniatura) mbll.getMiniaturaSelecionada(jTableMiniatura);
             }
+
+            if ((evt.getClickCount() == 2)) {
+                AppIModal modal =  new AppMiniatura(this, true);
+                modal.setObject(miniatura);
+                modal.setVisible(true);
+                fillGrid(jTableMiniatura);
+            }
+
+            jTextAreaObservacoes.setText(miniatura.getObservacoes());
+
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -548,8 +556,8 @@ public class AppPrincipal extends javax.swing.JFrame {
         try {
             AppIModal modal = new AppMiniatura(this, true);
             modal.setObject(new Miniatura());
-            //mbll.getMiniaturaSelecionada(jTableMiniatura)
             modal.setVisible(true);
+            fillGrid(jTableMiniatura);
         } catch (Exception e) {
             mensagemErro(e);
         }

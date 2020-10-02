@@ -18,7 +18,7 @@ import br.com.vinicius.dal.DalMiniatura;
 import static br.com.vinicius.bll.BllFactory.*;
 import static br.com.vinicius.bll.BllGeneric.*;
 import br.com.vinicius.model.Miniatura;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 import javax.swing.JTable;
 
 /**
@@ -47,8 +47,8 @@ public class BllMiniatura {
         return getObjectByid(getSelectedId(jTable), "Miniatura");
     }
 
-    public String getDescricaoMiniatura(int miniatura_id) throws Exception {
-        return "";
+    public ArrayList<Miniatura> getMiniaturas() throws Exception{
+        return (ArrayList<Miniatura>) new DalMiniatura().getAll();
     }
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
@@ -76,17 +76,17 @@ public class BllMiniatura {
 
         String[] fks = new String[]{"Fabricante", "Tema", "TipoMiniatura"};
 
-        boolean bb = new BllFabricante().exists(miniatura.getFabricante().getFabricante_id());
-        if(!bb)
-        {
-            throw new Exception("Fabricante inválido!");
+        for (String fk : fks) {
+            Object bll = getBll(fk);
+            int id = (int) miniatura.getClass().getMethod("get" + fk).invoke(miniatura);
+            
+            // verifica se o cadastro da fk existe
+            if (!(boolean) bll.getClass().getMethod("exists", int.class).invoke(bll, id)) {
+                throw new Exception(fk.replace("TipoMiniatura", "Tipo de Miniatura") + " inválido!");
+            }
+            
         }
 
-        if(!new BllTipoMiniatura().exists(miniatura.getTipoMiniatura().getTipoMiniatura_id()))
-        {
-            throw new Exception("Tipo de miniatura inválido inválido!");
-        }
-        
         validarCampo(miniatura.getFabricante().getFabricante_nome(), "nome do fabricante");
         validarCampo(miniatura.getTema().getTema_nome(), "nome do tema");
         validarCampo(miniatura.getTipoMiniatura().getTipoMiniatura_nome(), "nome do tipo de miniatura");
