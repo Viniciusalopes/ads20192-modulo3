@@ -43,11 +43,11 @@ public class BllMiniatura {
 
     //--- GET ------------------------------------------------------------------------------------->
     //
-    public Object getMiniaturaSelecionada(JTable jTable) throws Exception {
-        return getObjectByid(getSelectedId(jTable), "Miniatura");
+    public Miniatura getMiniaturaSelecionada(JTable jTable) throws Exception {
+        return (Miniatura) getObjectByid(getSelectedId(jTable), "Miniatura");
     }
 
-    public ArrayList<Miniatura> getMiniaturas() throws Exception{
+    public ArrayList<Miniatura> getMiniaturas() throws Exception {
         return (ArrayList<Miniatura>) new DalMiniatura().getAll();
     }
     //--- FIM GET ---------------------------------------------------------------------------------|
@@ -79,12 +79,12 @@ public class BllMiniatura {
         for (String fk : fks) {
             Object bll = getBll(fk);
             int id = (int) miniatura.getClass().getMethod("get" + fk).invoke(miniatura);
-            
+
             // verifica se o cadastro da fk existe
             if (!(boolean) bll.getClass().getMethod("exists", int.class).invoke(bll, id)) {
                 throw new Exception(fk.replace("TipoMiniatura", "Tipo de Miniatura") + " inválido!");
             }
-            
+
         }
 
         validarCampo(miniatura.getFabricante().getFabricante_nome(), "nome do fabricante");
