@@ -29,11 +29,7 @@ public class DalMiniatura extends DalGeneric {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private String sqlSelect = "SELECT * FROM " + table + " m"
-            + " JOIN \"Fabricantes\" f ON m.miniatura_fabricante_id = f.fabricante_id"
-            + " JOIN \"Temas\" t ON m.miniatura_tema_id = t.tema_id"
-            + " JOIN \"TiposMiniaturas\" tm ON m.miniatura_tipo_id = tm.tipo_id ";
-
+    
     private String fields
             = " (miniatura_modelo, "
             + "miniatura_ano, "
@@ -52,6 +48,12 @@ public class DalMiniatura extends DalGeneric {
     //
     public DalMiniatura() throws Exception {
         super("\"Miniaturas\"", "miniatura_id", "miniatura_modelo");
+        
+        sql = "SELECT * FROM " + table + " m"
+            + " JOIN \"Fabricantes\" f ON m.miniatura_fabricante_id = f.fabricante_id"
+            + " JOIN \"Temas\" t ON m.miniatura_tema_id = t.tema_id"
+            + " JOIN \"TiposMiniaturas\" tm ON m.miniatura_tipo_id = tm.tipo_id ";
+
     }
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
@@ -90,7 +92,7 @@ public class DalMiniatura extends DalGeneric {
     //--- CREATE ---------------------------------------------------------------------------------->
     //
     public void add(Miniatura miniatura) throws Exception {
-        sql = "INSERT INTO " + table + fields + ";";
+        String sql = "INSERT INTO " + table + fields + ";";
         args = getArgValues(miniatura);
         execute(sql, args);
     }
@@ -123,11 +125,11 @@ public class DalMiniatura extends DalGeneric {
     }
 
     public ArrayList<?> getAll() throws Exception {
-        return getAll(sqlSelect);
+        return getAll();
     }
 
     public Miniatura getById(int id) throws Exception {
-        return (Miniatura) getBy(fieldIdColumn, id, sqlSelect + "WHERE miniatura_id = ?").get(0);
+        return (Miniatura) getBy(fieldIdColumn, id).get(0);
     }
 
     public boolean exists(int id) throws Exception {
@@ -139,7 +141,7 @@ public class DalMiniatura extends DalGeneric {
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
     public void update(Miniatura miniatura) throws Exception {
-        sql = "UPDATE " + table + " SET " + fields + "WHERE miniatura_id = ?;";
+        String sql = "UPDATE " + table + " SET " + fields + "WHERE miniatura_id = ?;";
         args = getArgValuesToUpdate(miniatura);
         execute(sql, args);
     }

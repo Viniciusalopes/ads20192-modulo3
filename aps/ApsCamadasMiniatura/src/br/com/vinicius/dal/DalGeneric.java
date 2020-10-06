@@ -84,7 +84,6 @@ public abstract class DalGeneric {
     protected abstract ArrayList<?> build(ResultSet rs) throws Exception;
 
     public ResultSet getAllFields() throws Exception {
-        sql = "SELECT * FROM " + table + orderBy + ";";
         args = new Object[]{};
         ResultSet r = executeQuery(sql, args);
         return r;
@@ -104,7 +103,7 @@ public abstract class DalGeneric {
     }
 
     protected ArrayList<?> getBy(String field, Object value) throws Exception {
-        sql = "SELECT * FROM " + table + " WHERE " + field + " = ?" + orderBy + ";";
+        String sql = this.sql + " WHERE " + field + " = ?" + orderBy + ";";
         args = new Object[]{value};
         return build(executeQuery(sql, args));
     }
@@ -114,8 +113,14 @@ public abstract class DalGeneric {
         return build(executeQuery(sql, args));
     }
 
+    protected ArrayList<?> getDifferent(String field, Object value) throws Exception {
+        String sql = this.sql + " WHERE " + field + " <> '" + value + "'" + orderBy;
+        args = new Object[]{};
+        return build(executeQuery(sql, args));
+    }
+
     protected boolean exists(int id, String field) throws Exception {
-        sql = "SELECT COUNT(*) FROM " + table + " WHERE " + field + " = ? ";
+        String sql = "SELECT COUNT(*) FROM " + table + " WHERE " + field + " = ? ";
         args = new Object[]{id};
         ResultSet rs = executeQuery(sql, args);
         if (rs.next()) {
@@ -129,7 +134,7 @@ public abstract class DalGeneric {
     //--- DELETE ---------------------------------------------------------------------------------->
     //
     public void delete(int id) throws Exception {
-        sql = "DELETE FROM " + table + " WHERE " + fieldIdColumn + " = ?;";
+        String sql = "DELETE FROM " + table + " WHERE " + fieldIdColumn + " = ?;";
         args = new Object[]{id};
         execute(sql, args);
     }

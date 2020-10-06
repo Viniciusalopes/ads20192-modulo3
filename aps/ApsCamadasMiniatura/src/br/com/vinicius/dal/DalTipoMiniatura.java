@@ -28,6 +28,7 @@ public class DalTipoMiniatura extends DalGeneric {
     //
     public DalTipoMiniatura() throws Exception {
         super("\"TiposMiniaturas\"", "tipo_id", "tipo_nome");
+        sql = "SELECT * FROM " + table + " ";
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
@@ -35,7 +36,7 @@ public class DalTipoMiniatura extends DalGeneric {
     //--- CREATE ---------------------------------------------------------------------------------->
     //
     public void add(TipoMiniatura tipoMiniatura) throws Exception {
-        sql = "INSERT INTO " + table + " (tipo_nome) VALUES (?);";
+        String sql = "INSERT INTO " + table + " (tipo_nome) VALUES (?);";
         args = new Object[]{tipoMiniatura.getTipoMiniatura_nome()};
         execute(sql, args);
     }
@@ -70,7 +71,7 @@ public class DalTipoMiniatura extends DalGeneric {
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
     public void update(TipoMiniatura tipoMiniatura) throws Exception {
-        sql = "UPDATE " + table + " SET tipo_nome = ? WHERE tipo_id = ?;";
+        String sql = "UPDATE " + table + " SET tipo_nome = ? WHERE tipo_id = ?;";
         args = new Object[]{tipoMiniatura.getTipoMiniatura_nome(), tipoMiniatura.getTipoMiniatura_id()};
         execute(sql, args);
     }

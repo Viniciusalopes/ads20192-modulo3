@@ -28,6 +28,7 @@ public class DalFabricante extends DalGeneric {
     //
     public DalFabricante() throws Exception {
         super("\"Fabricantes\"", "fabricante_id", "fabricante_nome");
+        sql = "SELECT * FROM " + table + " ";
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
@@ -35,7 +36,7 @@ public class DalFabricante extends DalGeneric {
     //--- CREATE ---------------------------------------------------------------------------------->
     //
     public void add(Fabricante fabricante) throws Exception {
-        sql = "INSERT INTO " + table + " (fabricante_nome) VALUES (?);";
+        String sql = "INSERT INTO " + table + " (fabricante_nome) VALUES (?);";
         args = new Object[]{fabricante.getFabricante_nome()};
         execute(sql, args);
     }
@@ -70,7 +71,7 @@ public class DalFabricante extends DalGeneric {
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
     public void update(Fabricante fabricante) throws Exception {
-        sql = "UPDATE " + table + " SET fabricante_nome = ? WHERE fabricante_id = ?;";
+        String sql = "UPDATE " + table + " SET fabricante_nome = ? WHERE fabricante_id = ?;";
         args = new Object[]{fabricante.getFabricante_nome(), fabricante.getFabricante_id()};
         execute(sql, args);
     }

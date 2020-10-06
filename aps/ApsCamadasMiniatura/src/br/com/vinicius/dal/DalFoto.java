@@ -38,6 +38,7 @@ public class DalFoto extends DalGeneric {
     //
     public DalFoto() throws Exception {
         super("\"Fotos\"", "foto_id", "foto_id DESC");
+        sql = "SELECT * FROM " + table + " ";
     }
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
@@ -70,7 +71,7 @@ public class DalFoto extends DalGeneric {
     //--- CREATE ---------------------------------------------------------------------------------->
     //
     public void add(Foto foto) throws Exception {
-        sql = "INSERT INTO " + table + fields + ";";
+        String sql = "INSERT INTO " + table + fields + ";";
         args = getArgValues(foto);
         execute(sql, args);
     }
@@ -108,7 +109,7 @@ public class DalFoto extends DalGeneric {
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
     public void update(Foto foto) throws Exception {
-        sql = "UPDATE " + table + " SET " + fields + "WHERE miniatura_id = ?;";
+        String sql = "UPDATE " + table + " SET " + fields + "WHERE miniatura_id = ?;";
         args = getArgValuesToUpdate(foto);
         execute(sql, args);
     }

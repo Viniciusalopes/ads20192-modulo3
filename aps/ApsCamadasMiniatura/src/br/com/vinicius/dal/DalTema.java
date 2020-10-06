@@ -28,6 +28,7 @@ public class DalTema extends DalGeneric {
     //
     public DalTema() throws Exception {
         super("\"Temas\"", "tema_id", "tema_nome");
+        sql = "SELECT * FROM " + table + " ";
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
@@ -35,7 +36,7 @@ public class DalTema extends DalGeneric {
     //--- CREATE ---------------------------------------------------------------------------------->
     //
     public void add(Tema tema) throws Exception {
-        sql = "INSERT INTO " + table + " (tema_nome) VALUES (?);";
+        String sql = "INSERT INTO " + table + " (tema_nome) VALUES (?);";
         args = new Object[]{tema.getTema_nome()};
         execute(sql, args);
     }
@@ -70,7 +71,7 @@ public class DalTema extends DalGeneric {
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
     public void update(Tema tema) throws Exception {
-        sql = "UPDATE " + table + " SET tema_nome = ? WHERE tema_id = ?;";
+        String sql = "UPDATE " + table + " SET tema_nome = ? WHERE tema_id = ?;";
         args = new Object[]{tema.getTema_nome(), tema.getTema_id()};
         execute(sql, args);
     }
