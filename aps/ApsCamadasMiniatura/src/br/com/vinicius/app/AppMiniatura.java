@@ -14,11 +14,17 @@
  */
 package br.com.vinicius.app;
 
+import br.com.vinicius.generic.AppIModal;
+import static br.com.vinicius.generic.AppFactory.fillComboBox;
+import static br.com.vinicius.generic.AppFactory.fillComboBoxes;
+import static br.com.vinicius.generic.AppFactory.validateSelectionComboBoxes;
 import br.com.vinicius.bll.*;
 import br.com.vinicius.model.Miniatura;
 import static br.com.vinicius.app.AppMensagem.*;
-import static br.com.vinicius.bll.BllFactory.*;
+import static br.com.vinicius.generic.BllFactory.*;
+import br.com.vinicius.dal.DalFabricante;
 import java.util.Calendar;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -44,50 +50,76 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
             }
             this.setTitle(action + this.getTitle());
 
+            if(new DalFabricante().isEmptyTable())
             fillComboBoxes(jPanelCombos);
 
-            if (jComboBoxFabricante.getItemCount() == 0) {
-                getModal("Fabricante", "Incluir", null, new AppSimpleForm(null, true));
-                fillComboBox(jComboBoxFabricante, "Fabricante");
-            }
-
-            if (jComboBoxTipoMiniatura.getItemCount() == 0) {
-                getModal("TipoMiniatura", "Incluir", null, new AppSimpleForm(null, true));
-                fillComboBox(jComboBoxTipoMiniatura, "TipoMiniatura");
-            }
-
-            if (jComboBoxTema.getItemCount() == 0) {
-                getModal("Tema", "Incluir", null, new AppSimpleForm(null, true));
-                fillComboBox(jComboBoxTema, "Tema");
-            }
-
-            if (action.equals("Editar ")) {
-                jTextFieldModelo.setText(mini.getModelo());
-
-                // FONTE: https://www.guj.com.br/t/resolvido-como-obter-o-ano-atual/53778/2
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                jSpinnerAno.setModel(new javax.swing.SpinnerNumberModel(
-                        Integer.parseInt(mini.getAno()), 1900, year, 1));
-
-                if (true) {
-                    throw new Exception("Alterar para Int, o tipo de dado da edição no banco de dados e no modelo!");
-                }
-                jSpinnerEdicao.setValue(mini.getEdicao());
-
-                String[] escala = mini.getEscala().split(":");
-                jSpinnerEscalaUm.setValue(Integer.parseInt(escala[0]));
-                jSpinnerEscalaPor.setValue(Integer.parseInt(escala[1]));
-
-                jComboBoxFabricante.setSelectedItem(mini.getFabricante().getFabricante_nome());
-                jComboBoxTema.setSelectedItem(mini.getTema().getTema_nome());
-                jComboBoxTipoMiniatura.setSelectedItem(mini.getTipoMiniatura().getTipoMiniatura_nome());
-                jFormattedTextFieldValor.setValue(String.format("%.2f", mini.getValor()));
-            }
-
-            super.setVisible(b);
+//            // Verifico se tem pelo menos um cadastro dos relacionamentos necessários
+//            if (existemRelacionamentos(
+//                    new String[]{"Fabricante", "TipoMiniatura", "Tema"},
+//                    new String[]{"Fabricante", "Tipo de Miniatura", "Tema"},
+//                    new JComboBox[]{jComboBoxFabricante, jComboBoxTipoMiniatura, jComboBoxTema})) {
+                valoresIniciais();
+                super.setVisible(b);
+//            } else {
+//                this.dispose();
+//            }
         } catch (Exception e) {
             mensagemErro(e);
+        }
+    }
+
+    public boolean existemRelacionamentos__(String[] relacionamentos, String[] nomesAmigaveis, JComboBox[] jComboBoxes) throws Exception {
+
+        JComboBox jComboBox = new JComboBox();
+        String pergunta = "";
+
+        for (int i = 0; i < relacionamentos.length; i++) {
+            String rel = relacionamentos[i];
+            String amigavel = nomesAmigaveis[i];
+            jComboBox = jComboBoxes[i];
+
+            pergunta = "Para cadastrar uma miniatura você precisa cadastrar um " + amigavel + ".\n"
+                    + "O que deseja fazer?";
+
+            if (jComboBox.getItemCount() == 0) {
+                if (mensagemEscolher(pergunta, new String[]{"Sair do sistema", "Incluir um " + amigavel}) > 0) {
+                    getModal(rel, "Incluir", null, new AppSimpleForm(null, true));
+                    fillComboBox(jComboBox, rel);
+                }
+            }
+
+            if (jComboBox.getItemCount() == 0) {
+                throw new Exception("Não é possível incluir miniaturas.\n"
+                        + "Você não incluiu nenhum " + amigavel + ".");
+            }
+        }
+
+        return true;
+    }
+
+    private void valoresIniciais() throws Exception {
+        if (action.equals("Editar ")) {
+            jTextFieldModelo.setText(mini.getModelo());
+
+            // FONTE: https://www.guj.com.br/t/resolvido-como-obter-o-ano-atual/53778/2
+            Calendar cal = Calendar.getInstance();
+            int year = cal.get(Calendar.YEAR);
+            jSpinnerAno.setModel(new javax.swing.SpinnerNumberModel(
+                    Integer.parseInt(mini.getAno()), 1900, year, 1));
+
+            if (true) {
+                throw new Exception("Alterar para Int, o tipo de dado da edição no banco de dados e no modelo!");
+            }
+            jSpinnerEdicao.setValue(mini.getEdicao());
+
+            String[] escala = mini.getEscala().split(":");
+            jSpinnerEscalaUm.setValue(Integer.parseInt(escala[0]));
+            jSpinnerEscalaPor.setValue(Integer.parseInt(escala[1]));
+
+            jComboBoxFabricante.setSelectedItem(mini.getFabricante().getFabricante_nome());
+            jComboBoxTema.setSelectedItem(mini.getTema().getTema_nome());
+            jComboBoxTipoMiniatura.setSelectedItem(mini.getTipoMiniatura().getTipoMiniatura_nome());
+            jFormattedTextFieldValor.setValue(String.format("%.2f", mini.getValor()));
         }
     }
 

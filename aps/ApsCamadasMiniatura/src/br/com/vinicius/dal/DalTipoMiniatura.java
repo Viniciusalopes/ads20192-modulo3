@@ -14,6 +14,7 @@
  */
 package br.com.vinicius.dal;
 
+import br.com.vinicius.generic.DalGeneric;
 import br.com.vinicius.model.TipoMiniatura;
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -66,10 +67,13 @@ public class DalTipoMiniatura extends DalGeneric {
         return exists(id, "tipo_id");
     }
 
-    //--- FIM READ --------------------------------------------------------------------------------|
+    public boolean isEmptyTable() throws Exception {
+        return isEmptyTable(table);
+    }    //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
+
     public void update(TipoMiniatura tipoMiniatura) throws Exception {
         String sql = "UPDATE " + table + " SET tipo_nome = ? WHERE tipo_id = ?;";
         args = new Object[]{tipoMiniatura.getTipoMiniatura_nome(), tipoMiniatura.getTipoMiniatura_id()};

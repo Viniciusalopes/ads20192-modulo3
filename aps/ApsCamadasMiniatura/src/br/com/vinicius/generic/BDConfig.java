@@ -12,7 +12,7 @@
  *  Configurações para conexão com banco de dados PostgreSQL (SINGLETON).
  *  -----------------------------------------------------------------------------------------------| 
  */
-package br.com.vinicius.dal;
+package br.com.vinicius.generic;
 
 /**
  *
@@ -24,7 +24,7 @@ public class BDConfig {
     //
     private static BDConfig config = null;
     private final String server = "//srv-ubuntu";
-    private final String port = "5432";
+    private final String port = "5433";
     private final String database = "apsminiatura";
     private final String user = "postgres";
     private final String password = "vin";

@@ -12,17 +12,13 @@
  *  
  *  -----------------------------------------------------------------------------------------------| 
  */
-package br.com.vinicius.bll;
+package br.com.vinicius.generic;
 
+import static br.com.vinicius.generic.AppFactory.fillGrid;
+import static br.com.vinicius.generic.AppFactory.getSelectedId;
 import static br.com.vinicius.app.AppMensagem.*;
-import java.awt.Component;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import javax.swing.JComboBox;
-import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import br.com.vinicius.app.AppIModal;
 
 /**
  *
@@ -64,10 +60,6 @@ public class BllFactory {
                 .invoke(object);
     }
 
-    public static int getSelectedId(JTable jTable) throws Exception {
-        return Integer.parseInt(jTable.getValueAt(jTable.getSelectedRow(), 0).toString());
-    }
-
     public static Object invoke(Object object, String methodName) throws Exception {
         return object.getClass().getMethod(methodName).invoke(object);
     }
@@ -78,53 +70,6 @@ public class BllFactory {
 
     public static Object getObjectByid(int idObject, String className) throws Exception {
         return invoke(getDal(className), "getById", int.class, idObject);
-    }
-
-    public static void fillGrid(JTable jTable) throws Exception {
-        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
-        model.setRowCount(0);
-
-        Object dal = getDal(jTable.getAccessibleContext().getAccessibleName());
-        ResultSet rs = (ResultSet) dal.getClass().getMethod("getAllFields").invoke(dal);
-        int columnCount = rs.getMetaData().getColumnCount();
-
-        // FONTE: https://stackoverflow.com/questions/10620448/most-simple-code-to-populate-jtable-from-resultset
-        while (rs.next()) {
-            Object[] linha = new Object[columnCount];
-            for (int i = 0; i < columnCount; i++) {
-                linha[i] = rs.getObject(i + 1);
-            }
-            model.addRow(linha);
-        }
-    }
-
-    public static void fillComboBoxes(JPanel jPanel) throws Exception {
-        for (Component comp : jPanel.getComponents()) {
-            if (comp instanceof JComboBox) {
-                JComboBox cb = (JComboBox) comp;
-                fillComboBox(cb, cb.getAccessibleContext().getAccessibleName());
-            }
-        }
-    }
-
-    public static void fillComboBox(JComboBox jComboBox, String className) throws Exception {
-        Object dal = getDal(className);
-        ArrayList<?> itens = (ArrayList<?>) dal.getClass().getMethod("getAll").invoke(dal);
-
-        jComboBox.removeAllItems();
-
-        for (Object obj : itens) {
-            jComboBox.addItem(obj.getClass().getMethod("get" + className + "_nome").invoke(obj) + "");
-        }
-        jComboBox.setSelectedIndex(-1);
-    }
-
-    public static void validateSelectionComboBoxes(JPanel jPanel) throws Exception {
-        for (Component component : jPanel.getComponents()) {
-            if (component instanceof JComboBox) {
-                validateSelectionComboBox((JComboBox) component);
-            }
-        }
     }
 
     public static void validateSelectionComboBox(JComboBox jComboBox) throws Exception {

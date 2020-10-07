@@ -14,6 +14,7 @@
  */
 package br.com.vinicius.dal;
 
+import br.com.vinicius.generic.DalGeneric;
 import br.com.vinicius.model.Tema;
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -66,10 +67,14 @@ public class DalTema extends DalGeneric {
         return exists(id, "tema_id");
     }
 
+    public boolean isEmptyTable() throws Exception {
+        return isEmptyTable(table);
+    }
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
+
     public void update(Tema tema) throws Exception {
         String sql = "UPDATE " + table + " SET tema_nome = ? WHERE tema_id = ?;";
         args = new Object[]{tema.getTema_nome(), tema.getTema_id()};

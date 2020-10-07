@@ -12,7 +12,7 @@
  *  Classe Dal genérica.
  *  -----------------------------------------------------------------------------------------------| 
  */
-package br.com.vinicius.dal;
+package br.com.vinicius.generic;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -127,6 +127,12 @@ public abstract class DalGeneric {
             return rs.getInt("count") > 0;
         }
         return false;
+    }
+
+    public boolean isEmptyTable(String table) throws Exception {
+        String sql = "SELECT COUNT(*) FROM " + table;
+        args = new Object[]{};
+        return executeQuery(sql, args).next();
     }
 
     //--- FIM READ --------------------------------------------------------------------------------|

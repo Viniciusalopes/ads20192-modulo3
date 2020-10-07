@@ -14,6 +14,7 @@
  */
 package br.com.vinicius.dal;
 
+import br.com.vinicius.generic.DalGeneric;
 import br.com.vinicius.model.Foto;
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -102,6 +103,10 @@ public class DalFoto extends DalGeneric {
 
     public boolean exists(int id) throws Exception {
         return exists(id, "foto_id");
+    }
+
+    public boolean isEmptyTable() throws Exception {
+        return isEmptyTable(table);
     }
 
     //--- FIM READ --------------------------------------------------------------------------------|

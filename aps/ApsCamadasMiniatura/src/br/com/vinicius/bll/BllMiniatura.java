@@ -14,9 +14,10 @@
  */
 package br.com.vinicius.bll;
 
+import static br.com.vinicius.generic.AppFactory.getSelectedId;
 import br.com.vinicius.dal.DalMiniatura;
-import static br.com.vinicius.bll.BllFactory.*;
-import static br.com.vinicius.bll.BllGeneric.*;
+import static br.com.vinicius.generic.BllFactory.*;
+import static br.com.vinicius.generic.BllGeneric.*;
 import br.com.vinicius.model.Miniatura;
 import java.util.ArrayList;
 import javax.swing.JTable;
@@ -50,9 +51,9 @@ public class BllMiniatura {
     public ArrayList<Miniatura> getMiniaturas() throws Exception {
         return (ArrayList<Miniatura>) new DalMiniatura().getAll();
     }
+
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
-
     //--- SET ------------------------------------------------------------------------------------->
     //
     //--- FIM SET ---------------------------------------------------------------------------------|
@@ -81,7 +82,8 @@ public class BllMiniatura {
             int id = (int) miniatura.getClass().getMethod("get" + fk).invoke(miniatura);
 
             // verifica se o cadastro da fk existe
-            if (!(boolean) bll.getClass().getMethod("exists", int.class).invoke(bll, id)) {
+            if (!(boolean) bll.getClass().getMethod("exists", int.class
+            ).invoke(bll, id)) {
                 throw new Exception(fk.replace("TipoMiniatura", "Tipo de Miniatura") + " inválido!");
             }
 
@@ -95,10 +97,14 @@ public class BllMiniatura {
     public void incluir(Miniatura miniatura) throws Exception {
         dal.add(miniatura);
     }
+
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
     //--- READ ------------------------------------------------------------------------------------>
     //
+    public static boolean existeRelacionamento() throws Exception {
+        return new DalMiniatura().isEmptyTable();
+    }
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->

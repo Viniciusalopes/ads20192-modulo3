@@ -14,6 +14,7 @@
  */
 package br.com.vinicius.dal;
 
+import br.com.vinicius.generic.DalGeneric;
 import br.com.vinicius.model.Fabricante;
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -64,6 +65,10 @@ public class DalFabricante extends DalGeneric {
 
     public boolean exists(int id) throws Exception {
         return exists(id, "fabricante_id");
+    }
+
+    public boolean isEmptyTable() throws Exception {
+        return isEmptyTable(table);
     }
 
     //--- FIM READ --------------------------------------------------------------------------------|

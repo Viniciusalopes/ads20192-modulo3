@@ -12,9 +12,8 @@
  *  Conexão com o banco de dados (SINGLETON).
  *  -----------------------------------------------------------------------------------------------| 
  */
-package br.com.vinicius.dal;
+package br.com.vinicius.generic;
 
-import br.com.vinicius.util.EnumStatus;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;

@@ -14,6 +14,7 @@
  */
 package br.com.vinicius.dal;
 
+import br.com.vinicius.generic.DalGeneric;
 import br.com.vinicius.model.Fabricante;
 import br.com.vinicius.model.Miniatura;
 import br.com.vinicius.model.Tema;
@@ -29,7 +30,6 @@ public class DalMiniatura extends DalGeneric {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    
     private String fields
             = " (miniatura_modelo, "
             + "miniatura_ano, "
@@ -48,11 +48,11 @@ public class DalMiniatura extends DalGeneric {
     //
     public DalMiniatura() throws Exception {
         super("\"Miniaturas\"", "miniatura_id", "miniatura_modelo");
-        
+
         sql = "SELECT * FROM " + table + " m"
-            + " JOIN \"Fabricantes\" f ON m.miniatura_fabricante_id = f.fabricante_id"
-            + " JOIN \"Temas\" t ON m.miniatura_tema_id = t.tema_id"
-            + " JOIN \"TiposMiniaturas\" tm ON m.miniatura_tipo_id = tm.tipo_id ";
+                + " JOIN \"Fabricantes\" f ON m.miniatura_fabricante_id = f.fabricante_id"
+                + " JOIN \"Temas\" t ON m.miniatura_tema_id = t.tema_id"
+                + " JOIN \"TiposMiniaturas\" tm ON m.miniatura_tipo_id = tm.tipo_id ";
 
     }
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
@@ -134,6 +134,10 @@ public class DalMiniatura extends DalGeneric {
 
     public boolean exists(int id) throws Exception {
         return exists(id, "miniatura_id");
+    }
+
+    public boolean isEmptyTable() throws Exception {
+        return isEmptyTable(table);
     }
 
     //--- FIM READ --------------------------------------------------------------------------------|

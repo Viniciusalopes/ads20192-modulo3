@@ -14,8 +14,9 @@
  */
 package br.com.vinicius.app;
 
+import br.com.vinicius.generic.AppIModal;
 import static br.com.vinicius.app.AppMensagem.*;
-import static br.com.vinicius.bll.BllFactory.*;
+import static br.com.vinicius.generic.BllFactory.*;
 
 /**
  *
