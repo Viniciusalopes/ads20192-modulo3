@@ -132,7 +132,11 @@ public abstract class DalGeneric {
     public boolean isEmptyTable(String table) throws Exception {
         String sql = "SELECT COUNT(*) FROM " + table;
         args = new Object[]{};
-        return executeQuery(sql, args).next();
+        ResultSet rs = executeQuery(sql, args);
+        if (rs.next()) {
+            return rs.getInt("count") == 0;
+        }
+        return true;
     }
 
     //--- FIM READ --------------------------------------------------------------------------------|

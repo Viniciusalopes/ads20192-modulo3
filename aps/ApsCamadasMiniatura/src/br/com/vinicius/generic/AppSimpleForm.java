@@ -26,16 +26,16 @@ public class AppSimpleForm extends javax.swing.JDialog implements AppIModal {
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
     private Object object = null;
-    private Class<?> classe = null;
+    private Class<?> oClass = null;
     private String className = "";
     private String friendlyName = "";
     private int id = 0;
-    private String acao = "Incluir";
+    private String action = "Incluir";
     private String metodo = "add";
     private String complemento = "";
-    private String resultado = "incluido";
+    private String resultado = "incluído";
     private String mensagem = friendlyName + " " + resultado + " com sucesso!";
-    private String pergunta = friendlyName + mensagem + "\nDeseja continuar?";
+    private String pergunta = friendlyName + mensagem + "\nDeseja continuar incluindo?";
     private String[] opcoes = new String[]{"Não... melhor, deixa.", "Sim"};
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
@@ -53,21 +53,21 @@ public class AppSimpleForm extends javax.swing.JDialog implements AppIModal {
     @Override
     public void setVisible(boolean b) {
         try {
-            classe = object.getClass();
-            className = classe.getSimpleName();
+            oClass = object.getClass();
+            className = oClass.getSimpleName();
             id = getId(object);
 
             complemento = friendlyName;
 
             if (id > 0) {
-                acao = "Editar";
+                action = "Editar";
                 metodo = "update";
                 complemento += " [ ID: " + id + " ]";
                 resultado = "editado";
                 mensagem = friendlyName + " " + resultado + " com sucesso!";
-                jTextFieldNome.setText(classe.getMethod("get" + className + "_nome").invoke(object).toString());
+                jTextFieldNome.setText(oClass.getMethod("get" + className + "_nome").invoke(object).toString());
             }
-            this.setTitle(acao + " cadastro de " + complemento);
+            this.setTitle(action + " cadastro de " + complemento);
 
             super.setVisible(b);
 
@@ -141,14 +141,14 @@ public class AppSimpleForm extends javax.swing.JDialog implements AppIModal {
 
     private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOKActionPerformed
         try {
-            classe.getMethod("set" + className + "_nome", String.class).invoke(object, jTextFieldNome.getText());
+            oClass.getMethod("set" + className + "_nome", String.class).invoke(object, jTextFieldNome.getText());
             Object dal = getDal(className);
-            dal.getClass().getMethod(metodo, classe).invoke(dal, object);
+            dal.getClass().getMethod(metodo, oClass).invoke(dal, object);
 
             pergunta = friendlyName + mensagem + "\nDeseja continuar?";
             if (metodo.equals("add")) {
                 if (mensagemEscolher(pergunta, opcoes) > 0) {
-                    object = classe.getConstructor().newInstance();
+                    object = oClass.getConstructor().newInstance();
                     jTextFieldNome.setText("");
                     jTextFieldNome.requestFocus();
                 }

@@ -19,7 +19,6 @@ import br.com.vinicius.generic.AppIModal;
 import static br.com.vinicius.generic.AppFactory.*;
 import static br.com.vinicius.generic.AppMensagem.*;
 import static br.com.vinicius.bll.BllMiniatura.*;
-import br.com.vinicius.generic.AppFactory;
 import br.com.vinicius.model.Miniatura;
 import java.awt.event.KeyEvent;
 
@@ -542,6 +541,7 @@ public class AppPrincipal extends javax.swing.JFrame {
                 AppIModal modal = new AppMiniatura(this, true);
                 modal.setObject(miniatura);
                 modal.setVisible(true);
+                modal.setFriendlyName("Miniatura");
                 fillGrid(jTableMiniatura);
             }
 

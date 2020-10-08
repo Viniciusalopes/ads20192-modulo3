@@ -16,13 +16,10 @@ package br.com.vinicius.app;
 
 import static br.com.vinicius.generic.AppFactory.*;
 import static br.com.vinicius.generic.AppMensagem.*;
-import br.com.vinicius.generic.AppSimpleForm;
 import br.com.vinicius.generic.AppIModal;
 import br.com.vinicius.bll.*;
 import br.com.vinicius.model.Miniatura;
-import br.com.vinicius.dal.DalFabricante;
 import java.util.Calendar;
-import javax.swing.JComboBox;
 
 /**
  *
@@ -32,7 +29,7 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
 
     private String action = "Incluir ";
     private Miniatura mini;
-    private BllMiniatura bll = null;
+    private String friendlyName = "";
 
     @Override
     public void setObject(Object object) throws Exception {
@@ -41,64 +38,32 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
 
     @Override
     public void setFriendlyName(String friendlyName) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        this.friendlyName = friendlyName;
     }
 
     @Override
     public void setVisible(boolean b) {
         try {
-            
+
             if (mini.getMiniatura_id() > 0) {
                 action = "Editar ";
             }
             this.setTitle(action + this.getTitle());
 
-            if (new DalFabricante().isEmptyTable()) {
+            if (dependenciesWhereSatisfied(
+                    "Miniatura",
+                    new String[]{"Fabricante", "Tema", "TipoMiniatura"},
+                    new String[]{"Fabricante", "Tema", "Tipo de Miniatura"}
+            )) {
                 fillComboBoxes(jPanelCombos);
+                valoresIniciais();
+                super.setVisible(b);
+            } else {
+                this.dispose();
             }
-
-//            // Verifico se tem pelo menos um cadastro dos relacionamentos necessários
-//            if (existemRelacionamentos(
-//                    new String[]{"Fabricante", "TipoMiniatura", "Tema"},
-//                    new String[]{"Fabricante", "Tipo de Miniatura", "Tema"},
-//                    new JComboBox[]{jComboBoxFabricante, jComboBoxTipoMiniatura, jComboBoxTema})) {
-            valoresIniciais();
-            super.setVisible(b);
-//            } else {
-//                this.dispose();
-//            }
         } catch (Exception e) {
             mensagemErro(e);
         }
-    }
-
-    public boolean existemRelacionamentos__(String[] relacionamentos, String[] nomesAmigaveis, JComboBox[] jComboBoxes) throws Exception {
-
-        JComboBox jComboBox = new JComboBox();
-        String pergunta = "";
-
-        for (int i = 0; i < relacionamentos.length; i++) {
-            String rel = relacionamentos[i];
-            String amigavel = nomesAmigaveis[i];
-            jComboBox = jComboBoxes[i];
-
-            pergunta = "Para cadastrar uma miniatura você precisa cadastrar um " + amigavel + ".\n"
-                    + "O que deseja fazer?";
-
-            if (jComboBox.getItemCount() == 0) {
-                if (mensagemEscolher(pergunta, new String[]{"Sair do sistema", "Incluir um " + amigavel}) > 0) {
-                    getModal(rel, amigavel, "add", null, new AppSimpleForm(null, true));
-                    fillComboBox(jComboBox, rel);
-                }
-            }
-
-            if (jComboBox.getItemCount() == 0) {
-                throw new Exception("Não é possível incluir miniaturas.\n"
-                        + "Você não incluiu nenhum " + amigavel + ".");
-            }
-        }
-
-        return true;
     }
 
     private void valoresIniciais() throws Exception {
@@ -128,19 +93,19 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
     }
 
     private void salvar() throws Exception {
+        
+        validateSelectionComboBoxes(jPanelCombos);
+        
         mini.setModelo(jTextFieldModelo.getText());
         mini.setAno(jSpinnerAno.getValue() + "");
         mini.setEdicao(jSpinnerEdicao.getValue() + "");
         mini.setEscala(jSpinnerEscalaUm.getValue() + ":" + jSpinnerEscalaPor.getValue());
-
-        validateSelectionComboBoxes(jPanelCombos);
-
         mini.setFabricante(BllFabricante.getByNome(jComboBoxFabricante.getSelectedItem() + ""));
         mini.setTipo(BllTipoMiniatura.getByNome(jComboBoxTipoMiniatura.getSelectedItem() + ""));
         mini.setTema(BllTema.getByNome(jComboBoxTema.getSelectedItem() + ""));
 
-        bll.validar(mini);
-        bll.incluir(mini);
+        BllMiniatura.validar(mini);
+        BllMiniatura.incluir(mini);
         mensagem("Sucesso", "Miniatura " + (action.equals("Incluir") ? "incluída" : "editada") + " com sucesso!");
         this.dispose();
     }
