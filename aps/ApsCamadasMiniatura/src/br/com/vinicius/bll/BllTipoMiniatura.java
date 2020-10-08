@@ -21,43 +21,22 @@ import br.com.vinicius.model.TipoMiniatura;
  *
  * @author vovostudio
  */
-public class BllTipoMiniatura {
+public abstract class BllTipoMiniatura {
 
-    //--- ATRIBUTOS ------------------------------------------------------------------------------->
-    //
-    private DalTipoMiniatura dal;
-    //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
-    //
-
-    //--- CONSTRUTORES ---------------------------------------------------------------------------->
-    //
-    public BllTipoMiniatura() throws Exception {
-        dal = new DalTipoMiniatura();
-    }
-    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
-    //
-
-    //--- GET ------------------------------------------------------------------------------------->
-    //
-    public TipoMiniatura getByNome(String nome) throws Exception {
-        return dal.getByNome(nome);
-    }
-
-    public boolean exists(int tipo_id) throws Exception {
-        return dal.exists(tipo_id);
-    }
-    //--- FIM GET ---------------------------------------------------------------------------------|
-    //
-    //--- SET ------------------------------------------------------------------------------------->
-    //
-    //--- FIM SET ---------------------------------------------------------------------------------|
-    //
     //--- CREATE ---------------------------------------------------------------------------------->
     //
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
     //--- READ ------------------------------------------------------------------------------------>
     //
+    public static TipoMiniatura getByNome(String nome) throws Exception {
+        return new DalTipoMiniatura().getByNome(nome);
+    }
+
+    public static boolean exists(int tipo_id) throws Exception {
+        return new DalTipoMiniatura().exists(tipo_id);
+    }
+
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->

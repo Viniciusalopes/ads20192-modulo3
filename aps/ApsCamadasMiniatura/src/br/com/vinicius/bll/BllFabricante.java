@@ -21,44 +21,22 @@ import br.com.vinicius.model.Fabricante;
  *
  * @author vovostudio
  */
-public class BllFabricante {
+public abstract class BllFabricante {
 
-    //--- ATRIBUTOS ------------------------------------------------------------------------------->
-    //
-    private DalFabricante dal;
-
-    //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
-    //
-    //--- CONSTRUTORES ---------------------------------------------------------------------------->
-    //
-    public BllFabricante() throws Exception {
-        dal = new DalFabricante();
-    }
-    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
-    //
-
-    //--- GET ------------------------------------------------------------------------------------->
-    //
-    public Fabricante getByNome(String nome) throws Exception {
-        return dal.getByNome(nome);
-    }
-
-    public boolean exists(int fabricante_id) throws Exception {
-        return dal.exists(fabricante_id);
-    }
-    //--- FIM GET ---------------------------------------------------------------------------------|
-    //
-
-    //--- SET ------------------------------------------------------------------------------------->
-    //
-    //--- FIM SET ---------------------------------------------------------------------------------|
-    //
     //--- CREATE ---------------------------------------------------------------------------------->
     //
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
     //--- READ ------------------------------------------------------------------------------------>
     //
+    public static Fabricante getByNome(String nome) throws Exception {
+        return new DalFabricante().getByNome(nome);
+    }
+
+    public static boolean exists(int fabricante_id) throws Exception {
+        return new DalFabricante().exists(fabricante_id);
+    }
+    
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->

@@ -16,7 +16,7 @@ package br.com.vinicius.bll;
 
 import static br.com.vinicius.generic.AppFactory.getSelectedId;
 import br.com.vinicius.dal.DalMiniatura;
-import static br.com.vinicius.generic.BllFactory.*;
+import static br.com.vinicius.generic.Factory.*;
 import static br.com.vinicius.generic.BllGeneric.*;
 import br.com.vinicius.model.Miniatura;
 import java.util.ArrayList;
@@ -26,41 +26,11 @@ import javax.swing.JTable;
  *
  * @author vovostudio
  */
-public class BllMiniatura {
+public abstract class BllMiniatura {
 
-    //--- ATRIBUTOS ------------------------------------------------------------------------------->
-    //
-    private DalMiniatura dal;
-
-    //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
-    //
-    //--- CONSTRUTORES ---------------------------------------------------------------------------->
-    //
-    public BllMiniatura() throws Exception {
-        this.dal = new DalMiniatura();
-    }
-    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
-    //
-
-    //--- GET ------------------------------------------------------------------------------------->
-    //
-    public Miniatura getMiniaturaSelecionada(JTable jTable) throws Exception {
-        return (Miniatura) getObjectByid(getSelectedId(jTable), "Miniatura");
-    }
-
-    public ArrayList<Miniatura> getMiniaturas() throws Exception {
-        return (ArrayList<Miniatura>) new DalMiniatura().getAll();
-    }
-
-    //--- FIM GET ---------------------------------------------------------------------------------|
-    //
-    //--- SET ------------------------------------------------------------------------------------->
-    //
-    //--- FIM SET ---------------------------------------------------------------------------------|
-    //
     //--- CREATE ---------------------------------------------------------------------------------->
     //
-    public void validar(Miniatura miniatura) throws Exception {
+    public static void validar(Miniatura miniatura) throws Exception {
 
         validarCampo(miniatura.getModelo(), "modelo");
 
@@ -82,11 +52,9 @@ public class BllMiniatura {
             int id = (int) miniatura.getClass().getMethod("get" + fk).invoke(miniatura);
 
             // verifica se o cadastro da fk existe
-            if (!(boolean) bll.getClass().getMethod("exists", int.class
-            ).invoke(bll, id)) {
+            if (!(boolean) bll.getClass().getMethod("exists", int.class).invoke(bll, id)) {
                 throw new Exception(fk.replace("TipoMiniatura", "Tipo de Miniatura") + " inválido!");
             }
-
         }
 
         validarCampo(miniatura.getFabricante().getFabricante_nome(), "nome do fabricante");
@@ -94,14 +62,22 @@ public class BllMiniatura {
         validarCampo(miniatura.getTipoMiniatura().getTipoMiniatura_nome(), "nome do tipo de miniatura");
     }
 
-    public void incluir(Miniatura miniatura) throws Exception {
-        dal.add(miniatura);
+    public static void incluir(Miniatura miniatura) throws Exception {
+        new DalMiniatura().add(miniatura);
     }
 
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
     //--- READ ------------------------------------------------------------------------------------>
     //
+    public static Miniatura getMiniaturaSelecionada(JTable jTable) throws Exception {
+        return (Miniatura) getObjectByid(getSelectedId(jTable), "Miniatura");
+    }
+
+    public static ArrayList<Miniatura> getMiniaturas() throws Exception {
+        return (ArrayList<Miniatura>) new DalMiniatura().getAll();
+    }
+
     public static boolean existeRelacionamento() throws Exception {
         return new DalMiniatura().isEmptyTable();
     }
