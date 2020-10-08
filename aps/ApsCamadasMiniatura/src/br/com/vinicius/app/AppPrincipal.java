@@ -15,7 +15,6 @@
 package br.com.vinicius.app;
 
 import br.com.vinicius.generic.AppSimpleForm;
-import br.com.vinicius.generic.AppIModal;
 import static br.com.vinicius.generic.AppFactory.*;
 import static br.com.vinicius.generic.AppMensagem.*;
 import static br.com.vinicius.bll.BllMiniatura.*;
@@ -34,12 +33,15 @@ public class AppPrincipal extends javax.swing.JFrame {
     public AppPrincipal() {
         initComponents();
         this.setLocationRelativeTo(null);
+        fillGrids();
+    }
+
+    private void fillGrids() {
         try {
             fillGrid(jTableTema);
             fillGrid(jTableFabricante);
             fillGrid(jTableTipo);
             fillGrid(jTableMiniatura);
-
         } catch (Exception e) {
             mensagemErro(e);
             System.exit(1);
@@ -538,11 +540,8 @@ public class AppPrincipal extends javax.swing.JFrame {
             }
 
             if ((evt.getClickCount() == 2)) {
-                AppIModal modal = new AppMiniatura(this, true);
-                modal.setObject(miniatura);
-                modal.setVisible(true);
-                modal.setFriendlyName("Miniatura");
-                fillGrid(jTableMiniatura);
+                getModal("Miniatura", "Miniatura", "add", jTableMiniatura, new AppMiniatura(this, true));
+                fillGrids();
             }
 
             jTextAreaObservacoes.setText(miniatura.getObservacoes());
@@ -554,10 +553,8 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void jButtonIncluirMiniaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirMiniaturaActionPerformed
         try {
-            AppIModal modal = new AppMiniatura(this, true);
-            modal.setObject(new Miniatura());
-            modal.setVisible(true);
-            fillGrid(jTableMiniatura);
+            getModal("Miniatura", "Miniatura", "add", jTableMiniatura, new AppMiniatura(this, true));
+            fillGrids();
         } catch (Exception e) {
             mensagemErro(e);
         }

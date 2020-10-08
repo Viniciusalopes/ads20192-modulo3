@@ -14,37 +14,12 @@
  */
 package br.com.vinicius.bll;
 
-import br.com.vinicius.dal.DalTema;
-import br.com.vinicius.model.Tema;
+import br.com.vinicius.generic.BllGeneric;
 
 /**
  *
  * @author vovostudio
  */
-public abstract class BllTema {
-
-    //--- CREATE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM CREATE ------------------------------------------------------------------------------|
-    //
-    //--- READ ------------------------------------------------------------------------------------>
-    //
-    public static Tema getByNome(String nome) throws Exception {
-        return new DalTema().getByNome(nome);
-    }
-
-    public static boolean exists(int tema_id) throws Exception {
-        return new DalTema().exists(tema_id);
-    }
-
-    //--- FIM READ --------------------------------------------------------------------------------|
-    //
-    //--- UPDATE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM UPDATE ------------------------------------------------------------------------------|
-    //
-    //--- DELETE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM DELETE ------------------------------------------------------------------------------|
-    //
+public abstract class BllTema extends BllGeneric {
+    
 }

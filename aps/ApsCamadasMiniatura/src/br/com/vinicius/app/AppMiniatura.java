@@ -18,7 +18,10 @@ import static br.com.vinicius.generic.AppFactory.*;
 import static br.com.vinicius.generic.AppMensagem.*;
 import br.com.vinicius.generic.AppIModal;
 import br.com.vinicius.bll.*;
+import br.com.vinicius.model.Fabricante;
 import br.com.vinicius.model.Miniatura;
+import br.com.vinicius.model.Tema;
+import br.com.vinicius.model.TipoMiniatura;
 import java.util.Calendar;
 
 /**
@@ -51,7 +54,7 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
             this.setTitle(action + this.getTitle());
 
             if (dependenciesWhereSatisfied(
-                    "Miniatura",
+                    friendlyName,
                     new String[]{"Fabricante", "Tema", "TipoMiniatura"},
                     new String[]{"Fabricante", "Tema", "Tipo de Miniatura"}
             )) {
@@ -93,16 +96,16 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
     }
 
     private void salvar() throws Exception {
-        
+
         validateSelectionComboBoxes(jPanelCombos);
-        
+
         mini.setModelo(jTextFieldModelo.getText());
         mini.setAno(jSpinnerAno.getValue() + "");
         mini.setEdicao(jSpinnerEdicao.getValue() + "");
         mini.setEscala(jSpinnerEscalaUm.getValue() + ":" + jSpinnerEscalaPor.getValue());
-        mini.setFabricante(BllFabricante.getByNome(jComboBoxFabricante.getSelectedItem() + ""));
-        mini.setTipo(BllTipoMiniatura.getByNome(jComboBoxTipoMiniatura.getSelectedItem() + ""));
-        mini.setTema(BllTema.getByNome(jComboBoxTema.getSelectedItem() + ""));
+        mini.setFabricante((Fabricante) BllFabricante.getByName(jComboBoxFabricante.getSelectedItem() + "", "Fabricante"));
+        mini.setTipo((TipoMiniatura) BllTipoMiniatura.getByName(jComboBoxTipoMiniatura.getSelectedItem() + "", "TipoMiniatura"));
+        mini.setTema((Tema) BllTema.getByName(jComboBoxTema.getSelectedItem() + "", "Tema"));
 
         BllMiniatura.validar(mini);
         BllMiniatura.incluir(mini);
@@ -176,7 +179,13 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
 
         jLabelFabricante.setText("Fabricante");
 
+        jComboBoxFabricante.setActionCommand("Fabricante");
+
         jLabelTema.setText("Tema");
+
+        jComboBoxTema.setActionCommand("Tema");
+
+        jComboBoxTipoMiniatura.setActionCommand("TipoMiniatura");
 
         jLabelTipoMiniatura.setText("Tipo de Miniatura");
 
@@ -207,7 +216,7 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
                     .addGroup(jPanelCombosLayout.createSequentialGroup()
                         .addComponent(jLabelTipoMiniatura)
                         .addGap(0, 0, 0)
-                        .addComponent(jComboBoxTipoMiniatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jComboBoxTipoMiniatura))
                     .addGroup(jPanelCombosLayout.createSequentialGroup()
                         .addComponent(jLabelTema)
                         .addGap(0, 0, 0)
@@ -221,7 +230,7 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
 
         jComboBoxFabricante.getAccessibleContext().setAccessibleName("Fabricante");
         jComboBoxTema.getAccessibleContext().setAccessibleName("Tema");
-        jComboBoxTipoMiniatura.getAccessibleContext().setAccessibleName("TipoMiniatura");
+        jComboBoxTipoMiniatura.getAccessibleContext().setAccessibleName("Tipo de Miniatura");
 
         jLabelValor.setText("Valor");
 

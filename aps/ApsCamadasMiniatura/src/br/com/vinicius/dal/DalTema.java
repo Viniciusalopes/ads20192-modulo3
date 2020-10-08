@@ -59,7 +59,7 @@ public class DalTema extends DalGeneric {
         return (Tema) getBy(fieldIdColumn, id).get(0);
     }
 
-    public Tema getByNome(String nome) throws Exception {
+    public Tema getByName(String nome) throws Exception {
         return (Tema) getBy("tema_nome", nome).get(0);
     }
 

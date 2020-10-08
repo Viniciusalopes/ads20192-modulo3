@@ -59,7 +59,7 @@ public class DalFabricante extends DalGeneric {
         return (Fabricante) getBy(fieldIdColumn, id).get(0);
     }
 
-    public Fabricante getByNome(String nome) throws Exception {
+    public Fabricante getByName(String nome) throws Exception {
         return (Fabricante) getBy("fabricante_nome", nome).get(0);
     }
 

@@ -26,23 +26,27 @@ public class AppSimpleForm extends javax.swing.JDialog implements AppIModal {
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
     private Object object = null;
+    private String friendlyName = "";
     private Class<?> oClass = null;
     private String className = "";
-    private String friendlyName = "";
-    private int id = 0;
     private String action = "Incluir";
-    private String metodo = "add";
-    private String complemento = "";
-    private String resultado = "incluído";
-    private String mensagem = friendlyName + " " + resultado + " com sucesso!";
-    private String pergunta = friendlyName + mensagem + "\nDeseja continuar incluindo?";
-    private String[] opcoes = new String[]{"Não... melhor, deixa.", "Sim"};
+    private String method = "add";
+    private String result = "incluído";
+    private String again = "incluindo";
+    private int id = 0;
+    private String complement = "";
+    private String messageTitle = "Sucesso!";
+    private String message = friendlyName + " " + result + " com sucesso!";
+    private String question = friendlyName + message + "\nDeseja continuar " + again + "?";
+    private String[] options = new String[]{"Não... melhor, deixa.", "Sim"};
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     @Override
 
     public void setObject(Object object) {
         this.object = object;
+        oClass = object.getClass();
+        className = oClass.getSimpleName();
     }
 
     @Override
@@ -53,22 +57,20 @@ public class AppSimpleForm extends javax.swing.JDialog implements AppIModal {
     @Override
     public void setVisible(boolean b) {
         try {
-            oClass = object.getClass();
-            className = oClass.getSimpleName();
             id = getId(object);
-
-            complemento = friendlyName;
 
             if (id > 0) {
                 action = "Editar";
-                metodo = "update";
-                complemento += " [ ID: " + id + " ]";
-                resultado = "editado";
-                mensagem = friendlyName + " " + resultado + " com sucesso!";
+                method = "update";
+                result = "editado";
+                again = "";
+                complement += " [ ID: " + id + " ]";
                 jTextFieldNome.setText(oClass.getMethod("get" + className + "_nome").invoke(object).toString());
             }
-            this.setTitle(action + " cadastro de " + complemento);
+            message = friendlyName + " " + result + " com sucesso!";
+            question = message + "\nDeseja continuar " + again + "?";
 
+            this.setTitle(action + " cadastro de " + friendlyName);
             super.setVisible(b);
 
         } catch (Exception e) {
@@ -142,20 +144,21 @@ public class AppSimpleForm extends javax.swing.JDialog implements AppIModal {
     private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOKActionPerformed
         try {
             oClass.getMethod("set" + className + "_nome", String.class).invoke(object, jTextFieldNome.getText());
-            Object dal = getDal(className);
-            dal.getClass().getMethod(metodo, oClass).invoke(dal, object);
+            Class bll = getBll(className);
+            bll.getMethod(method, Object.class).invoke(bll, object);
 
-            pergunta = friendlyName + mensagem + "\nDeseja continuar?";
-            if (metodo.equals("add")) {
-                if (mensagemEscolher(pergunta, opcoes) > 0) {
+            if (method.equals("add")) {
+                if (mensagemEscolher(question, options) > 0) {
                     object = oClass.getConstructor().newInstance();
-                    jTextFieldNome.setText("");
+                    jTextFieldNome.setText(null);
                     jTextFieldNome.requestFocus();
+                } else {
+                    this.dispose();
                 }
             } else {
-                mensagem("Sucesso!", mensagem);
+                mensagem(messageTitle, message);
+                this.dispose();
             }
-            this.dispose();
 
         } catch (Exception e) {
             mensagemErro(e);

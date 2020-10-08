@@ -14,37 +14,12 @@
  */
 package br.com.vinicius.bll;
 
-import br.com.vinicius.dal.DalTipoMiniatura;
-import br.com.vinicius.model.TipoMiniatura;
+import br.com.vinicius.generic.BllGeneric;
 
 /**
  *
  * @author vovostudio
  */
-public abstract class BllTipoMiniatura {
+public abstract class BllTipoMiniatura extends BllGeneric {
 
-    //--- CREATE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM CREATE ------------------------------------------------------------------------------|
-    //
-    //--- READ ------------------------------------------------------------------------------------>
-    //
-    public static TipoMiniatura getByNome(String nome) throws Exception {
-        return new DalTipoMiniatura().getByNome(nome);
-    }
-
-    public static boolean exists(int tipo_id) throws Exception {
-        return new DalTipoMiniatura().exists(tipo_id);
-    }
-
-    //--- FIM READ --------------------------------------------------------------------------------|
-    //
-    //--- UPDATE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM UPDATE ------------------------------------------------------------------------------|
-    //
-    //--- DELETE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM DELETE ------------------------------------------------------------------------------|
-    //
 }

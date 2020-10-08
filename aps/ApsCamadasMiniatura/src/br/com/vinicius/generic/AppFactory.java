@@ -19,11 +19,15 @@ import static br.com.vinicius.generic.Factory.getClassFromPackage;
 import static br.com.vinicius.generic.Factory.getDal;
 import static br.com.vinicius.generic.Factory.getNewInstance;
 import java.awt.Component;
+import java.awt.Frame;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -38,7 +42,7 @@ public class AppFactory extends Factory {
         for (Component comp : jPanel.getComponents()) {
             if (comp instanceof JComboBox) {
                 JComboBox cb = (JComboBox) comp;
-                fillComboBox(cb, cb.getAccessibleContext().getAccessibleName());
+                fillComboBox(cb, cb.getActionCommand());
             }
         }
     }
@@ -66,7 +70,7 @@ public class AppFactory extends Factory {
     public static void validateSelectionComboBox(JComboBox jComboBox) throws Exception {
         if (jComboBox.getSelectedIndex() == -1) {
             throw new Exception("Selecione o " + jComboBox.getAccessibleContext()
-                    .getAccessibleName().replace("JComboBox", "") + "!");
+                    .getAccessibleName() + "!");
         }
     }
 
@@ -129,4 +133,5 @@ public class AppFactory extends Factory {
     }
     //--- FIM JDialog -----------------------------------------------------------------------------|
     //
+
 }

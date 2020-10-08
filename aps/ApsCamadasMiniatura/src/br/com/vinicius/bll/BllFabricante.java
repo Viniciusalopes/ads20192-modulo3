@@ -14,37 +14,12 @@
  */
 package br.com.vinicius.bll;
 
-import br.com.vinicius.dal.DalFabricante;
-import br.com.vinicius.model.Fabricante;
+import br.com.vinicius.generic.BllGeneric;
 
 /**
  *
  * @author vovostudio
  */
-public abstract class BllFabricante {
+public class BllFabricante extends BllGeneric {
 
-    //--- CREATE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM CREATE ------------------------------------------------------------------------------|
-    //
-    //--- READ ------------------------------------------------------------------------------------>
-    //
-    public static Fabricante getByNome(String nome) throws Exception {
-        return new DalFabricante().getByNome(nome);
-    }
-
-    public static boolean exists(int fabricante_id) throws Exception {
-        return new DalFabricante().exists(fabricante_id);
-    }
-    
-    //--- FIM READ --------------------------------------------------------------------------------|
-    //
-    //--- UPDATE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM UPDATE ------------------------------------------------------------------------------|
-    //
-    //--- DELETE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM DELETE ------------------------------------------------------------------------------|
-    //
 }

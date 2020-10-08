@@ -59,7 +59,7 @@ public class DalTipoMiniatura extends DalGeneric {
         return (TipoMiniatura) getBy(fieldIdColumn, id).get(0);
     }
 
-    public TipoMiniatura getByNome(String nome) throws Exception {
+    public TipoMiniatura getByName(String nome) throws Exception {
         return (TipoMiniatura) getBy("tipo_nome", nome).get(0);
     }
 

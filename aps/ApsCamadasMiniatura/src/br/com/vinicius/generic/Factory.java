@@ -48,8 +48,8 @@ public abstract class Factory {
         return getNewInstance(getClassFromPackage("dal", "Dal" + className));
     }
 
-    public static Object getBll(String className) throws Exception {
-        return getNewInstance(getClassFromPackage("bll", "Bll" + className));
+    public static Class getBll(String className) throws Exception {
+        return getClassFromPackage("bll", "Bll" + className);
     }
 
     public static Object getNewInstance(Class classe) throws Exception {
@@ -66,8 +66,8 @@ public abstract class Factory {
         return object.getClass().getMethod(methodName).invoke(object);
     }
 
-    public static Object invoke(Object object, String methodName, Class classe, Object arg) throws Exception {
-        return object.getClass().getMethod(methodName, classe).invoke(object, arg);
+    public static Object invoke(Object object, String methodName, Class argClass, Object arg) throws Exception {
+        return object.getClass().getMethod(methodName, argClass).invoke(object, arg);
     }
 
     public static boolean dependenciesWhereSatisfied(String mainTable, String[] foreignKeys, String[] friendlyNames) throws Exception {
@@ -109,12 +109,12 @@ public abstract class Factory {
             String fk = foreignKeys[i];
             String fn = friendlyNames[i];
 
-            Object bll = getBll(fk);
+            Class bll = getBll(fk);
             Object object = mainObject.getClass().getMethod("get" + fk).invoke(mainObject);
             int id = (int) getId(object);
 
             // verifica se o cadastro da fk existe
-            if (!(boolean) bll.getClass().getMethod("exists", int.class).invoke(object, id)) {
+            if (!(boolean) bll.getMethod("exists", int.class, String.class).invoke(object, id, fk)) {
                 throw new Exception(fn + " inválido!");
             }
         }
