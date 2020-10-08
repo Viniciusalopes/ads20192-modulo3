@@ -22,5 +22,7 @@ public interface AppIModal {
 
     void setObject(Object object) throws Exception;
 
+    void setFriendlyName(String friendlyName);
+    
     void setVisible(boolean b);
 }

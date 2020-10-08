@@ -14,11 +14,12 @@
  */
 package br.com.vinicius.app;
 
+import br.com.vinicius.generic.AppSimpleForm;
 import br.com.vinicius.generic.AppIModal;
-import static br.com.vinicius.generic.AppFactory.fillGrid;
-import static br.com.vinicius.app.AppMensagem.*;
-import static br.com.vinicius.generic.BllFactory.*;
-import br.com.vinicius.bll.BllMiniatura;
+import static br.com.vinicius.generic.AppFactory.*;
+import static br.com.vinicius.generic.AppMensagem.*;
+import static br.com.vinicius.bll.BllMiniatura.*;
+import br.com.vinicius.generic.AppFactory;
 import br.com.vinicius.model.Miniatura;
 import java.awt.event.KeyEvent;
 
@@ -27,8 +28,6 @@ import java.awt.event.KeyEvent;
  * @author vovostudio
  */
 public class AppPrincipal extends javax.swing.JFrame {
-
-    private BllMiniatura mbll;
 
     /**
      * Creates new form JFramePrincipal
@@ -41,7 +40,6 @@ public class AppPrincipal extends javax.swing.JFrame {
             fillGrid(jTableFabricante);
             fillGrid(jTableTipo);
             fillGrid(jTableMiniatura);
-            mbll = new BllMiniatura();
 
         } catch (Exception e) {
             mensagemErro(e);
@@ -435,7 +433,7 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void jButtonIncluirTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirTemaActionPerformed
         try {
-            getModal("Tema", "add", jTableTema, new AppSimpleForm(this, true));
+            getModal("Tema", "Tema", "add", jTableTema, new AppSimpleForm(this, true));
             fillGrid(jTableTema);
         } catch (Exception e) {
             mensagemErro(e);
@@ -444,7 +442,7 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void jButtonIncluirFabricanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirFabricanteActionPerformed
         try {
-            getModal("Fabricante", "add", jTableFabricante, new AppSimpleForm(this, true));
+            getModal("Fabricante", "Fabricante", "add", jTableFabricante, new AppSimpleForm(this, true));
             fillGrid(jTableFabricante);
         } catch (Exception e) {
             mensagemErro(e);
@@ -453,7 +451,7 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void jButtonIncluirTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirTipoActionPerformed
         try {
-            getModal("TipoMiniatura", "add", jTableTipo, new AppSimpleForm(this, true));
+            getModal("TipoMiniatura", "Tipo de Miniatura", "add", jTableTipo, new AppSimpleForm(this, true));
             fillGrid(jTableTipo);
         } catch (Exception e) {
             mensagemErro(e);
@@ -463,7 +461,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jTableFabricanteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableFabricanteMouseReleased
         try {
             if (evt.getClickCount() == 2) {
-                getModal("Fabricante", "update", jTableFabricante, new AppSimpleForm(this, true));
+                getModal("Fabricante", "Fabricante", "update", jTableFabricante, new AppSimpleForm(this, true));
                 fillGrid(jTableFabricante);
             }
         } catch (Exception e) {
@@ -474,7 +472,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jTableTemaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTemaMouseReleased
         try {
             if (evt.getClickCount() == 2) {
-                getModal("Tema", "update", jTableTema, new AppSimpleForm(this, true));
+                getModal("Tema", "Tema", "update", jTableTema, new AppSimpleForm(this, true));
                 fillGrid(jTableTema);
             }
         } catch (Exception e) {
@@ -485,7 +483,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jTableTipoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTipoMouseReleased
         try {
             if (evt.getClickCount() == 2) {
-                getModal("TipoMiniatura", "update", jTableTipo, new AppSimpleForm(this, true));
+                getModal("TipoMiniatura", "Tipo de Miniatura", "update", jTableTipo, new AppSimpleForm(this, true));
                 fillGrid(jTableTipo);
             }
         } catch (Exception e) {
@@ -537,7 +535,7 @@ public class AppPrincipal extends javax.swing.JFrame {
         try {
             Miniatura miniatura = new Miniatura();
             if (jTableMiniatura.getSelectedRow() > -1) {
-                miniatura = (Miniatura) mbll.getMiniaturaSelecionada(jTableMiniatura);
+                miniatura = (Miniatura) getMiniaturaSelecionada(jTableMiniatura);
             }
 
             if ((evt.getClickCount() == 2)) {

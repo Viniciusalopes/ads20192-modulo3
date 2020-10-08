@@ -12,7 +12,7 @@
  *  
  *  -----------------------------------------------------------------------------------------------| 
  */
-package br.com.vinicius.app;
+package br.com.vinicius.generic;
 
 import javax.swing.JOptionPane;
 

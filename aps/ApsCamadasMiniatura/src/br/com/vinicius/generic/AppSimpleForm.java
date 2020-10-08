@@ -12,11 +12,10 @@
  *  
  *  -----------------------------------------------------------------------------------------------| 
  */
-package br.com.vinicius.app;
+package br.com.vinicius.generic;
 
-import br.com.vinicius.generic.AppIModal;
-import static br.com.vinicius.app.AppMensagem.*;
-import static br.com.vinicius.generic.BllFactory.*;
+import static br.com.vinicius.generic.AppMensagem.*;
+import static br.com.vinicius.generic.Factory.*;
 
 /**
  *
@@ -29,14 +28,14 @@ public class AppSimpleForm extends javax.swing.JDialog implements AppIModal {
     private Object object = null;
     private Class<?> classe = null;
     private String className = "";
-    private String cadastro = "";
+    private String friendlyName = "";
     private int id = 0;
     private String acao = "Incluir";
     private String metodo = "add";
     private String complemento = "";
     private String resultado = "incluido";
-    private String mensagem = cadastro + " " + resultado + " com sucesso!";
-    private String pergunta = cadastro + mensagem + "\nDeseja continuar?";
+    private String mensagem = friendlyName + " " + resultado + " com sucesso!";
+    private String pergunta = friendlyName + mensagem + "\nDeseja continuar?";
     private String[] opcoes = new String[]{"Não... melhor, deixa.", "Sim"};
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
@@ -47,21 +46,25 @@ public class AppSimpleForm extends javax.swing.JDialog implements AppIModal {
     }
 
     @Override
+    public void setFriendlyName(String friendlyName) {
+        this.friendlyName = friendlyName;
+    }
+
+    @Override
     public void setVisible(boolean b) {
         try {
             classe = object.getClass();
             className = classe.getSimpleName();
-            cadastro = className.replace("TipoMiniatura", "Tipo de Miniatura");
             id = getId(object);
-            
-            complemento = cadastro;
+
+            complemento = friendlyName;
 
             if (id > 0) {
                 acao = "Editar";
                 metodo = "update";
                 complemento += " [ ID: " + id + " ]";
                 resultado = "editado";
-                mensagem = cadastro + " " + resultado + " com sucesso!";
+                mensagem = friendlyName + " " + resultado + " com sucesso!";
                 jTextFieldNome.setText(classe.getMethod("get" + className + "_nome").invoke(object).toString());
             }
             this.setTitle(acao + " cadastro de " + complemento);
@@ -142,7 +145,7 @@ public class AppSimpleForm extends javax.swing.JDialog implements AppIModal {
             Object dal = getDal(className);
             dal.getClass().getMethod(metodo, classe).invoke(dal, object);
 
-            pergunta = cadastro + mensagem + "\nDeseja continuar?";
+            pergunta = friendlyName + mensagem + "\nDeseja continuar?";
             if (metodo.equals("add")) {
                 if (mensagemEscolher(pergunta, opcoes) > 0) {
                     object = classe.getConstructor().newInstance();

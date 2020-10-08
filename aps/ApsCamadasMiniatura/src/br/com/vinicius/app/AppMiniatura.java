@@ -14,14 +14,12 @@
  */
 package br.com.vinicius.app;
 
+import static br.com.vinicius.generic.AppFactory.*;
+import static br.com.vinicius.generic.AppMensagem.*;
+import br.com.vinicius.generic.AppSimpleForm;
 import br.com.vinicius.generic.AppIModal;
-import static br.com.vinicius.generic.AppFactory.fillComboBox;
-import static br.com.vinicius.generic.AppFactory.fillComboBoxes;
-import static br.com.vinicius.generic.AppFactory.validateSelectionComboBoxes;
 import br.com.vinicius.bll.*;
 import br.com.vinicius.model.Miniatura;
-import static br.com.vinicius.app.AppMensagem.*;
-import static br.com.vinicius.generic.BllFactory.*;
 import br.com.vinicius.dal.DalFabricante;
 import java.util.Calendar;
 import javax.swing.JComboBox;
@@ -42,24 +40,30 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
     }
 
     @Override
+    public void setFriendlyName(String friendlyName) {
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+
+    @Override
     public void setVisible(boolean b) {
         try {
-            bll = new BllMiniatura();
+            
             if (mini.getMiniatura_id() > 0) {
                 action = "Editar ";
             }
             this.setTitle(action + this.getTitle());
 
-            if(new DalFabricante().isEmptyTable())
-            fillComboBoxes(jPanelCombos);
+            if (new DalFabricante().isEmptyTable()) {
+                fillComboBoxes(jPanelCombos);
+            }
 
 //            // Verifico se tem pelo menos um cadastro dos relacionamentos necessários
 //            if (existemRelacionamentos(
 //                    new String[]{"Fabricante", "TipoMiniatura", "Tema"},
 //                    new String[]{"Fabricante", "Tipo de Miniatura", "Tema"},
 //                    new JComboBox[]{jComboBoxFabricante, jComboBoxTipoMiniatura, jComboBoxTema})) {
-                valoresIniciais();
-                super.setVisible(b);
+            valoresIniciais();
+            super.setVisible(b);
 //            } else {
 //                this.dispose();
 //            }
@@ -83,7 +87,7 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
 
             if (jComboBox.getItemCount() == 0) {
                 if (mensagemEscolher(pergunta, new String[]{"Sair do sistema", "Incluir um " + amigavel}) > 0) {
-                    getModal(rel, "Incluir", null, new AppSimpleForm(null, true));
+                    getModal(rel, amigavel, "add", null, new AppSimpleForm(null, true));
                     fillComboBox(jComboBox, rel);
                 }
             }
@@ -131,9 +135,9 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
 
         validateSelectionComboBoxes(jPanelCombos);
 
-        mini.setFabricante(new BllFabricante().getByNome(jComboBoxFabricante.getSelectedItem() + ""));
-        mini.setTipo(new BllTipoMiniatura().getByNome(jComboBoxTipoMiniatura.getSelectedItem() + ""));
-        mini.setTema(new BllTema().getByNome(jComboBoxTema.getSelectedItem() + ""));
+        mini.setFabricante(BllFabricante.getByNome(jComboBoxFabricante.getSelectedItem() + ""));
+        mini.setTipo(BllTipoMiniatura.getByNome(jComboBoxTipoMiniatura.getSelectedItem() + ""));
+        mini.setTema(BllTema.getByNome(jComboBoxTema.getSelectedItem() + ""));
 
         bll.validar(mini);
         bll.incluir(mini);
