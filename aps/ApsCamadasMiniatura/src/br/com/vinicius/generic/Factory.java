@@ -14,6 +14,10 @@
  */
 package br.com.vinicius.generic;
 
+import static br.com.vinicius.generic.AppFactory.getModal;
+import static br.com.vinicius.generic.AppMensagem.mensagemEscolher;
+import java.lang.reflect.Method;
+
 /**
  *
  * @author vovostudio
@@ -64,6 +68,56 @@ public abstract class Factory {
 
     public static Object invoke(Object object, String methodName, Class classe, Object arg) throws Exception {
         return object.getClass().getMethod(methodName, classe).invoke(object, arg);
+    }
+
+    public static boolean dependenciesWhereSatisfied(String mainTable, String[] foreignKeys, String[] friendlyNames) throws Exception {
+
+        String fk = "";
+        String fn = "";
+
+        Object dal;
+        Method method;
+
+        // Verifico se tem pelo menos um cadastro das dependências necessárias
+        String pergunta = "";
+        for (int i = 0; i < foreignKeys.length; i++) {
+            fk = foreignKeys[i];
+            fn = friendlyNames[i];
+
+            pergunta = "Para cadastrar " + mainTable + " você precisa cadastrar um " + fn + ".\n"
+                    + "O que deseja fazer?";
+
+            dal = getDal(fk);
+            method = dal.getClass().getMethod("isEmptyTable");
+
+            if ((boolean) method.invoke(dal)) {
+                if (mensagemEscolher(pergunta, new String[]{"Sair do sistema", "Incluir um " + fn}) > 0) {
+                    getModal(fk, fn, "add", null, new AppSimpleForm(null, true));
+                }
+            }
+
+            if ((boolean) method.invoke(dal)) {
+                throw new Exception("Não é possível incluir uma " + mainTable + ".\n"
+                        + "Você não incluiu nenhum " + fn + ".");
+            }
+        }
+        return true;
+    }
+
+    public static void checkForeignKeys(Object mainObject, String[] foreignKeys, String[] friendlyNames) throws Exception {
+        for (int i = 0; i < foreignKeys.length; i++) {
+            String fk = foreignKeys[i];
+            String fn = friendlyNames[i];
+
+            Object bll = getBll(fk);
+            Object object = mainObject.getClass().getMethod("get" + fk).invoke(mainObject);
+            int id = (int) getId(object);
+
+            // verifica se o cadastro da fk existe
+            if (!(boolean) bll.getClass().getMethod("exists", int.class).invoke(object, id)) {
+                throw new Exception(fn + " inválido!");
+            }
+        }
     }
 
     //--- FIM GET ---------------------------------------------------------------------------------|
