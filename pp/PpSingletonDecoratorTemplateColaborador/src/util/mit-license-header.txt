@@ -1,0 +1,18 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix} ----------------------------------------------------------------------------------------------->
+${licensePrefix} Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
+${licensePrefix} Criado em  : ${date?date?string("dd/MM/yyyy")} ${time?time?string("HH:mm:ss")} 
+${licensePrefix} Instituição: FACULDADE SENAI FATESG
+${licensePrefix} Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+${licensePrefix} Disciplina : PP - Padrões de Projeto
+${licensePrefix} Aluno      : Vinicius Araujo Lopes
+${licensePrefix} Projeto    : SINGLETON / DECORATOR / TEMPLATE
+${licensePrefix} Exercício  : Colaboradores de uma empresa
+${licensePrefix} ------------------------------------------------------------------------------------------------
+${licensePrefix} Propósito do arquivo.
+${licensePrefix} -----------------------------------------------------------------------------------------------| 
+<#if licenseLast??>
+${licenseLast}
+</#if>
