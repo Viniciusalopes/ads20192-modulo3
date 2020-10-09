@@ -1,7 +1,7 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 09/10/2020 13:53:27 
+ *  Criado em  : 09/10/2020 19:13:03 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : PP - Padrões de Projeto
@@ -9,63 +9,68 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Demonstrar a personalização de cabeçalhos de arquivos para um projeto.
+ *  Configurações para conexão com banco de dados PostgreSQL (SINGLETON).
  *  -----------------------------------------------------------------------------------------------| 
  */
-
-package generic;
+package generic.dal;
 
 /**
  *
  * @author vovostudio
  */
-public class HeaderDoProjeto {
+public class BDConfig {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-
+    private static BDConfig config = null;
+    private final String server = "//srv-ubuntu";
+    private final String port = "5433";
+    private final String database = "apsminiatura";
+    private final String user = "postgres";
+    private final String password = "vin";
+    private final String driver = "org.postgresql.Driver";
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
-    
+
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
+    private BDConfig() {
 
+    }
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
-    
     //--- GET ------------------------------------------------------------------------------------->
-    //
 
+    public static BDConfig getInstance() {
+        if (config == null) {
+            config = new BDConfig();
+        }
+        return config;
+    }
+
+    public String getServer() {
+        return server;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public String getDatabase() {
+        return database;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getDriver() {
+        return driver;
+    }
     //--- FIM GET ---------------------------------------------------------------------------------|
-    //
-    
-    //--- SET ------------------------------------------------------------------------------------->
-    //
-
-    //--- FIM SET ---------------------------------------------------------------------------------|
-    //
-
-    //--- CREATE ---------------------------------------------------------------------------------->
-    //
-
-    //--- FIM CREATE ------------------------------------------------------------------------------|
-    //
-    
-    //--- READ ------------------------------------------------------------------------------------>
-    //
-
-    //--- FIM READ --------------------------------------------------------------------------------|
-    //
-    
-    //--- UPDATE ---------------------------------------------------------------------------------->
-    //
-
-    //--- FIM UPDATE ------------------------------------------------------------------------------|
-    //
-    
-    //--- DELETE ---------------------------------------------------------------------------------->
-    //
-
-    //--- FIM DELETE ------------------------------------------------------------------------------|
     //
 }
