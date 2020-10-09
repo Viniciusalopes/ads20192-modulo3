@@ -20,6 +20,7 @@ import static br.com.vinicius.generic.AppMensagem.*;
 import static br.com.vinicius.bll.BllMiniatura.*;
 import br.com.vinicius.model.Miniatura;
 import java.awt.event.KeyEvent;
+import javax.swing.JFrame;
 
 /**
  *
@@ -42,6 +43,7 @@ public class AppPrincipal extends javax.swing.JFrame {
             fillGrid(jTableFabricante);
             fillGrid(jTableTipo);
             fillGrid(jTableMiniatura);
+            fillGrid(jTableConfiguracao);
         } catch (Exception e) {
             mensagemErro(e);
             System.exit(1);
@@ -80,6 +82,10 @@ public class AppPrincipal extends javax.swing.JFrame {
         jScrollPaneTipo = new javax.swing.JScrollPane();
         jTableTipo = new javax.swing.JTable();
         jButtonIncluirTipo = new javax.swing.JButton();
+        jPanelConfiguracao = new javax.swing.JPanel();
+        jButtonIncluirConfiguracao = new javax.swing.JButton();
+        jScrollPaneTipo1 = new javax.swing.JScrollPane();
+        jTableConfiguracao = new javax.swing.JTable();
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -95,6 +101,7 @@ public class AppPrincipal extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         jButtonIncluirMiniatura.setText("Incluir");
         jButtonIncluirMiniatura.addActionListener(new java.awt.event.ActionListener() {
@@ -173,7 +180,7 @@ public class AppPrincipal extends javax.swing.JFrame {
                         .addGroup(jPanelMiniaturaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelObservacoes)
                             .addComponent(jButtonIncluirMiniatura))
-                        .addGap(0, 835, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanelMiniaturaLayout.setVerticalGroup(
@@ -410,6 +417,79 @@ public class AppPrincipal extends javax.swing.JFrame {
 
         jTabbedPanePrincipal.addTab("Tipos de Miniaturas", jPanelTipo);
 
+        jButtonIncluirConfiguracao.setText("Incluir");
+        jButtonIncluirConfiguracao.setEnabled(false);
+        jButtonIncluirConfiguracao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIncluirConfiguracaoActionPerformed(evt);
+            }
+        });
+
+        jTableConfiguracao.setAutoCreateRowSorter(true);
+        jTableConfiguracao.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nome da configuração", "Valor da configuração"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableConfiguracao.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableConfiguracao.getTableHeader().setReorderingAllowed(false);
+        jTableConfiguracao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableConfiguracaoMouseReleased(evt);
+            }
+        });
+        jTableConfiguracao.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTableConfiguracaoKeyReleased(evt);
+            }
+        });
+        jScrollPaneTipo1.setViewportView(jTableConfiguracao);
+        if (jTableConfiguracao.getColumnModel().getColumnCount() > 0) {
+            jTableConfiguracao.getColumnModel().getColumn(0).setMinWidth(100);
+            jTableConfiguracao.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jTableConfiguracao.getColumnModel().getColumn(0).setMaxWidth(100);
+            jTableConfiguracao.getColumnModel().getColumn(1).setMinWidth(250);
+            jTableConfiguracao.getColumnModel().getColumn(1).setPreferredWidth(250);
+            jTableConfiguracao.getColumnModel().getColumn(1).setMaxWidth(250);
+        }
+        jTableConfiguracao.getAccessibleContext().setAccessibleName("Configuracao");
+
+        javax.swing.GroupLayout jPanelConfiguracaoLayout = new javax.swing.GroupLayout(jPanelConfiguracao);
+        jPanelConfiguracao.setLayout(jPanelConfiguracaoLayout);
+        jPanelConfiguracaoLayout.setHorizontalGroup(
+            jPanelConfiguracaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConfiguracaoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelConfiguracaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelConfiguracaoLayout.createSequentialGroup()
+                        .addComponent(jButtonIncluirConfiguracao)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPaneTipo1))
+                .addContainerGap())
+        );
+        jPanelConfiguracaoLayout.setVerticalGroup(
+            jPanelConfiguracaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelConfiguracaoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonIncluirConfiguracao)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneTipo1)
+                .addContainerGap())
+        );
+
+        jTabbedPanePrincipal.addTab("Configurações", jPanelConfiguracao);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -560,6 +640,18 @@ public class AppPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonIncluirMiniaturaActionPerformed
 
+    private void jButtonIncluirConfiguracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirConfiguracaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonIncluirConfiguracaoActionPerformed
+
+    private void jTableConfiguracaoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableConfiguracaoMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTableConfiguracaoMouseReleased
+
+    private void jTableConfiguracaoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableConfiguracaoKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTableConfiguracaoKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -611,11 +703,13 @@ public class AppPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonIncluirConfiguracao;
     private javax.swing.JButton jButtonIncluirFabricante;
     private javax.swing.JButton jButtonIncluirMiniatura;
     private javax.swing.JButton jButtonIncluirTema;
     private javax.swing.JButton jButtonIncluirTipo;
     private javax.swing.JLabel jLabelObservacoes;
+    private javax.swing.JPanel jPanelConfiguracao;
     private javax.swing.JPanel jPanelFabricante;
     private javax.swing.JPanel jPanelMiniatura;
     private javax.swing.JPanel jPanelTema;
@@ -627,8 +721,10 @@ public class AppPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPaneMiniaturas2;
     private javax.swing.JScrollPane jScrollPaneObservacoes;
     private javax.swing.JScrollPane jScrollPaneTipo;
+    private javax.swing.JScrollPane jScrollPaneTipo1;
     private javax.swing.JTabbedPane jTabbedPanePrincipal;
     private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTableConfiguracao;
     private javax.swing.JTable jTableFabricante;
     private javax.swing.JTable jTableGaleria;
     private javax.swing.JTable jTableMiniatura;

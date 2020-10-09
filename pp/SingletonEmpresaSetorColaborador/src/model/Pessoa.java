@@ -14,9 +14,7 @@
  */
 package model;
 
-import java.util.ArrayList;
 import util.EnumConstantes;
-import util.EnumHabilidades;
 
 /**
  *
@@ -26,7 +24,6 @@ public abstract class Pessoa extends GenericObject {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    protected ArrayList<Habilidade> habilidades = null;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
@@ -45,9 +42,6 @@ public abstract class Pessoa extends GenericObject {
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
-    public ArrayList<Habilidade> getHabilidades() {
-        return habilidades;
-    }
 
     @Override
     public String toString() {
@@ -58,9 +52,6 @@ public abstract class Pessoa extends GenericObject {
 
     //--- SET ------------------------------------------------------------------------------------->
     //
-    public void setHabilidades(ArrayList<Habilidade> habilidades) {
-        this.habilidades = habilidades;
-    }
 
     //--- FIM SET ---------------------------------------------------------------------------------|
     //

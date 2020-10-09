@@ -30,9 +30,9 @@ public abstract class BllMiniatura {
 
     //--- CREATE ---------------------------------------------------------------------------------->
     //
-    public static void validar(Miniatura miniatura) throws Exception {
+    public static void validate(Miniatura miniatura) throws Exception {
 
-        validarCampo(miniatura.getModelo(), "modelo");
+        validarCampoTamanho(miniatura.getModelo(), "Modelo");
 
         if (miniatura.getAno().trim().length() != 4) {
             throw new Exception("O ano deve ter 4 dígitos!");
@@ -52,7 +52,7 @@ public abstract class BllMiniatura {
         checkForeignKeys(miniatura, foreignKeys, friendlyNames);
     }
 
-    public static void incluir(Miniatura miniatura) throws Exception {
+    public static void add(Miniatura miniatura) throws Exception {
         new DalMiniatura().add(miniatura);
     }
 
@@ -60,6 +60,7 @@ public abstract class BllMiniatura {
     //
     //--- READ ------------------------------------------------------------------------------------>
     //
+    
     public static Miniatura getMiniaturaSelecionada(JTable jTable) throws Exception {
         return (Miniatura) getObjectByid(getSelectedId(jTable), "Miniatura");
     }

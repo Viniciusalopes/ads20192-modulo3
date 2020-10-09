@@ -90,6 +90,14 @@ public abstract class BllGeneric {
 
     }
 
+    public static void validarCampoTamanho(String texto, String nomeDoCampoTexto) throws Exception {
+        try {
+            validarNome(texto);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage().replace("nome", nomeDoCampoTexto));
+        }
+    }
+
     public static void validarCampo(String texto, String nomeDoCampoTexto) throws Exception {
         try {
             validarNome(texto);

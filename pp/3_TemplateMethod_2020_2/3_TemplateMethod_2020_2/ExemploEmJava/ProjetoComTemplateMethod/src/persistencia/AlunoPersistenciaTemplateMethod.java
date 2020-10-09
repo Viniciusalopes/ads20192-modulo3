@@ -40,6 +40,7 @@ public abstract class AlunoPersistenciaTemplateMethod {
             //algoritmo de Ordenação
             for (int i = 0; i < array.size(); i++) {
                 for (int j = i; j < array.size(); j++) {
+                    
                     if (!ePrimeiro(array.get(i),array.get(j))) {    
                         Aluno temp = array.get(j);
                         array.set(j, array.get(i));

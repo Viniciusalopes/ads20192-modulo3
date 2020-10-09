@@ -42,7 +42,6 @@ public class AppSimpleForm extends javax.swing.JDialog implements AppIModal {
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     @Override
-
     public void setObject(Object object) {
         this.object = object;
         oClass = object.getClass();

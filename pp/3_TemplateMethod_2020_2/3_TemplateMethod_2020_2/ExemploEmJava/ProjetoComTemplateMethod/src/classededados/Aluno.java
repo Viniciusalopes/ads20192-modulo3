@@ -28,7 +28,7 @@ public class Aluno {
     /**
      * @return the matricula
      */
-    public String getCurso() {
+    public String getMatricula() {
         return matricula;
     }
 

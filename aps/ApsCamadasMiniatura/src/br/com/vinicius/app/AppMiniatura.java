@@ -18,6 +18,8 @@ import static br.com.vinicius.generic.AppFactory.*;
 import static br.com.vinicius.generic.AppMensagem.*;
 import br.com.vinicius.generic.AppIModal;
 import br.com.vinicius.bll.*;
+import br.com.vinicius.generic.AppSimpleForm;
+import static br.com.vinicius.generic.BllGeneric.validarCampoTamanho;
 import br.com.vinicius.model.Fabricante;
 import br.com.vinicius.model.Miniatura;
 import br.com.vinicius.model.Tema;
@@ -30,12 +32,30 @@ import java.util.Calendar;
  */
 public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
 
-    private String action = "Incluir ";
-    private Miniatura mini;
+    //--- ATRIBUTOS ------------------------------------------------------------------------------->
+    //
+    private Object object = null;
+    private Miniatura mini = null;
     private String friendlyName = "";
+    private Class<?> oClass = null;
+    private String className = "";
+    private String action = "Incluir";
+    private String method = "add";
+    private String result = "incluído";
+    private String again = "incluindo";
+    private int id = 0;
+    private String complement = "";
+    private String messageTitle = "Sucesso!";
+    private String message = friendlyName + " " + result + " com sucesso!";
+    private String question = friendlyName + message + "\nDeseja continuar " + again + "?";
+    private String[] options = new String[]{"Não... melhor, deixa.", "Sim"};
 
+    //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     @Override
-    public void setObject(Object object) throws Exception {
+    public void setObject(Object object) {
+        this.object = object;
+        oClass = object.getClass();
+        className = oClass.getSimpleName();
         mini = (Miniatura) object;
     }
 
@@ -46,31 +66,41 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
 
     @Override
     public void setVisible(boolean b) {
+
         try {
-
-            if (mini.getMiniatura_id() > 0) {
-                action = "Editar ";
-            }
-            this.setTitle(action + this.getTitle());
-
-            if (dependenciesWhereSatisfied(
-                    friendlyName,
-                    new String[]{"Fabricante", "Tema", "TipoMiniatura"},
-                    new String[]{"Fabricante", "Tema", "Tipo de Miniatura"}
-            )) {
-                fillComboBoxes(jPanelCombos);
-                valoresIniciais();
-                super.setVisible(b);
+            id = getId(object);
+            if (id == 0) {
+                if (!dependenciesWhereSatisfied(
+                        friendlyName,
+                        new String[]{"Fabricante", "Tema", "TipoMiniatura"},
+                        new String[]{"Fabricante", "Tema", "Tipo de Miniatura"}
+                )) {
+                    this.dispose();
+                }
             } else {
-                this.dispose();
+                action = "Editar";
+                method = "update";
+                result = "editado";
+                again = "";
+                complement += " [ ID: " + id + " ]";
             }
+
+            message = friendlyName + " " + result + " com sucesso!";
+            question = message + "\nDeseja continuar " + again + "?";
+
+            fillComboBoxes(jPanelCombos);
+            valoresIniciais();
+
+            this.setTitle(action + " " + this.getTitle());
+            super.setVisible(b);
+
         } catch (Exception e) {
             mensagemErro(e);
         }
     }
 
     private void valoresIniciais() throws Exception {
-        if (action.equals("Editar ")) {
+        if (action.equals("Editar")) {
             jTextFieldModelo.setText(mini.getModelo());
 
             // FONTE: https://www.guj.com.br/t/resolvido-como-obter-o-ano-atual/53778/2
@@ -95,10 +125,12 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
         }
     }
 
-    private void salvar() throws Exception {
-
+    private void validarPreenchimento() throws Exception {
+        validarCampoTamanho(jTextFieldModelo.getText(), "Modelo");
         validateSelectionComboBoxes(jPanelCombos);
+    }
 
+    private void preencherMini() throws Exception {
         mini.setModelo(jTextFieldModelo.getText());
         mini.setAno(jSpinnerAno.getValue() + "");
         mini.setEdicao(jSpinnerEdicao.getValue() + "");
@@ -106,9 +138,16 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
         mini.setFabricante((Fabricante) BllFabricante.getByName(jComboBoxFabricante.getSelectedItem() + "", "Fabricante"));
         mini.setTipo((TipoMiniatura) BllTipoMiniatura.getByName(jComboBoxTipoMiniatura.getSelectedItem() + "", "TipoMiniatura"));
         mini.setTema((Tema) BllTema.getByName(jComboBoxTema.getSelectedItem() + "", "Tema"));
+        mini.setObservacoes(jTextAreaObservacoes.getText());
+        
+    }
 
-        BllMiniatura.validar(mini);
-        BllMiniatura.incluir(mini);
+    private void salvar() throws Exception {
+
+        validarPreenchimento();
+        preencherMini();
+        BllMiniatura.validate(mini);
+        BllMiniatura.add(mini);
         mensagem("Sucesso", "Miniatura " + (action.equals("Incluir") ? "incluída" : "editada") + " com sucesso!");
         this.dispose();
     }
@@ -147,12 +186,19 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
         jComboBoxTema = new javax.swing.JComboBox<>();
         jComboBoxTipoMiniatura = new javax.swing.JComboBox<>();
         jLabelTipoMiniatura = new javax.swing.JLabel();
+        jButtonCadastroFabricante = new javax.swing.JButton();
+        jButtonCadastroTema = new javax.swing.JButton();
+        jButtonCadastroTipo = new javax.swing.JButton();
         jLabelValor = new javax.swing.JLabel();
         jFormattedTextFieldValor = new javax.swing.JFormattedTextField();
         jButtonAdicionarFoto = new javax.swing.JButton();
         jButtonSalvar = new javax.swing.JButton();
-        jScrollPaneGaleria = new javax.swing.JScrollPane();
         jTableGaleria = new javax.swing.JTable();
+        jLabelObservacoes = new javax.swing.JLabel();
+        jScrollPaneObservacoes = new javax.swing.JScrollPane();
+        jTextAreaObservacoes = new javax.swing.JTextArea();
+        jScrollPaneGaleria = new javax.swing.JScrollPane();
+        jTableGaleria1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("cadastro de Miniatura");
@@ -189,6 +235,27 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
 
         jLabelTipoMiniatura.setText("Tipo de Miniatura");
 
+        jButtonCadastroFabricante.setText("+");
+        jButtonCadastroFabricante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCadastroFabricanteActionPerformed(evt);
+            }
+        });
+
+        jButtonCadastroTema.setText("+");
+        jButtonCadastroTema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCadastroTemaActionPerformed(evt);
+            }
+        });
+
+        jButtonCadastroTipo.setText("+");
+        jButtonCadastroTipo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCadastroTipoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelCombosLayout = new javax.swing.GroupLayout(jPanelCombos);
         jPanelCombos.setLayout(jPanelCombosLayout);
         jPanelCombosLayout.setHorizontalGroup(
@@ -196,35 +263,45 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
             .addGroup(jPanelCombosLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelCombosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBoxFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelCombosLayout.createSequentialGroup()
+                        .addComponent(jComboBoxFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jButtonCadastroFabricante))
                     .addComponent(jLabelFabricante))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelCombosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBoxTema, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelTema))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabelTema)
+                    .addGroup(jPanelCombosLayout.createSequentialGroup()
+                        .addComponent(jComboBoxTema, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jButtonCadastroTema)))
                 .addGroup(jPanelCombosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBoxTipoMiniatura, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelTipoMiniatura))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanelCombosLayout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabelTipoMiniatura))
+                    .addGroup(jPanelCombosLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBoxTipoMiniatura, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jButtonCadastroTipo)))
+                .addGap(0, 11, Short.MAX_VALUE))
         );
         jPanelCombosLayout.setVerticalGroup(
             jPanelCombosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelCombosLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelCombosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelCombosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanelCombosLayout.createSequentialGroup()
-                        .addComponent(jLabelTipoMiniatura)
-                        .addGap(0, 0, 0)
-                        .addComponent(jComboBoxTipoMiniatura))
-                    .addGroup(jPanelCombosLayout.createSequentialGroup()
-                        .addComponent(jLabelTema)
-                        .addGap(0, 0, 0)
-                        .addComponent(jComboBoxTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelCombosLayout.createSequentialGroup()
-                        .addComponent(jLabelFabricante)
-                        .addGap(0, 0, 0)
-                        .addComponent(jComboBoxFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(jPanelCombosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelFabricante)
+                    .addComponent(jLabelTema)
+                    .addComponent(jLabelTipoMiniatura))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelCombosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCadastroFabricante)
+                    .addComponent(jComboBoxTema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCadastroTema)
+                    .addComponent(jComboBoxTipoMiniatura, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCadastroTipo))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -235,6 +312,11 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
         jLabelValor.setText("Valor");
 
         jFormattedTextFieldValor.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jFormattedTextFieldValor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextFieldValorActionPerformed(evt);
+            }
+        });
 
         jButtonAdicionarFoto.setText("Adicionar Foto");
 
@@ -255,51 +337,77 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
         ));
         jTableGaleria.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
+        jLabelObservacoes.setText("Observações");
+
+        jTextAreaObservacoes.setColumns(20);
+        jTextAreaObservacoes.setRows(5);
+        jTextAreaObservacoes.setPreferredSize(new java.awt.Dimension(220, 80));
+        jScrollPaneObservacoes.setViewportView(jTextAreaObservacoes);
+
+        jTableGaleria1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
+            }
+        ));
+        jTableGaleria1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPaneGaleria.setViewportView(jTableGaleria1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelModelo))
-                        .addGap(27, 27, 27)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSpinnerAno, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabelAno))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelEdicao)
-                            .addComponent(jSpinnerEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelEscala)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jSpinnerEscalaUm, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabelDoisPontosEscala)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSpinnerEscalaPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(9, 9, 9)
+                        .addComponent(jLabelObservacoes)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonAdicionarFoto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonSalvar))
-                    .addComponent(jScrollPaneGaleria)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanelCombos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFormattedTextFieldValor, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabelValor))))
-                .addGap(20, 20, 20))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPaneObservacoes)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanelCombos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jFormattedTextFieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabelValor)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelModelo)
+                                    .addComponent(jTextFieldModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jSpinnerAno, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabelAno))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelEdicao)
+                                    .addComponent(jSpinnerEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(30, 30, 30)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelEscala)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jSpinnerEscalaUm, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabelDoisPontosEscala)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jSpinnerEscalaPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButtonSalvar))))
+                            .addComponent(jScrollPaneGaleria, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(20, 20, 20))))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 42, Short.MAX_VALUE)
+                    .addGap(0, 252, Short.MAX_VALUE)
                     .addComponent(jTableGaleria, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 43, Short.MAX_VALUE)))
+                    .addGap(0, 251, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,7 +423,8 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
                             .addComponent(jSpinnerEdicao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSpinnerEscalaUm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelDoisPontosEscala)
-                            .addComponent(jSpinnerEscalaPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jSpinnerEscalaPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButtonSalvar)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelAno, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -324,27 +433,29 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextFieldModelo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jSpinnerAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabelValor)
-                        .addGap(0, 0, 0)
-                        .addComponent(jFormattedTextFieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFormattedTextFieldValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jPanelCombos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(15, 15, 15)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonAdicionarFoto)
-                    .addComponent(jButtonSalvar))
+                .addComponent(jLabelObservacoes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPaneGaleria, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPaneObservacoes, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonAdicionarFoto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneGaleria, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
                 .addGap(20, 20, 20))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 180, Short.MAX_VALUE)
+                    .addGap(0, 277, Short.MAX_VALUE)
                     .addComponent(jTableGaleria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 181, Short.MAX_VALUE)))
+                    .addGap(0, 277, Short.MAX_VALUE)))
         );
 
         pack();
@@ -357,6 +468,37 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
             mensagemErro(e);
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jFormattedTextFieldValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldValorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextFieldValorActionPerformed
+
+    private void jButtonCadastroFabricanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastroFabricanteActionPerformed
+        try {
+            getModal("Fabricante", "Fabricante", "add", null, new AppSimpleForm(null, true));
+            fillComboBox(jComboBoxFabricante, "Fabricante");
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jButtonCadastroFabricanteActionPerformed
+
+    private void jButtonCadastroTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastroTemaActionPerformed
+        try {
+            getModal("Tema", "Tema", "add", null, new AppSimpleForm(null, true));
+            fillComboBox(jComboBoxTema, "Tema");
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jButtonCadastroTemaActionPerformed
+
+    private void jButtonCadastroTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastroTipoActionPerformed
+        try {
+            getModal("TipoMiniatura", "Tipo de Miniatura", "add", null, new AppSimpleForm(null, true));
+            fillComboBox(jComboBoxTipoMiniatura, "TipoMiniatura");
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jButtonCadastroTipoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -403,6 +545,9 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdicionarFoto;
+    private javax.swing.JButton jButtonCadastroFabricante;
+    private javax.swing.JButton jButtonCadastroTema;
+    private javax.swing.JButton jButtonCadastroTipo;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JComboBox<String> jComboBoxFabricante;
     private javax.swing.JComboBox<String> jComboBoxTema;
@@ -414,16 +559,20 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
     private javax.swing.JLabel jLabelEscala;
     private javax.swing.JLabel jLabelFabricante;
     private javax.swing.JLabel jLabelModelo;
+    private javax.swing.JLabel jLabelObservacoes;
     private javax.swing.JLabel jLabelTema;
     private javax.swing.JLabel jLabelTipoMiniatura;
     private javax.swing.JLabel jLabelValor;
     private javax.swing.JPanel jPanelCombos;
     private javax.swing.JScrollPane jScrollPaneGaleria;
+    private javax.swing.JScrollPane jScrollPaneObservacoes;
     private javax.swing.JSpinner jSpinnerAno;
     private javax.swing.JSpinner jSpinnerEdicao;
     private javax.swing.JSpinner jSpinnerEscalaPor;
     private javax.swing.JSpinner jSpinnerEscalaUm;
     private javax.swing.JTable jTableGaleria;
+    private javax.swing.JTable jTableGaleria1;
+    private javax.swing.JTextArea jTextAreaObservacoes;
     private javax.swing.JTextField jTextFieldModelo;
     // End of variables declaration//GEN-END:variables
 }

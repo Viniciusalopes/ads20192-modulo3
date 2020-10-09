@@ -131,6 +131,7 @@ public class AppFactory extends Factory {
         modal.setFriendlyName(friendlyName);
         modal.setVisible(true);
     }
+    
     //--- FIM JDialog -----------------------------------------------------------------------------|
     //
 

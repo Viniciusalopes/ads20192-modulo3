@@ -20,7 +20,6 @@ import dao.generic.model.Field;
 import dao.generic.model.Where;
 import java.util.ArrayList;
 import model.Colaborador;
-import model.Habilidade;
 
 /**
  *
