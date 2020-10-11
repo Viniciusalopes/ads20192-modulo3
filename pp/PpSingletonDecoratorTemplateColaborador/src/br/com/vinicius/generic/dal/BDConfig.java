@@ -1,7 +1,7 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 09/10/2020 19:37:33 
+ *  Criado em  : 09/10/2020 19:13:03 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : PP - Padrões de Projeto
@@ -9,67 +9,68 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Modelo de objeto Habilidade.
+ *  Configurações para conexão com banco de dados PostgreSQL (SINGLETON).
  *  -----------------------------------------------------------------------------------------------| 
  */
-package model;
+package br.com.vinicius.generic.dal;
 
 /**
  *
  * @author vovostudio
  */
-public class Habilidade {
+public class BDConfig {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private int id = 0;
-    private String nome = "";
-    private HabilidadeOrigem origem = new HabilidadeOrigem();
+    private static BDConfig config = null;
+    private final String server = "//srv-ubuntu-p13";
+    private final String port = "5433";
+    private final String database = "PpEmpresa";
+    private final String user = "postgres";
+    private final String password = "vin";
+    private final String driver = "org.postgresql.Driver";
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public Habilidade() {
-    }
+    private BDConfig() {
 
-    public Habilidade(int id, String nome, HabilidadeOrigem origem) {
-        this.id = id;
-        this.nome = nome;
-        this.origem = origem;
     }
-
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
     //--- GET ------------------------------------------------------------------------------------->
-    //
-    public int getId() {
-        return id;
+
+    public static BDConfig getInstance() {
+        if (config == null) {
+            config = new BDConfig();
+        }
+        return config;
     }
 
-    public String getNome() {
-        return nome;
+    public String getServer() {
+        return server;
     }
 
-    public HabilidadeOrigem getOrigem() {
-        return origem;
+    public String getPort() {
+        return port;
     }
 
+    public String getDatabase() {
+        return database;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getDriver() {
+        return driver;
+    }
     //--- FIM GET ---------------------------------------------------------------------------------|
-    //
-    //--- SET ------------------------------------------------------------------------------------->
-    //
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setOrigem(HabilidadeOrigem origem) {
-        this.origem = origem;
-    }
-    //--- FIM SET ---------------------------------------------------------------------------------|
     //
 }

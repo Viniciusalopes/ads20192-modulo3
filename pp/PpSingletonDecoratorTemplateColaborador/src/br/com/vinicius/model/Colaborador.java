@@ -1,7 +1,7 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 09/10/2020 19:29:40 
+ *  Criado em  : 09/10/2020 19:35:40 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : PP - Padrões de Projeto
@@ -9,10 +9,10 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Modelo de objeto Setor.
+ *  Modelo de objeto Colaborador.
  *  -----------------------------------------------------------------------------------------------| 
  */
-package model;
+package br.com.vinicius.model;
 
 import java.util.ArrayList;
 
@@ -20,27 +20,27 @@ import java.util.ArrayList;
  *
  * @author vovostudio
  */
-public class Setor {
+public class Colaborador {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
     private int id = 0;
     private String nome = "";
-    private int empresa_id = 0;
-    private ArrayList<Colaborador> colaboradores = new ArrayList<>();
+    private int setor_id = 0;
+    private ArrayList<Habilidade> habilidades = new ArrayList<>();
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public Setor() {
+    public Colaborador() {
     }
 
-    public Setor(int id, String nome, int empresa_id, ArrayList<Colaborador> colaboradores) {
+    public Colaborador(int id, String nome, int setor_id, ArrayList<Habilidade> habilidades) {
         this.id = id;
         this.nome = nome;
-        this.empresa_id = empresa_id;
-        this.colaboradores = colaboradores;
+        this.setor_id = setor_id;
+        this.habilidades = habilidades;
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
@@ -55,12 +55,12 @@ public class Setor {
         return nome;
     }
 
-    public int getEmpresa_id() {
-        return empresa_id;
+    public int getSetor_id() {
+        return setor_id;
     }
 
-    public ArrayList<Colaborador> getColaboradores() {
-        return colaboradores;
+    public ArrayList<Habilidade> getHabilidades() {
+        return habilidades;
     }
 
     //--- FIM GET ---------------------------------------------------------------------------------|
@@ -75,13 +75,14 @@ public class Setor {
         this.nome = nome;
     }
 
-    public void setEmpresa_id(int empresa_id) {
-        this.empresa_id = empresa_id;
+    public void setSetor_id(int setor_id) {
+        this.setor_id = setor_id;
     }
 
-    public void setColaboradores(ArrayList<Colaborador> colaboradores) {
-        this.colaboradores = colaboradores;
+    public void setHabilidades(ArrayList<Habilidade> habilidades) {
+        this.habilidades = habilidades;
     }
+
     //--- FIM SET ---------------------------------------------------------------------------------|
     //
 }

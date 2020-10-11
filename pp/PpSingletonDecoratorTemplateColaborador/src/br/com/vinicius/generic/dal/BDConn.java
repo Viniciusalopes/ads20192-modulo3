@@ -13,7 +13,7 @@
  *  -----------------------------------------------------------------------------------------------| 
  */
 
-package generic.dal;
+package br.com.vinicius.generic.dal;
 
 
 import java.sql.Connection;

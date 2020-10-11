@@ -12,7 +12,7 @@
  *  Modelo de objeto HabilidadeOrigem.
  *  -----------------------------------------------------------------------------------------------| 
  */
-package model;
+package br.com.vinicius.model;
 
 /**
  *
