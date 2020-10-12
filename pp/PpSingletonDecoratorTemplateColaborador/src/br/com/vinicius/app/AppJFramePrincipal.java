@@ -213,15 +213,15 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
         jTableHabilidadesColaborador = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         jButtonIncluirColaborador = new javax.swing.JButton();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTableHabilidades = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jTableHabilidadesStack = new javax.swing.JTable();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel4 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTableStack = new javax.swing.JTable();
-        jLabel5 = new javax.swing.JLabel();
-        jLabelHabilidadesDaStack = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTableHabilidadesStack = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTableHabilidades = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuEmpresaCadastro = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -333,7 +333,7 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -402,7 +402,7 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(jButtonIncluirSetor)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -478,66 +478,6 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
             }
         });
 
-        jTableHabilidades.setAutoCreateRowSorter(true);
-        jTableHabilidades.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Origem", "Descrição da Habilidade"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTableHabilidades.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTableHabilidades.getTableHeader().setReorderingAllowed(false);
-        jScrollPane5.setViewportView(jTableHabilidades);
-        if (jTableHabilidades.getColumnModel().getColumnCount() > 0) {
-            jTableHabilidades.getColumnModel().getColumn(0).setMinWidth(80);
-            jTableHabilidades.getColumnModel().getColumn(0).setPreferredWidth(80);
-            jTableHabilidades.getColumnModel().getColumn(0).setMaxWidth(80);
-            jTableHabilidades.getColumnModel().getColumn(1).setMinWidth(120);
-            jTableHabilidades.getColumnModel().getColumn(1).setPreferredWidth(120);
-            jTableHabilidades.getColumnModel().getColumn(1).setMaxWidth(120);
-        }
-
-        jLabel4.setText("Habilidades conhecidas");
-
-        jTableHabilidadesStack.setAutoCreateRowSorter(true);
-        jTableHabilidadesStack.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Origem", "Descrição da Habilidade"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTableHabilidadesStack.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTableHabilidadesStack.getTableHeader().setReorderingAllowed(false);
-        jScrollPane6.setViewportView(jTableHabilidadesStack);
-        if (jTableHabilidadesStack.getColumnModel().getColumnCount() > 0) {
-            jTableHabilidadesStack.getColumnModel().getColumn(0).setMinWidth(80);
-            jTableHabilidadesStack.getColumnModel().getColumn(0).setPreferredWidth(80);
-            jTableHabilidadesStack.getColumnModel().getColumn(0).setMaxWidth(80);
-            jTableHabilidadesStack.getColumnModel().getColumn(1).setMinWidth(120);
-            jTableHabilidadesStack.getColumnModel().getColumn(1).setPreferredWidth(120);
-            jTableHabilidadesStack.getColumnModel().getColumn(1).setMaxWidth(120);
-        }
-
         jTableStack.setAutoCreateRowSorter(true);
         jTableStack.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -569,9 +509,103 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
         });
         jScrollPane7.setViewportView(jTableStack);
 
-        jLabel5.setText("Stacks");
+        jTableHabilidadesStack.setAutoCreateRowSorter(true);
+        jTableHabilidadesStack.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        jLabelHabilidadesDaStack.setText("Habilidades da Stack ");
+            },
+            new String [] {
+                "ID", "Origem", "Descrição da Habilidade"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableHabilidadesStack.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableHabilidadesStack.getTableHeader().setReorderingAllowed(false);
+        jScrollPane6.setViewportView(jTableHabilidadesStack);
+        if (jTableHabilidadesStack.getColumnModel().getColumnCount() > 0) {
+            jTableHabilidadesStack.getColumnModel().getColumn(0).setMinWidth(80);
+            jTableHabilidadesStack.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTableHabilidadesStack.getColumnModel().getColumn(0).setMaxWidth(80);
+            jTableHabilidadesStack.getColumnModel().getColumn(1).setMinWidth(120);
+            jTableHabilidadesStack.getColumnModel().getColumn(1).setPreferredWidth(120);
+            jTableHabilidadesStack.getColumnModel().getColumn(1).setMaxWidth(120);
+        }
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
+                    .addComponent(jScrollPane6))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Stacks", jPanel4);
+
+        jTableHabilidades.setAutoCreateRowSorter(true);
+        jTableHabilidades.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Origem", "Descrição da Habilidade"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableHabilidades.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableHabilidades.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(jTableHabilidades);
+        if (jTableHabilidades.getColumnModel().getColumnCount() > 0) {
+            jTableHabilidades.getColumnModel().getColumn(0).setMinWidth(80);
+            jTableHabilidades.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTableHabilidades.getColumnModel().getColumn(0).setMaxWidth(80);
+            jTableHabilidades.getColumnModel().getColumn(1).setMinWidth(120);
+            jTableHabilidades.getColumnModel().getColumn(1).setPreferredWidth(120);
+            jTableHabilidades.getColumnModel().getColumn(1).setMaxWidth(120);
+        }
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Habilidades Conhecidas", jPanel5);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -580,51 +614,28 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonIncluirColaborador)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(jButtonIncluirColaborador))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabelHabilidadesDaStack)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
-                            .addComponent(jScrollPane6)
-                            .addComponent(jScrollPane7)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel5))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonIncluirColaborador)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonIncluirColaborador)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelHabilidadesDaStack)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel4))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jLabel8)
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -838,10 +849,7 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabelHabilidadesDaStack;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuEmpresaCadastro;
@@ -851,6 +859,8 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -858,6 +868,7 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPaneEmpresa;
     private javax.swing.JTable jTableColaboradores;
     private javax.swing.JTable jTableHabilidades;
