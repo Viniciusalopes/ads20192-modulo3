@@ -22,6 +22,7 @@ import static br.com.vinicius.generic.app.AppDesktopMensagem.*;
 import static br.com.vinicius.generic.app.AppFactory.deleteRow;
 import static br.com.vinicius.generic.app.AppFactory.getModal;
 import static br.com.vinicius.generic.app.AppFactory.getSelectedId;
+import br.com.vinicius.generic.app.AppIModal;
 import br.com.vinicius.generic.app.AppSimpleForm;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -36,19 +37,20 @@ import java.awt.event.KeyEvent;
  *
  * @author vovostudio
  */
-public class JFramePrincipal extends javax.swing.JFrame {
+public class AppJFramePrincipal extends javax.swing.JFrame {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
     private Empresa empresa = null;
     private Setor setor = null;
+    private Colaborador colaborador = null;
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     /**
      * Creates new form JFramePrincipal
      */
-    public JFramePrincipal() {
+    public AppJFramePrincipal() {
         initComponents();
         this.setLocationRelativeTo(null);
         valoresIniciais();
@@ -62,6 +64,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
             jTextFieldEmpresa_id.setText(empresa.getId() + "");
             jTextFieldEmpresa_nome.setText(empresa.getNome());
             fillEmpresa();
+            fillHabilidades();
 
         } catch (Exception e) {
             mensagemErro(e);
@@ -78,7 +81,9 @@ public class JFramePrincipal extends javax.swing.JFrame {
         DefaultTableModel st = (DefaultTableModel) jTableSetores.getModel();
         se.setRowCount(0);
         st.setRowCount(0);
-        jComboBoxSetores.removeAllItems();
+
+        DefaultTableModel cl = (DefaultTableModel) jTableColaboradores.getModel();
+        cl.setRowCount(0);
 
         for (int s = 0; s < setores.size(); s++) {
             Setor setor = setores.get(s);
@@ -86,12 +91,9 @@ public class JFramePrincipal extends javax.swing.JFrame {
             Object[] linha = new Object[]{setor.getId(), setor.getNome()};
             se.addRow(linha);
             st.addRow(linha);
-            jComboBoxSetores.addItem(setor.getNome());
 
             // Colaboradores
             ArrayList<Colaborador> colabs = BllColaborador.getColaboradores(setor.getId());
-            DefaultTableModel cl = (DefaultTableModel) jTableColaboradores.getModel();
-            cl.setRowCount(0);
 
             for (int c = 0; c < colabs.size(); c++) {
                 Colaborador colab = colabs.get(c);
@@ -106,7 +108,6 @@ public class JFramePrincipal extends javax.swing.JFrame {
 
         }
         empresa.setSetores(setores);
-        jComboBoxSetores.setSelectedIndex(-1);
     }
 
     private void fillSetores() throws Exception {
@@ -117,7 +118,6 @@ public class JFramePrincipal extends javax.swing.JFrame {
         DefaultTableModel st = (DefaultTableModel) jTableSetores.getModel();
         se.setRowCount(0);
         st.setRowCount(0);
-        jComboBoxSetores.removeAllItems();
 
         for (int s = 0; s < setores.size(); s++) {
             Setor setor = setores.get(s);
@@ -125,24 +125,20 @@ public class JFramePrincipal extends javax.swing.JFrame {
             Object[] linha = new Object[]{setor.getId(), setor.getNome()};
             se.addRow(linha);
             st.addRow(linha);
-            jComboBoxSetores.addItem(setor.getNome());
         }
         empresa.setSetores(setores);
-        jComboBoxSetores.setSelectedIndex(-1);
-
     }
 
     private void fillColaboradores() throws Exception {
         // Setores
         ArrayList<Setor> setores = BllSetor.getSetores(empresa.getId());
-
+        DefaultTableModel cl = (DefaultTableModel) jTableColaboradores.getModel();
+        cl.setRowCount(0);
         for (int s = 0; s < setores.size(); s++) {
             Setor setor = setores.get(s);
 
             // Colaboradores
             ArrayList<Colaborador> colabs = BllColaborador.getColaboradores(setor.getId());
-            DefaultTableModel cl = (DefaultTableModel) jTableColaboradores.getModel();
-            cl.setRowCount(0);
 
             for (int c = 0; c < colabs.size(); c++) {
                 Colaborador colab = colabs.get(c);
@@ -157,11 +153,35 @@ public class JFramePrincipal extends javax.swing.JFrame {
 
         }
         empresa.setSetores(setores);
-        jComboBoxSetores.setSelectedIndex(-1);
     }
 
     private void fillHabilidades() throws Exception {
+        DefaultTableModel hb = (DefaultTableModel) jTableHabilidades.getModel();
+        hb.setRowCount(0);
 
+        for (Habilidade h : BllHabilidade.getHabilidades()) {
+            hb.addRow(new Object[]{h.getId(), h.getOrigem().getNome(), h.getDescricao()});
+        }
+        fillStack();
+    }
+
+    private void fillStack() throws Exception {
+        DefaultTableModel stacks = (DefaultTableModel) jTableStack.getModel();
+        stacks.setRowCount(0);
+        stacks.addRow(new Object[]{"Java"});
+        stacks.addRow(new Object[]{"Microsoft"});
+        stacks.addRow(new Object[]{"OpenSource"});
+        stacks.addRow(new Object[]{"POG"});
+        stacks.addRow(new Object[]{"Web"});
+    }
+
+    private void fillHabilidadesStack() throws Exception {
+        DefaultTableModel hs = (DefaultTableModel) jTableHabilidadesStack.getModel();
+        hs.setRowCount(0);
+        ArrayList<Habilidade> habs = BllHabilidade.getHabilidadesStack(jTableStack.getSelectedRow() + 1);
+        for (Habilidade h : habs) {
+            hs.addRow(new Object[]{h.getId(), h.getOrigem().getNome(), h.getDescricao()});
+        }
     }
 
     /**
@@ -192,19 +212,16 @@ public class JFramePrincipal extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         jTableHabilidadesColaborador = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jComboBoxSetores = new javax.swing.JComboBox<>();
-        jButton7 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
+        jButtonIncluirColaborador = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        jTableHabilidades = new javax.swing.JTable();
+        jLabel4 = new javax.swing.JLabel();
         jScrollPane6 = new javax.swing.JScrollPane();
-        jTable6 = new javax.swing.JTable();
-        jLabel7 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jLabel11 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        jTableHabilidadesStack = new javax.swing.JTable();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTableStack = new javax.swing.JTable();
+        jLabel5 = new javax.swing.JLabel();
+        jLabelHabilidadesDaStack = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuEmpresaCadastro = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -214,6 +231,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setSize(new java.awt.Dimension(1173, 681));
 
         jLabel1.setText("ID");
 
@@ -228,6 +246,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
 
         jLabel2.setText("Nome da Empresa");
 
+        jTableSetoresEmpresa.setAutoCreateRowSorter(true);
         jTableSetoresEmpresa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -244,6 +263,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableSetoresEmpresa.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableSetoresEmpresa.getTableHeader().setReorderingAllowed(false);
         jTableSetoresEmpresa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -313,12 +333,13 @@ public class JFramePrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 526, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 541, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPaneEmpresa.addTab("Empresa", jPanel1);
 
+        jTableSetores.setAutoCreateRowSorter(true);
         jTableSetores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -335,6 +356,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableSetores.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableSetores.getTableHeader().setReorderingAllowed(false);
         jTableSetores.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -377,15 +399,16 @@ public class JFramePrincipal extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addGap(20, 20, 20)
                 .addComponent(jButtonIncluirSetor)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 563, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         jTabbedPaneEmpresa.addTab("Setores", jPanel2);
 
+        jTableColaboradores.setAutoCreateRowSorter(true);
         jTableColaboradores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -395,20 +418,31 @@ public class JFramePrincipal extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTableColaboradores.getTableHeader().setReorderingAllowed(false);
+        jTableColaboradores.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableColaboradores.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableColaboradoresMouseReleased(evt);
+            }
+        });
+        jTableColaboradores.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTableColaboradoresKeyReleased(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTableColaboradores);
         if (jTableColaboradores.getColumnModel().getColumnCount() > 0) {
             jTableColaboradores.getColumnModel().getColumn(0).setMinWidth(80);
             jTableColaboradores.getColumnModel().getColumn(0).setPreferredWidth(80);
             jTableColaboradores.getColumnModel().getColumn(0).setMaxWidth(80);
         }
+        jTableColaboradores.getAccessibleContext().setAccessibleName("Colaborador");
 
         jTableHabilidadesColaborador.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -426,6 +460,7 @@ public class JFramePrincipal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableHabilidadesColaborador.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jTableHabilidadesColaborador.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(jTableHabilidadesColaborador);
         if (jTableHabilidadesColaborador.getColumnModel().getColumnCount() > 0) {
@@ -434,123 +469,161 @@ public class JFramePrincipal extends javax.swing.JFrame {
             jTableHabilidadesColaborador.getColumnModel().getColumn(0).setMaxWidth(80);
         }
 
-        jLabel8.setText("Habilidades");
+        jLabel8.setText("Habilidades do colaborador");
 
-        jButton5.setText("Incluir");
+        jButtonIncluirColaborador.setText("Incluir");
+        jButtonIncluirColaborador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIncluirColaboradorActionPerformed(evt);
+            }
+        });
 
-        jButton6.setText("Salvar");
-
-        jComboBoxSetores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jButton7.setText("+");
-
-        jLabel6.setText("Setor");
-
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        jTableHabilidades.setAutoCreateRowSorter(true);
+        jTableHabilidades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Origem", "Descrição da Habilidade"
             }
-        ));
-        jScrollPane5.setViewportView(jTable5);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
 
-        jTable6.setModel(new javax.swing.table.DefaultTableModel(
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableHabilidades.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableHabilidades.getTableHeader().setReorderingAllowed(false);
+        jScrollPane5.setViewportView(jTableHabilidades);
+        if (jTableHabilidades.getColumnModel().getColumnCount() > 0) {
+            jTableHabilidades.getColumnModel().getColumn(0).setMinWidth(80);
+            jTableHabilidades.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTableHabilidades.getColumnModel().getColumn(0).setMaxWidth(80);
+            jTableHabilidades.getColumnModel().getColumn(1).setMinWidth(120);
+            jTableHabilidades.getColumnModel().getColumn(1).setPreferredWidth(120);
+            jTableHabilidades.getColumnModel().getColumn(1).setMaxWidth(120);
+        }
+
+        jLabel4.setText("Habilidades conhecidas");
+
+        jTableHabilidadesStack.setAutoCreateRowSorter(true);
+        jTableHabilidadesStack.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Origem", "Descrição da Habilidade"
             }
-        ));
-        jScrollPane6.setViewportView(jTable6);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
 
-        jLabel7.setText("ID");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableHabilidadesStack.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableHabilidadesStack.getTableHeader().setReorderingAllowed(false);
+        jScrollPane6.setViewportView(jTableHabilidadesStack);
+        if (jTableHabilidadesStack.getColumnModel().getColumnCount() > 0) {
+            jTableHabilidadesStack.getColumnModel().getColumn(0).setMinWidth(80);
+            jTableHabilidadesStack.getColumnModel().getColumn(0).setPreferredWidth(80);
+            jTableHabilidadesStack.getColumnModel().getColumn(0).setMaxWidth(80);
+            jTableHabilidadesStack.getColumnModel().getColumn(1).setMinWidth(120);
+            jTableHabilidadesStack.getColumnModel().getColumn(1).setPreferredWidth(120);
+            jTableHabilidadesStack.getColumnModel().getColumn(1).setMaxWidth(120);
+        }
 
-        jTextField5.setEditable(false);
-        jTextField5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTableStack.setAutoCreateRowSorter(true);
+        jTableStack.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        jLabel11.setText("Nome do Setor");
+            },
+            new String [] {
+                "Nome da Stack"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableStack.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jTableStack.getTableHeader().setReorderingAllowed(false);
+        jTableStack.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTableStackMouseReleased(evt);
+            }
+        });
+        jTableStack.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTableStackKeyReleased(evt);
+            }
+        });
+        jScrollPane7.setViewportView(jTableStack);
+
+        jLabel5.setText("Stacks");
+
+        jLabelHabilidadesDaStack.setText("Habilidades da Stack ");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(jButtonIncluirColaborador))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 607, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(jLabelHabilidadesDaStack)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
+                            .addComponent(jScrollPane6)
+                            .addComponent(jScrollPane7)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(82, 82, 82)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jComboBoxSetores, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jButton7)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton5)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jButton6))))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel11))
-                .addGap(4, 4, 4)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonIncluirColaborador)
+                    .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBoxSetores, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabelHabilidadesDaStack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel4))
+                .addGap(6, 6, 6)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -671,6 +744,57 @@ public class JFramePrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTableSetoresKeyReleased
 
+    private void jTableColaboradoresMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableColaboradoresMouseReleased
+        try {
+            if ((evt.getClickCount() == 2)) {
+                AppIModal modal = new AppJDialogColaborador(this, true);
+                modal.setObject(BllColaborador.getColaborador(getSelectedId(jTableColaboradores)));
+                modal.setVisible(true);
+                fillColaboradores();
+            }
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jTableColaboradoresMouseReleased
+
+    private void jButtonIncluirColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirColaboradorActionPerformed
+        try {
+            AppIModal modal = new AppJDialogColaborador(this, true);
+            modal.setObject(new Colaborador());
+            modal.setVisible(true);
+            fillColaboradores();
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jButtonIncluirColaboradorActionPerformed
+
+    private void jTableColaboradoresKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableColaboradoresKeyReleased
+        try {
+            if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+                deleteRow(jTableColaboradores);
+                fillColaboradores();
+            }
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jTableColaboradoresKeyReleased
+
+    private void jTableStackMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableStackMouseReleased
+        try {
+            fillHabilidadesStack();
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jTableStackMouseReleased
+
+    private void jTableStackKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableStackKeyReleased
+        try {
+            fillHabilidadesStack();
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jTableStackKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -688,38 +812,36 @@ public class JFramePrincipal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppJFramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppJFramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppJFramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JFramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppJFramePrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JFramePrincipal().setVisible(true);
+                new AppJFramePrincipal().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButtonIncluirColaborador;
     private javax.swing.JButton jButtonIncluirSetor;
     private javax.swing.JButton jButtonSalvarEmpresa;
-    private javax.swing.JComboBox<String> jComboBoxSetores;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabelHabilidadesDaStack;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuEmpresaCadastro;
@@ -735,15 +857,15 @@ public class JFramePrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPaneEmpresa;
-    private javax.swing.JTable jTable5;
-    private javax.swing.JTable jTable6;
     private javax.swing.JTable jTableColaboradores;
+    private javax.swing.JTable jTableHabilidades;
     private javax.swing.JTable jTableHabilidadesColaborador;
+    private javax.swing.JTable jTableHabilidadesStack;
     private javax.swing.JTable jTableSetores;
     private javax.swing.JTable jTableSetoresEmpresa;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTable jTableStack;
     private javax.swing.JTextField jTextFieldEmpresa_id;
     private javax.swing.JTextField jTextFieldEmpresa_nome;
     // End of variables declaration//GEN-END:variables

@@ -67,22 +67,28 @@ public class DalSetor extends br.com.vinicius.generic.dal.DalGeneric {
 
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
-    
-    public boolean exists(Setor setor) throws Exception{
+    public boolean exists(Setor setor) throws Exception {
         return exists("setor_nome", setor.getNome());
     }
+
     //--- READ ------------------------------------------------------------------------------------>
     //
     public Setor getSetor(int id) throws Exception {
         sql = "SELECT * FROM setores WHERE setor_id = ? ";
         args = new Object[]{id};
-        return ((ArrayList<Setor>) select()).get(0);
+        return (Setor) select().get(0);
+    }
+
+    public Setor getSetor(String nome, int empresa_id) throws Exception {
+        sql = "SELECT * FROM setores WHERE setor_nome = ? AND setor_empresa_id = ?";
+        args = new Object[]{nome, empresa_id};
+        return (Setor) select().get(0);
     }
 
     public ArrayList<Setor> getSetores(int empresa_id) throws Exception {
         sql = "SELECT * FROM setores WHERE setor_empresa_id = ? ORDER BY setor_nome";
         args = new Object[]{empresa_id};
-        return ((ArrayList<Setor>) select());
+        return (ArrayList<Setor>) select();
     }
 
     //--- FIM READ --------------------------------------------------------------------------------|
@@ -95,11 +101,12 @@ public class DalSetor extends br.com.vinicius.generic.dal.DalGeneric {
         args = new Object[]{setor.getNome(), setor.getEmpresa_id(), setor.getId()};
         execute();
     }
+
     //--- FIM UPDATE ------------------------------------------------------------------------------|
     //
     //--- DELETE ---------------------------------------------------------------------------------->
     //
-    public void delete(int setor_id) throws Exception{
+    public void delete(int setor_id) throws Exception {
         sql = "DELETE FROM setores WHERE setor_id = ?";
         args = new Object[]{setor_id};
         execute();

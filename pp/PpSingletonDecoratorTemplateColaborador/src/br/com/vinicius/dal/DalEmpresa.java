@@ -66,7 +66,7 @@ public class DalEmpresa extends br.com.vinicius.generic.dal.DalGeneric {
     public Empresa getEmpresa() throws Exception {
         sql = "SELECT * FROM empresas WHERE empresa_id = ?";
         args = new Object[]{empresa_id};
-        return ((ArrayList<Empresa>) select()).get(0);
+        return (Empresa) select().get(0);
     }
     //--- FIM READ --------------------------------------------------------------------------------|
     //

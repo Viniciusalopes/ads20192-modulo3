@@ -24,16 +24,16 @@ import br.com.vinicius.model.Colaborador;
  */
 public class DalColaborador extends br.com.vinicius.generic.dal.DalGeneric {
 
-    public DalColaborador() throws Exception {
-        super("colaboradores");
-    }
-
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
+    public DalColaborador() throws Exception {
+        super("colaboradores");
+    }
+
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
     //--- GET ------------------------------------------------------------------------------------->
@@ -59,23 +59,48 @@ public class DalColaborador extends br.com.vinicius.generic.dal.DalGeneric {
     //
     //--- CREATE ---------------------------------------------------------------------------------->
     //
+    public void add(Colaborador colaborador) throws Exception {
+        sql = "INSERT INTO colaboradores (colaborador_nome, colaborador_setor_id) VALUES (?,?)";
+        args = new Object[]{colaborador.getNome(), colaborador.getSetor_id()};
+        execute();
+    }
+
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
     //--- READ ------------------------------------------------------------------------------------>
     //
+    public Colaborador getColaborador(int colaborador_id) throws Exception {
+        sql = "SELECT * FROM colaboradores WHERE colaborador_id = ?";
+        args = new Object[]{colaborador_id};
+        return (Colaborador) select().get(0);
+    }
+
     public ArrayList<Colaborador> getColaboradores(int setor_id) throws Exception {
         sql = "SELECT * FROM colaboradores WHERE colaborador_setor_id = ? ORDER BY colaborador_nome";
         args = new Object[]{setor_id};
-        return ((ArrayList<Colaborador>) select());
+        return (ArrayList<Colaborador>) select();
     }
+
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
+    public void update(Colaborador colaborador) throws Exception {
+        sql = "UPDATE colaboradores SET colaborador_nome = ?, colaborador_setor_id = ? "
+                + "WHERE colaborador_id = ?";
+        args = new Object[]{colaborador.getNome(), colaborador.getSetor_id(), colaborador.getId()};
+        execute();
+    }
+
     //--- FIM UPDATE ------------------------------------------------------------------------------|
     //
     //--- DELETE ---------------------------------------------------------------------------------->
     //
+    public void delete(int colaborador_id) throws Exception {
+        sql = "DELETE FROM colaboradores WHERE colaborador_id = ?";
+        args = new Object[]{colaborador_id};
+        execute();
+    }
     //--- FIM DELETE ------------------------------------------------------------------------------|
     //
 }

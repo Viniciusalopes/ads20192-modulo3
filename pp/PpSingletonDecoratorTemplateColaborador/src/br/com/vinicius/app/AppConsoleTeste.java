@@ -19,7 +19,7 @@ package br.com.vinicius.app;
  *
  * @author vovostudio
  */
-public class ConsoleTeste {
+public class AppConsoleTeste {
     
     public static void main(String[] args) {
         int numero = 2;

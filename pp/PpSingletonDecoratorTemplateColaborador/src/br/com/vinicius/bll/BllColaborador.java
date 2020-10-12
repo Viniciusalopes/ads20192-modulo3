@@ -16,6 +16,7 @@
 package br.com.vinicius.bll;
 
 import br.com.vinicius.dal.DalColaborador;
+import static br.com.vinicius.generic.bll.BllGeneric.validarNome;
 import java.util.ArrayList;
 import br.com.vinicius.model.Colaborador;
 
@@ -51,12 +52,24 @@ public class BllColaborador {
 
     //--- CREATE ---------------------------------------------------------------------------------->
     //
-
+    public static void validate(Colaborador colaborador) throws Exception{
+        validarNome(colaborador.getNome());
+        if(colaborador.getSetor_id() <= 0){
+            throw new Exception("Selecione o setor do colaborador!");
+        }
+    }
+    public static void add(Colaborador colaborador) throws Exception{
+        validate(colaborador);
+        new DalColaborador().add(colaborador);
+    }
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
     
     //--- READ ------------------------------------------------------------------------------------>
     //
+    public static Colaborador getColaborador(int colaborador_id) throws Exception{
+        return new DalColaborador().getColaborador(colaborador_id);
+    }
     public static ArrayList<Colaborador> getColaboradores(int setor_id) throws Exception{
         return new DalColaborador().getColaboradores(setor_id);
     }
@@ -66,7 +79,10 @@ public class BllColaborador {
     
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
-
+    public static void update(Colaborador colaborador) throws Exception{
+        validate(colaborador);
+        new DalColaborador().update(colaborador);
+    }
     //--- FIM UPDATE ------------------------------------------------------------------------------|
     //
     

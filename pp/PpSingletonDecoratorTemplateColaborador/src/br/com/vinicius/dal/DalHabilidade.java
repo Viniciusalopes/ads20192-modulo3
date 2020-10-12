@@ -72,6 +72,18 @@ public class DalHabilidade extends br.com.vinicius.generic.dal.DalGeneric {
         return (ArrayList<Habilidade>) select();
     }
 
+    public ArrayList<Habilidade> getHabilidadesStack(int stack_id) throws Exception {
+        sql = "SELECT h.habilidade_id, o.origem_id, o.origem_nome, h.habilidade_descricao "
+                + "FROM habilidades h "
+                + "JOIN habilidades_origem o ON h.habilidade_origem_id = o.origem_id "
+                + "JOIN habilidades_stack hs ON h.habilidade_id = hs.habilidade_id "
+                + "JOIN stacks s ON hs.stack_id = s.stack_id "
+                + "WHERE s.stack_id = ? "
+                + "ORDER BY h.habilidade_descricao";
+        args = new Object[]{stack_id};
+        return (ArrayList<Habilidade>) select();
+    }
+
     public ArrayList<Habilidade> getHabilidades(int colaborador_id) throws Exception {
         sql = "SELECT hc.habilidade_id, h.habilidade_descricao, ho.* FROM habilidades_colaborador hc "
                 + "JOIN habilidades h ON hc.habilidade_id = h.habilidade_id "
@@ -80,7 +92,7 @@ public class DalHabilidade extends br.com.vinicius.generic.dal.DalGeneric {
                 + "ORDER BY habilidade_descricao";
         args = new Object[]{colaborador_id};
 
-        return ((ArrayList<Habilidade>) select());
+        return (ArrayList<Habilidade>) select();
     }
     //--- FIM READ --------------------------------------------------------------------------------|
     //

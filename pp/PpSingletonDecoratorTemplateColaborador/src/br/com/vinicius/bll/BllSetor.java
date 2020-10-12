@@ -61,7 +61,9 @@ public class BllSetor extends BllGeneric {
     public static Setor getSetor(int id) throws Exception {
         return new DalSetor().getSetor(id);
     }
-
+    public static Setor getSetor(String nome, int empresa_id) throws Exception{
+        return new DalSetor().getSetor(nome, empresa_id);
+    }
     public static ArrayList<Setor> getSetores(int empresa_id) throws Exception {
         return new DalSetor().getSetores(empresa_id);
     }
