@@ -1,7 +1,7 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 09/10/2020 19:29:40 
+ *  Criado em  : 11/10/2020 09:33:34 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : PP - Padrões de Projeto
@@ -9,84 +9,61 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Modelo de objeto Setor.
+ *  Propósito do arquivo.
  *  -----------------------------------------------------------------------------------------------| 
  */
-package br.com.vinicius.model;
+package br.com.vinicius.bll;
 
+import br.com.vinicius.dal.DalColaborador;
+import br.com.vinicius.dal.DalHabilidade;
 import java.util.ArrayList;
+import br.com.vinicius.model.Habilidade;
 
 /**
  *
  * @author vovostudio
  */
-public class Setor {
+public class BllDecorator {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private int id = 0;
-    private String nome = "";
-    private int empresa_id = 0;
-    private ArrayList<Colaborador> colaboradores = new ArrayList<>();
-
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    public Setor() {
-    }
-
-    public Setor(int empresa_id){
-        this();
-        this.empresa_id = empresa_id;
-    }
-    
-    public Setor(int id, String nome, int empresa_id, ArrayList<Colaborador> colaboradores) {
-        this.id = id;
-        this.nome = nome;
-        this.empresa_id = empresa_id;
-        this.colaboradores = colaboradores;
-    }
-
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
-    public int getId() {
-        return id;
+    public static ArrayList<Habilidade> getHabilidadesOrigem(int origem_id) throws Exception {
+        return new DalHabilidade().getHabilidadesOrigem(origem_id);
     }
 
-    public String getNome() {
-        return nome;
+    public static ArrayList<Habilidade> getHabilidadesStack(int stack_id) throws Exception {
+        return new DalHabilidade().getHabilidadesStack(stack_id);
     }
-
-    public int getEmpresa_id() {
-        return empresa_id;
-    }
-
-    public ArrayList<Colaborador> getColaboradores() {
-        return colaboradores;
-    }
-
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
+
     //--- SET ------------------------------------------------------------------------------------->
     //
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setEmpresa_id(int empresa_id) {
-        this.empresa_id = empresa_id;
-    }
-
-    public void setColaboradores(ArrayList<Colaborador> colaboradores) {
-        this.colaboradores = colaboradores;
-    }
+   
     //--- FIM SET ---------------------------------------------------------------------------------|
+    //
+    //--- CREATE ---------------------------------------------------------------------------------->
+    //
+    //--- FIM CREATE ------------------------------------------------------------------------------|
+    //
+    //--- READ ------------------------------------------------------------------------------------>
+    //
+    //--- FIM READ --------------------------------------------------------------------------------|
+    //
+    //--- UPDATE ---------------------------------------------------------------------------------->
+    //
+    //--- FIM UPDATE ------------------------------------------------------------------------------|
+    //
+    //--- DELETE ---------------------------------------------------------------------------------->
+    //
+    //--- FIM DELETE ------------------------------------------------------------------------------|
     //
 }

@@ -6,7 +6,7 @@
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : PP - Padrões de Projeto
  *  Aluno      : Vinicius Araujo Lopes
- *  Projeto    : SINGLETON / DECORATOR / TEMPLATE
+ *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
  *  Conexão com o banco de dados (SINGLETON).

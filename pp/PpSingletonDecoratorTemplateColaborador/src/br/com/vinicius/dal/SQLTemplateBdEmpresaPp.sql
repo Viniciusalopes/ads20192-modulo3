@@ -6,7 +6,7 @@
     -- *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
     -- *  Disciplina : PP - Padrões de Projeto
     -- *  Aluno      : Vinicius Araujo Lopes
-    -- *  Projeto    : SINGLETON / DECORATOR / TEMPLATE
+    -- *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
     -- *  Exercício  : Colaboradores de uma empresa
     -- *  ------------------------------------------------------------------------------------------------
     -- *  Script para criação do banco de dados.
@@ -21,7 +21,7 @@
         habilidades_stack,
         stacks,
         habilidades_colaborador,
-		habilidades_origem,
+        habilidades_origem,
         habilidades,
         colaboradores,
         setores,
@@ -47,7 +47,8 @@
             colaborador_id SERIAL PRIMARY KEY,
             colaborador_nome VARCHAR(50) NOT NULL,
             colaborador_setor_id INTEGER NOT NULL,
-            FOREIGN KEY (colaborador_setor_id) REFERENCES setores (setor_id)
+            FOREIGN KEY (colaborador_setor_id) REFERENCES setores (setor_id),
+            UNIQUE (colaborador_nome, colaborador_setor_id)
     );
 
     CREATE TABLE habilidades_origem
@@ -151,6 +152,7 @@
         ('Microsoft'),
         ('OpenSource'),
         ('POG'),
+        ('Programador'),
         ('WEB')
     ;
 
@@ -182,14 +184,17 @@
         (4, 29),
         (4, 34),
         (4, 40),
-        (5, 10),
-        (5, 14),
-        (5, 17),
-        (5, 20),
-        (5, 21),
-        (5, 23),
-        (5, 30),
-        (5, 31),
-        (5, 32),
-        (5, 33)
+        (5, 2),
+        (5, 29),
+        (6, 10),
+        (6, 14),
+        (6, 17),
+        (6, 20),
+        (6, 21),
+        (6, 23),
+        (6, 29),
+        (6, 30),
+        (6, 31),
+        (6, 32),
+        (6, 33)
     ;

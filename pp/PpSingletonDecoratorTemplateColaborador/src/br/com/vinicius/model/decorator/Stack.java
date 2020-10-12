@@ -1,7 +1,7 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 09/10/2020 19:13:03 
+ *  Criado em  : 12/10/2020 07:19:18 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : PP - Padrões de Projeto
@@ -9,67 +9,36 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Configurações para conexão com banco de dados PostgreSQL (SINGLETON).
+ *  Stack-objeto a ser decorado. (Equivalente ao Corsa, Captiva e Celta do exemplo). 
  *  -----------------------------------------------------------------------------------------------| 
  */
-package br.com.vinicius.generic.dal;
+package br.com.vinicius.model.decorator;
+
+import br.com.vinicius.bll.BllDecorator;
 
 /**
  *
  * @author vovostudio
  */
-public class BDConfig {
+public class Stack extends Contratado {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private static BDConfig config = null;
-    private final String server = "//srv-ubuntu-p13";
-    private final String port = "5433";
-    private final String database = "PpEmpresa";
-    private final String user = "postgres";
-    private final String password = "vin";
-    private final String driver = "org.postgresql.Driver";
-
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
-    private BDConfig() {
-
+    public Stack(int stack_id) throws Exception {
+        habilidades = BllDecorator.getHabilidadesStack(stack_id);
     }
+
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
     //--- GET ------------------------------------------------------------------------------------->
-
-    public static BDConfig getInstance() {
-        if (config == null) {
-            config = new BDConfig();
-        }
-        return config;
-    }
-
-    public String getServer() {
-        return server;
-    }
-
-    public String getPort() {
-        return port;
-    }
-
-    public String getDatabase() {
-        return database;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getDriver() {
-        return driver;
+    //
+    @Override
+    public int getQuantidade() throws Exception {
+        return habilidades.size();
     }
     //--- FIM GET ---------------------------------------------------------------------------------|
     //

@@ -1,7 +1,7 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 09/10/2020 19:53:22 
+ *  Criado em  : 12/10/2020 06:58:56 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : PP - Padrões de Projeto
@@ -9,58 +9,33 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Modelo de objeto HabilidadeOrigem.
+ *  Contratado-base do Decorator (Equivalente ao Carro do exemplo)
  *  -----------------------------------------------------------------------------------------------| 
  */
-package br.com.vinicius.model;
+package br.com.vinicius.model.decorator;
+
+import br.com.vinicius.model.Habilidade;
+import java.util.ArrayList;
 
 /**
  *
  * @author vovostudio
  */
-public class HabilidadeOrigem {
+public abstract class Contratado {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private int id = 0;
-    private String nome = "";
+    ArrayList<Habilidade> habilidades = new ArrayList<>();
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
-    //--- CONSTRUTORES ---------------------------------------------------------------------------->
-    //
-    public HabilidadeOrigem() {
-    }
-
-    public HabilidadeOrigem(int id, String nome) {
-        this.id = id;
-        this.nome = nome;
-    }
-
-    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
-    //
     //--- GET ------------------------------------------------------------------------------------->
     //
-    public int getId() {
-        return id;
+    public ArrayList<Habilidade> getHabilidades() throws Exception {
+        return habilidades;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
+    public abstract int getQuantidade() throws Exception;
     //--- FIM GET ---------------------------------------------------------------------------------|
-    //
-    //--- SET ------------------------------------------------------------------------------------->
-    //
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    //--- FIM SET ---------------------------------------------------------------------------------|
     //
 }

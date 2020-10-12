@@ -6,7 +6,7 @@
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : PP - Padrões de Projeto
  *  Aluno      : Vinicius Araujo Lopes
- *  Projeto    : SINGLETON / DECORATOR / TEMPLATE
+ *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
  *  Propósito do arquivo.
@@ -15,10 +15,13 @@
 package br.com.vinicius.app;
 
 import br.com.vinicius.bll.BllColaborador;
+import br.com.vinicius.bll.BllDecorator;
 import br.com.vinicius.bll.BllSetor;
 import static br.com.vinicius.generic.app.AppDesktopMensagem.mensagem;
 import static br.com.vinicius.generic.app.AppDesktopMensagem.mensagemErro;
+import static br.com.vinicius.generic.app.AppFactory.getModal;
 import br.com.vinicius.generic.app.AppIModal;
+import br.com.vinicius.generic.app.AppSimpleForm;
 import br.com.vinicius.model.Colaborador;
 import br.com.vinicius.model.Setor;
 
@@ -45,9 +48,7 @@ public class AppJDialogColaborador extends javax.swing.JDialog implements AppIMo
     @Override
     public void setVisible(boolean b) {
         try {
-            for (Setor setor : BllSetor.getSetores(1)) {
-                jComboBoxSetores.addItem(setor.getNome());
-            }
+            fillComboBoxSetores();
             if (colaborador.getId() > 0) {
                 action = "update";
                 complement = "  [ID:" + colaborador.getId() + "]";
@@ -59,13 +60,18 @@ public class AppJDialogColaborador extends javax.swing.JDialog implements AppIMo
             this.setTitle(((action.equals("add")) ? "Incluir" : "Editar") + " cadastro de Colaborador " + complement);
             super.setVisible(b);
 
-            jComboBoxSetores.removeAllItems();
-
-            jComboBoxSetores.setSelectedIndex(-1);
             jTextFieldColaborador_nome.requestFocus();
         } catch (Exception e) {
             mensagemErro(e);
         }
+    }
+
+    private void fillComboBoxSetores() throws Exception {
+        jComboBoxSetores.removeAllItems();
+        for (Setor setor : BllSetor.getSetores(1)) {
+            jComboBoxSetores.addItem(setor.getNome());
+        }
+        jComboBoxSetores.setSelectedIndex(-1);
     }
 
     /**
@@ -100,10 +106,16 @@ public class AppJDialogColaborador extends javax.swing.JDialog implements AppIMo
 
         jTextFieldColaborador_id.setEditable(false);
         jTextFieldColaborador_id.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextFieldColaborador_id.setFocusable(false);
 
         jLabel11.setText("Nome do Colaborador");
 
         jButtonCadastroSetores.setText("+");
+        jButtonCadastroSetores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCadastroSetoresActionPerformed(evt);
+            }
+        });
 
         jButtonOK.setText("OK");
         jButtonOK.addActionListener(new java.awt.event.ActionListener() {
@@ -171,7 +183,7 @@ public class AppJDialogColaborador extends javax.swing.JDialog implements AppIMo
                     colaborador.getId(),
                     jTextFieldColaborador_nome.getText(),
                     BllSetor.getSetor(jComboBoxSetores.getSelectedItem() + "", 1).getId(),
-                    colaborador.getHabilidades()
+                    BllDecorator.getHabilidadesOrigem(1)
             );
             if (action.equals("add")) {
                 BllColaborador.add(colab);
@@ -185,6 +197,15 @@ public class AppJDialogColaborador extends javax.swing.JDialog implements AppIMo
             mensagemErro(e);
         }
     }//GEN-LAST:event_jButtonOKActionPerformed
+
+    private void jButtonCadastroSetoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastroSetoresActionPerformed
+        try {
+            getModal(new Setor(1), "Setor", new AppSimpleForm(null, true));
+            fillComboBoxSetores();
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jButtonCadastroSetoresActionPerformed
 
     /**
      * @param args the command line arguments
