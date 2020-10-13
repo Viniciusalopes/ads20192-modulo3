@@ -23,7 +23,7 @@ public class BDConfig {
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
     private static BDConfig config = null;
-    private final String server = "//srv-ubuntu";
+    private final String server = "//srv-ubuntu-p13";
     private final String port = "5433";
     private final String database = "apsminiatura";
     private final String user = "postgres";
