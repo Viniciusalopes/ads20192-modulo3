@@ -5,7 +5,7 @@ ${licensePrefix} ---------------------------------------------------------------
 ${licensePrefix} Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
 ${licensePrefix} Criado em  : ${date?date?string("dd/MM/yyyy")} ${time?time?string("HH:mm:ss")} 
 ${licensePrefix} Instituição: FACULDADE SENAI FATESG
-${licensePrefix} Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+${licensePrefix} Curso      : Análise e Desenvolvimento de Sistemas - Módulo 3 - 2020/2
 ${licensePrefix} Disciplina : APS - Arquitetura e Projeto de Software
 ${licensePrefix} Disciplina : ED - Estrutura de Dados
 ${licensePrefix} Disciplina : GP - Gestão de Projetos
