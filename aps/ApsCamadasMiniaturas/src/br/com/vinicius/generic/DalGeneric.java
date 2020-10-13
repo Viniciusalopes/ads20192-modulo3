@@ -124,9 +124,9 @@ public abstract class DalGeneric {
      * @return
      * @throws Exception
      */
-    protected boolean exists(String field, Object value) throws Exception {
-        sql = "SELECT COUNT(*) FROM " + table + " WHERE " + field + " = ? ";
-        args = new Object[]{value};
+    protected boolean exists(String[] fields, Object[] values) throws Exception {
+        sql = "SELECT COUNT(*) FROM " + table + " WHERE " + fields[0] + " = ? AND " + fields[1] + " <> ?";
+        args = new Object[]{values[0], values[1]};
         ResultSet rs = executeQuery();
         if (rs.next()) {
             return rs.getInt("count") > 0;

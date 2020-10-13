@@ -15,10 +15,11 @@
 -- DROPs para recriar o banco
 --
 DROP TABLE IF EXISTS
+        configuracoes,
 	miniaturas,
 	fotos,
 	fabricantes,
-	tiposMiniatura,
+	tiposminiatura,
 	temas
 ;
 
@@ -34,7 +35,7 @@ CREATE TABLE temas
 --
 -- Tipos de miniaturas
 --
-CREATE TABLE tiposMiniatura
+CREATE TABLE tiposminiatura
 (
 	tipo_id SERIAL PRIMARY KEY,
 	tipo_nome VARCHAR(50) UNIQUE NOT NULL
@@ -56,7 +57,7 @@ CREATE TABLE miniaturas
 (
 	miniatura_id SERIAL PRIMARY KEY,
 	miniatura_modelo VARCHAR(50) NOT NULL,
-	miniatura_ano CHAR(4) NOT NULL,
+	miniatura_ano INTEGER NOT NULL,
 	miniatura_observacoes VARCHAR(255),
 	miniatura_edicao VARCHAR(20) NOT NULL,
 	miniatura_escala VARCHAR(20) NOT NULL,
@@ -65,7 +66,7 @@ CREATE TABLE miniaturas
 	miniatura_tipo_id INTEGER NOT NULL,
 	miniatura_tema_id INTEGER NOT NULL,
 	FOREIGN KEY (miniatura_fabricante_id) REFERENCES fabricantes (fabricante_id),
-	FOREIGN KEY (miniatura_tipo_id) REFERENCES tiposMiniatura (tipo_id),
+	FOREIGN KEY (miniatura_tipo_id) REFERENCES tiposminiatura (tipo_id),
 	FOREIGN KEY (miniatura_tema_id) REFERENCES temas (tema_id)
 );
 
@@ -79,4 +80,14 @@ CREATE TABLE fotos
 	foto_descricao VARCHAR(255) NOT NULL,
 	foto_miniatura_id INTEGER NOT NULL,
 	FOREIGN KEY (foto_miniatura_id) REFERENCES miniaturas (miniatura_id) ON DELETE CASCADE
+);
+
+--
+-- configuracoes
+--
+CREATE TABLE configuracoes
+(
+        configuracao_id SERIAL PRIMARY KEY,
+        configuracao_nome VARCHAR(50) UNIQUE NOT NULL,
+        configuracao_valor VARCHAR(255) NOT NULL
 );

@@ -3,7 +3,7 @@
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
  *  Criado em  : 10/10/2020 22:49:13 
  *  Instituição: FACULDADE SENAI FATESG
- *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ *  Curso      : Análise e Desenvolvimento de Sistemas - Módulo 3 - 2020/2
  *  Disciplina : PP - Padrões de Projeto
  *  Aluno      : Vinicius Araujo Lopes
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY

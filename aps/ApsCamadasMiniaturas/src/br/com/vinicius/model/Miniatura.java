@@ -26,7 +26,7 @@ public class Miniatura {
     //
     private int id = 0;
     private String modelo = "";
-    private String ano = "";
+    private int ano = 0;
     private String observacoes = "";
     private String edicao = "";
     private String escala = "";
@@ -44,7 +44,7 @@ public class Miniatura {
 
     }
 
-    public Miniatura(int id, String modelo, String ano, String observacoes, String edicao,
+    public Miniatura(int id, String modelo, int ano, String observacoes, String edicao,
             String escala, float valor, Fabricante fabricante, TipoMiniatura tipo, Tema tema
     ) {
         this.id = id;
@@ -71,7 +71,7 @@ public class Miniatura {
         return modelo;
     }
 
-    public String getAno() {
+    public int getAno() {
         return ano;
     }
 
@@ -119,7 +119,7 @@ public class Miniatura {
         this.modelo = modelo;
     }
 
-    public void setAno(String ano) {
+    public void setAno(int ano) {
         this.ano = ano;
     }
 

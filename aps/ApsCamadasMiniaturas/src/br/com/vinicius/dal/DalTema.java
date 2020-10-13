@@ -1,44 +1,44 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 10/10/2020 19:29:11 
+ *  Criado em  : 13/10/2020 07:53:02 
  *  Instituição: FACULDADE SENAI FATESG
- *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
- *  Disciplina : PP - Padrões de Projeto
+ *  Curso      : Análise e Desenvolvimento de Sistemas - Módulo 3 - 2020/2
+ *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
- *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
- *  Exercício  : Colaboradores de uma empresa
+ *  Projeto    : ARQUITETURA EM CAMADAS
+ *  Exercício  : Cadastro de Miniatura em camadas
  *  ------------------------------------------------------------------------------------------------
- *  Acesso a dados da tabela [setores].
+ *  Acesso a dados da tabela [temas].
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.dal;
 
+import br.com.vinicius.generic.DalGeneric;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import br.com.vinicius.model.Setor;
+import br.com.vinicius.model.Tema;
 
 /**
  *
  * @author vovostudio
  */
-public class DalSetor extends br.com.vinicius.generic.dal.DalGeneric {
+public class DalTema extends DalGeneric {
 
-    public DalSetor() throws Exception {
-        super("setores");
+    public DalTema() throws Exception {
+        super("temas");
     }
 
     //--- GET ------------------------------------------------------------------------------------->
     //
     @Override
     protected ArrayList<?> build(ResultSet rs) throws Exception {
-        ArrayList<Setor> ret = new ArrayList<>();
+        ArrayList<Tema> ret = new ArrayList<>();
         while (rs.next()) {
-            Setor setor = new Setor();
-            setor.setId(rs.getInt("setor_id"));
-            setor.setNome(rs.getString("setor_nome"));
-            setor.setEmpresa_id(rs.getInt("setor_empresa_id"));
-            ret.add(setor);
+            Tema tema = new Tema();
+            tema.setId(rs.getInt("tema_id"));
+            tema.setNome(rs.getString("tema_nome"));
+            ret.add(tema);
         }
         return ret;
     }
@@ -47,46 +47,45 @@ public class DalSetor extends br.com.vinicius.generic.dal.DalGeneric {
     //
     //--- CREATE ---------------------------------------------------------------------------------->
     //
-    public void add(Setor setor) throws Exception {
-        sql = "INSERT INTO setores (setor_nome, setor_empresa_id) VALUES (?, ?)";
-        args = new Object[]{setor.getNome(), setor.getEmpresa_id()};
+    public void add(Tema tema) throws Exception {
+        sql = "INSERT INTO temas (tema_nome) VALUES (?)";
+        args = new Object[]{tema.getNome()};
         execute();
     }
 
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
-    public boolean exists(Setor setor) throws Exception {
-        return exists("setor_nome", setor.getNome());
-    }
-
     //--- READ ------------------------------------------------------------------------------------>
     //
-    public Setor getSetor(int id) throws Exception {
-        sql = "SELECT * FROM setores WHERE setor_id = ? ";
+    public boolean exists(Tema tema) throws Exception {
+        return exists(new String[]{"tema_nome", "tema_id"}, new Object[]{tema.getNome(), tema.getId()});
+    }
+
+    public ArrayList<Tema> get() throws Exception {
+        sql = "SELECT * FROM temas";
+        args = new Object[]{};
+        return (ArrayList<Tema>) select();
+    }
+
+    public Tema get(int id) throws Exception {
+        sql = "SELECT * FROM temas WHERE tema_id = ? ";
         args = new Object[]{id};
-        return (Setor) select().get(0);
+        return (Tema) select().get(0);
     }
 
-    public Setor getSetor(String nome, int empresa_id) throws Exception {
-        sql = "SELECT * FROM setores WHERE setor_nome = ? AND setor_empresa_id = ?";
-        args = new Object[]{nome, empresa_id};
-        return (Setor) select().get(0);
-    }
-
-    public ArrayList<Setor> getSetores(int empresa_id) throws Exception {
-        sql = "SELECT * FROM setores WHERE setor_empresa_id = ? ORDER BY setor_nome";
-        args = new Object[]{empresa_id};
-        return (ArrayList<Setor>) select();
+    public Tema get(String nome) throws Exception {
+        sql = "SELECT * FROM temas WHERE tema_nome = ?";
+        args = new Object[]{nome};
+        return (Tema) select().get(0);
     }
 
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
-    public void update(Setor setor) throws Exception {
-        sql = "UPDATE setores SET setor_nome = ?, setor_empresa_id = ? "
-                + "WHERE setor_id = ?";
-        args = new Object[]{setor.getNome(), setor.getEmpresa_id(), setor.getId()};
+    public void update(Tema tema) throws Exception {
+        sql = "UPDATE temas SET tema_nome = ? WHERE tema_id = ?";
+        args = new Object[]{tema.getNome(), tema.getId()};
         execute();
     }
 
@@ -94,9 +93,9 @@ public class DalSetor extends br.com.vinicius.generic.dal.DalGeneric {
     //
     //--- DELETE ---------------------------------------------------------------------------------->
     //
-    public void delete(int setor_id) throws Exception {
-        sql = "DELETE FROM setores WHERE setor_id = ?";
-        args = new Object[]{setor_id};
+    public void delete(int id) throws Exception {
+        sql = "DELETE FROM temas WHERE tema_id = ?";
+        args = new Object[]{id};
         execute();
     }
     //--- FIM DELETE ------------------------------------------------------------------------------|
