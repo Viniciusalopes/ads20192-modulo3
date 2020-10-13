@@ -25,10 +25,14 @@ import br.com.vinicius.model.TipoMiniatura;
  */
 public class DalTipoMiniatura extends DalGeneric {
 
+    //--- CONSTRUTORES ---------------------------------------------------------------------------->
+    //
     public DalTipoMiniatura() throws Exception {
         super("tiposminiatura");
     }
 
+    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
+    //
     //--- GET ------------------------------------------------------------------------------------->
     //
     @Override

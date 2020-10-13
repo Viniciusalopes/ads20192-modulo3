@@ -25,10 +25,14 @@ import br.com.vinicius.model.Tema;
  */
 public class DalTema extends DalGeneric {
 
+    //--- CONSTRUTORES ---------------------------------------------------------------------------->
+    //
     public DalTema() throws Exception {
         super("temas");
     }
 
+    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
+    //
     //--- GET ------------------------------------------------------------------------------------->
     //
     @Override

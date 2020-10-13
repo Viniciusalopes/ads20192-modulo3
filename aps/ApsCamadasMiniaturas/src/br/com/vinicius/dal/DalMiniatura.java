@@ -92,7 +92,35 @@ public class DalMiniatura extends DalGeneric {
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
     public boolean exists(Miniatura miniatura) throws Exception {
-        return exists("miniatura_nome", miniatura.getNome());
+        sql = "SELECT * FROM miniaturas WHERE "
+                + "miniatura_id = ?, "
+                + "miniatura_modelo = ?, "
+                + "miniatura_ano = ?, "
+                + "miniatura_observacoes = ?, "
+                + "miniatura_edicao = ?, "
+                + "miniatura_escala = ?, "
+                + "miniatura_valor = ?, "
+                + "miniatura_fabricante_id = ?, "
+                + "miniatura_tipo_id = ?, "
+                + "miniatura_tema_id = ? ";
+
+        args = new Object[]{miniatura.getId(),
+            miniatura.getModelo(),
+            miniatura.getAno(),
+            miniatura.getObservacoes(),
+            miniatura.getEdicao(),
+            miniatura.getEscala(),
+            miniatura.getValor(),
+            miniatura.getFabricante().getId(),
+            miniatura.getTipoMiniatura().getId(),
+            miniatura.getTema().getId()
+        };
+
+        ResultSet rs = executeQuery();
+        if (rs.next()) {
+            return true;
+        }
+        return false;
     }
 
     //--- READ ------------------------------------------------------------------------------------>
@@ -120,8 +148,29 @@ public class DalMiniatura extends DalGeneric {
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
     public void update(Miniatura miniatura) throws Exception {
-        sql = "UPDATE miniaturas SET miniatura_nome = ? WHERE miniatura_id = ?";
-        args = new Object[]{miniatura.getNome(), miniatura.getId()};
+        sql = "UPDATE miniaturas SET "
+                + "miniatura_modelo = ?, "
+                + "miniatura_ano = ?, "
+                + "miniatura_observacoes = ?, "
+                + "miniatura_edicao = ?, "
+                + "miniatura_escala = ?, "
+                + "miniatura_valor = ?, "
+                + "miniatura_fabricante_id = ?, "
+                + "miniatura_tipo_id = ?, "
+                + "miniatura_tema_id = ? "
+                + " WHERE miniatura_id = ?";
+
+        args = new Object[]{
+            miniatura.getModelo(),
+            miniatura.getAno(),
+            miniatura.getObservacoes(),
+            miniatura.getEdicao(),
+            miniatura.getEscala(),
+            miniatura.getValor(),
+            miniatura.getFabricante().getId(),
+            miniatura.getTipoMiniatura().getId(),
+            miniatura.getId()
+        };
         execute();
     }
 

@@ -25,10 +25,14 @@ import br.com.vinicius.model.Fabricante;
  */
 public class DalFabricante extends DalGeneric {
 
+    //--- CONSTRUTORES ---------------------------------------------------------------------------->
+    //
     public DalFabricante() throws Exception {
         super("fabricantes");
     }
 
+    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
+    //
     //--- GET ------------------------------------------------------------------------------------->
     //
     @Override
