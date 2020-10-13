@@ -22,7 +22,7 @@ import static br.com.vinicius.generic.Factory.*;
  */
 public abstract class BllGeneric {
 
-//--- ATRIBUTOS ------------------------------------------------------------------------------->
+    //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
     protected static String charsVogaisAcentuadas = "àâãáéêíòôõóúÀÂÂÁÉÊÍÒÔÕÓÚ";
     protected static String charsLetras
