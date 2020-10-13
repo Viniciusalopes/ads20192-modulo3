@@ -168,8 +168,6 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
         if (colaborador != null) {
             for (Habilidade h : colaborador.getHabilidades()) {
                 hc.addRow(new Object[]{h.getId(), h.getOrigem().getNome(), h.getDescricao()});
-                removerHabilidadeJTable(h.getDescricao(), jTableHabilidadesStack);
-                removerHabilidadeJTable(h.getDescricao(), jTableHabilidades);
             }
         }
     }
@@ -198,20 +196,8 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
     private void fillHabilidadesStack() throws Exception {
         DefaultTableModel hs = (DefaultTableModel) jTableHabilidadesStack.getModel();
         hs.setRowCount(0);
-        ArrayList<Habilidade> habs = BllHabilidade.getHabilidadesStack(jTableStack.getSelectedRow() + 1);
-        for (Habilidade h : habs) {
-            boolean incluir = true;
-            if (colaborador != null) {
-                for (Habilidade hc : colaborador.getHabilidades()) {
-                    if (h.getDescricao().equals(hc.getDescricao())) {
-                        incluir = false;
-                        break;
-                    }
-                }
-            }
-            if (incluir) {
-                hs.addRow(new Object[]{h.getId(), h.getOrigem().getNome(), h.getDescricao()});
-            }
+        for (Habilidade h : BllHabilidade.getHabilidadesStack(jTableStack.getSelectedRow() + 1)) {
+            hs.addRow(new Object[]{h.getId(), h.getOrigem().getNome(), h.getDescricao()});
         }
     }
 
@@ -287,8 +273,9 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jScrollPane8 = new javax.swing.JScrollPane();
         jTableDecoracao = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        jButtonIncluirDecoracao = new javax.swing.JButton();
         jLabelQuantidadeHabilidades = new javax.swing.JLabel();
+        jLabelColaboradorSelecionado = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuEmpresaCadastro = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -768,9 +755,16 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
             jTableDecoracao.getColumnModel().getColumn(1).setMaxWidth(120);
         }
 
-        jButton1.setText("Incluir decoração no Colaborador");
+        jButtonIncluirDecoracao.setText("Incluir decoração no Colaborador");
+        jButtonIncluirDecoracao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonIncluirDecoracaoActionPerformed(evt);
+            }
+        });
 
         jLabelQuantidadeHabilidades.setText("Quantidade de Habilidades: ");
+
+        jLabelColaboradorSelecionado.setText("Nenhum colaborador selecionado.");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -782,7 +776,10 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 644, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(jButtonIncluirDecoracao)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabelColaboradorSelecionado))
                             .addGroup(jPanel7Layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addGap(98, 98, 98)
@@ -796,7 +793,9 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonIncluirDecoracao, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelColaboradorSelecionado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -945,17 +944,16 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
 
     private void jTableColaboradoresMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableColaboradoresMouseReleased
         try {
+            colaborador = BllColaborador.getColaborador(getSelectedId(jTableColaboradores));
             if ((evt.getClickCount() == 2)) {
                 AppIModal modal = new AppJDialogColaborador(this, true);
-                modal.setObject(BllColaborador.getColaborador(getSelectedId(jTableColaboradores)));
+                modal.setObject(colaborador);
                 modal.setVisible(true);
+                fillSetores();
                 fillColaboradores();
-                fillHabilidadesColaborador();
-            } else {
-                colaborador = BllColaborador.getColaborador(getSelectedId(jTableColaboradores));
-                // Crio o objeto da Stack Programador para ser decorado
-                fillHabilidadesColaborador();
             }
+            fillHabilidadesColaborador();
+            jLabelColaboradorSelecionado.setText("Colaborador selecionado: " + colaborador.getId() + " - " + colaborador.getNome());
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -968,7 +966,7 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
             modal.setVisible(true);
             fillSetores();
             fillColaboradores();
-            
+
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -979,10 +977,12 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
             if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
                 deleteRow(jTableColaboradores);
                 colaborador = null;
+                jLabelColaboradorSelecionado.setText("Nenhum colaborador selecionado.");
                 fillColaboradores();
                 fillHabilidadesColaborador();
             } else {
                 colaborador = BllColaborador.getColaborador(getSelectedId(jTableColaboradores));
+                jLabelColaboradorSelecionado.setText("Colaborador selecionado: " + colaborador.getId() + " - " + colaborador.getNome());
                 fillHabilidadesColaborador();
             }
         } catch (Exception e) {
@@ -1028,7 +1028,7 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
     private void jTableHabilidadesStackMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableHabilidadesStackMouseReleased
         try {
             if (evt.getClickCount() == 2) {
-               incluirHabilidadeDecorativa(jTableHabilidadesStack);
+                incluirHabilidadeDecorativa(jTableHabilidadesStack);
             }
         } catch (Exception e) {
             mensagemErro(e);
@@ -1058,6 +1058,32 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
             mensagemErro(e);
         }        // TODO add your handling code here:
     }//GEN-LAST:event_jTableHabilidadesMouseReleased
+
+    private void jButtonIncluirDecoracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirDecoracaoActionPerformed
+        try {
+            if (jTableColaboradores.getSelectedRow() == -1) {
+                throw new Exception("Selecione um colaborador na aba [Cadastro]!");
+            }
+
+            if (jTableDecoracao.getRowCount() == 0) {
+                mensagem("Informação", "Selecione as habilidades que deseja incluir no cadastro do colaborador!");
+                return;
+            }
+            ArrayList<Habilidade> habs = new ArrayList<>();
+            for (int l = 0; l < jTableDecoracao.getRowCount(); l++) {
+                habs.add(BllHabilidade.getHabilidade(jTableDecoracao.getValueAt(l, 2) + ""));
+            }
+            BllColaborador.insertHabilidadesColaborador(habs, colaborador.getId());
+            ((DefaultTableModel) jTableDecoracao.getModel()).setRowCount(0);
+            contratado = null;
+            jLabelQuantidadeHabilidades.setText("Quantidade de Habilidades: ");
+            jLabelColaboradorSelecionado.setText("Nenhum colaborador selecionado.");
+
+            mensagem("Sucesso!", "As habilidades do colaborador foram atualizadas!");
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jButtonIncluirDecoracaoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1096,8 +1122,8 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonIncluirColaborador;
+    private javax.swing.JButton jButtonIncluirDecoracao;
     private javax.swing.JButton jButtonIncluirSetor;
     private javax.swing.JButton jButtonSalvarEmpresa;
     private javax.swing.JLabel jLabel1;
@@ -1105,6 +1131,7 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelColaboradorSelecionado;
     private javax.swing.JLabel jLabelQuantidadeHabilidades;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;

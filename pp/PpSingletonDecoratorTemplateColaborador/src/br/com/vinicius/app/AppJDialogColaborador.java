@@ -179,6 +179,9 @@ public class AppJDialogColaborador extends javax.swing.JDialog implements AppIMo
 
     private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOKActionPerformed
         try {
+            if(jComboBoxSetores.getSelectedIndex() == -1){
+                throw new Exception("Selecione um setor.");
+            }
             Colaborador colab = new Colaborador(
                     colaborador.getId(),
                     jTextFieldColaborador_nome.getText(),
