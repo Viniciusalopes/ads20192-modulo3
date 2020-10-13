@@ -9,7 +9,7 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Propósito do arquivo.
+ *  Regras de negócio para Colaborador. (Padrão SINGLETON e método estáticos)
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.bll;
@@ -28,18 +28,18 @@ public class BllColaborador {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
+    private static DalColaborador dal = null;
+
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
-    //
-    //--- CONSTRUTORES ---------------------------------------------------------------------------->
-    //
-    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
-    //
-    //--- GET ------------------------------------------------------------------------------------->
-    //
-    //--- FIM GET ---------------------------------------------------------------------------------|
     //
     //--- SET ------------------------------------------------------------------------------------->
     //
+    private static void initDal() throws Exception {
+        if (dal == null) {
+            dal = new DalColaborador();
+        }
+    }
+
     //--- FIM SET ---------------------------------------------------------------------------------|
     //
     //--- CREATE ---------------------------------------------------------------------------------->
@@ -53,11 +53,13 @@ public class BllColaborador {
 
     public static void add(Colaborador colaborador) throws Exception {
         validate(colaborador);
-        new DalColaborador().add(colaborador);
+        initDal();
+        dal.add(colaborador);
     }
 
     public static void insertHabilidadesColaborador(ArrayList<Habilidade> habilidades, int colaborador_id) throws Exception {
-        new DalColaborador().insertHabilidades(habilidades, colaborador_id);
+        initDal();
+        dal.insertHabilidades(habilidades, colaborador_id);
     }
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
@@ -65,11 +67,13 @@ public class BllColaborador {
     //--- READ ------------------------------------------------------------------------------------>
     //
     public static Colaborador getColaborador(int colaborador_id) throws Exception {
-        return new DalColaborador().getColaborador(colaborador_id);
+        initDal();
+        return dal.getColaborador(colaborador_id);
     }
 
     public static ArrayList<Colaborador> getColaboradores(int setor_id) throws Exception {
-        return new DalColaborador().getColaboradores(setor_id);
+        initDal();
+        return dal.getColaboradores(setor_id);
     }
 
     //--- FIM READ --------------------------------------------------------------------------------|
@@ -78,11 +82,11 @@ public class BllColaborador {
     //
     public static void update(Colaborador colaborador) throws Exception {
         validate(colaborador);
-        new DalColaborador().update(colaborador);
+        initDal();
+        dal.update(colaborador);
     }
 
-    public static void atualizaHabilidadesColaborador(
-            int colaborador_id,
+    public static void atualizaHabilidadesColaborador(int colaborador_id,
             ArrayList<Habilidade> listaHabilidades1,
             ArrayList<Habilidade> listaHabilidades2
     ) throws Exception {
@@ -97,11 +101,14 @@ public class BllColaborador {
 
     //--- DELETE ---------------------------------------------------------------------------------->
     //
-    public static void deleteHabilidade(int habilidade_id, int colaborador_id) throws Exception{
-        new DalColaborador().deleteHabilidade(habilidade_id, colaborador_id);
+    public static void deleteHabilidade(int habilidade_id, int colaborador_id) throws Exception {
+        initDal();
+        dal.deleteHabilidade(habilidade_id, colaborador_id);
     }
+
     public static void deleteHabilidadesColaborador(int colaborador_id) throws Exception {
-        new DalColaborador().deleteHabilidades(colaborador_id);
+        initDal();
+        dal.deleteHabilidades(colaborador_id);
     }
 
     //--- FIM DELETE ------------------------------------------------------------------------------|

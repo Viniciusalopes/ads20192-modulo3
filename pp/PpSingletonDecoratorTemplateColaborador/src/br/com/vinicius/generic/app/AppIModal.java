@@ -9,7 +9,7 @@
  *  Projeto    : ARQUITETURA EM CAMADAS
  *  Exercício  : Cadastro de Miniatura em camadas
  *  ------------------------------------------------------------------------------------------------
- *  
+ *  Interface para expor métodos de uma JDialog para seu chamador.
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.generic.app;
@@ -23,6 +23,6 @@ public interface AppIModal {
     void setObject(Object object) throws Exception;
 
     void setFriendlyName(String friendlyName);
-    
+
     void setVisible(boolean b);
 }

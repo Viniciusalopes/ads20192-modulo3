@@ -26,6 +26,14 @@ public class AppFactory {
 
     //--- JDialog --------------------------------------------------------------------------------->
     //
+    /**
+     * Exibe um modal para inclusão ou edição de cadastro simples.
+     *
+     * @param object Objeto do cadastro.
+     * @param friendlyName Nome amigável da entidade.
+     * @param modal JDialog que implemente a interface AppIModal.
+     * @throws Exception
+     */
     public static void getModal(Object object, String friendlyName, AppIModal modal) throws Exception {
         modal.setObject(object);
         modal.setFriendlyName(friendlyName);
@@ -36,11 +44,39 @@ public class AppFactory {
     //
     //--- JTable ---------------------------------------------------------------------------------->
     //
+    /**
+     * Obtém o ID de um cadastro a partir a linha selecionada de um JTable, quando a coluna que
+     * contém o ID do objeto é 0 (zero).
+     *
+     * @param jTable JTable que se deseja obter o ID selecionado.
+     * @return
+     * @throws Exception
+     */
     public static int getSelectedId(JTable jTable) throws Exception {
-        return Integer.parseInt(jTable.getValueAt(jTable.getSelectedRow(), 0).toString());
+        return getSelectedId(jTable, 0);
     }
 
-    public static void deleteRow(JTable jTable) throws Exception {
+    /**
+     * Obtém o ID de um cadastro a partir a linha selecionada de um JTable.
+     *
+     * @param jTable JTable que se deseja obter o ID selecionado.
+     * @param indexColumnId Índice da coluna que tem a informação do ID do objeto.
+     * @return
+     * @throws Exception
+     */
+    public static int getSelectedId(JTable jTable, int indexColumnId) throws Exception {
+        return Integer.parseInt(jTable.getValueAt(jTable.getSelectedRow(), indexColumnId).toString());
+    }
+
+    /**
+     * Executa o método delete da camada DAL de um objeto listado no JTable, a partir da linha
+     * selecionada.<br>
+     * Exibe uma mensagem de confirmação antes da deleção.
+     *
+     * @param jTable JTable que está exibindo a coleção de dados.
+     * @throws Exception
+     */
+    public static void deleteSelected(JTable jTable) throws Exception {
         if (jTable.getSelectedRow() > -1) {
             int id = getSelectedId(jTable);
             String[] opcoes = new String[]{"Não... vai que, né!", "Sim"};
@@ -51,8 +87,6 @@ public class AppFactory {
         }
     }
 
-    //--- FIM JTable ------------------------------------------------------------------------------|
-    //
     //--- FIM JTable ------------------------------------------------------------------------------|
     //
 }

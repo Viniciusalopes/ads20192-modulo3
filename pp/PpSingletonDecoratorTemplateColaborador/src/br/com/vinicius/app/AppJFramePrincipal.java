@@ -15,12 +15,10 @@
 package br.com.vinicius.app;
 
 import br.com.vinicius.bll.BllColaborador;
-import br.com.vinicius.bll.BllDecorator;
 import br.com.vinicius.bll.BllEmpresa;
 import br.com.vinicius.bll.BllHabilidade;
 import br.com.vinicius.bll.BllSetor;
 import static br.com.vinicius.generic.app.AppDesktopMensagem.*;
-import static br.com.vinicius.generic.app.AppFactory.deleteRow;
 import static br.com.vinicius.generic.app.AppFactory.getModal;
 import static br.com.vinicius.generic.app.AppFactory.getSelectedId;
 import br.com.vinicius.generic.app.AppIModal;
@@ -38,6 +36,7 @@ import br.com.vinicius.model.decorator.DecorativoExcluir;
 import br.com.vinicius.model.decorator.Stack;
 import java.awt.event.KeyEvent;
 import javax.swing.JTable;
+import static br.com.vinicius.generic.app.AppFactory.deleteSelected;
 
 /**
  *
@@ -54,14 +53,15 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
-    /**
-     * Creates new form JFramePrincipal
-     */
+    //--- CONSTRUTORES ---------------------------------------------------------------------------->
+    //
     public AppJFramePrincipal() {
         initComponents();
         this.setLocationRelativeTo(null);
         valoresIniciais();
     }
+    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
+    //
 
     private void valoresIniciais() {
         try {
@@ -210,21 +210,20 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
         jLabelQuantidadeHabilidades.setText("Quantidade de Habilidades: " + contratado.getQuantidade());
     }
 
-    private void removerHabilidadeJTable(String habilidade_descricao, JTable jTable) throws Exception {
-        DefaultTableModel model = (DefaultTableModel) jTable.getModel();
-        for (int r = 0; r < model.getRowCount(); r++) {
-            if (model.getValueAt(r, 2).equals(habilidade_descricao)) {
-                model.removeRow(r);
-            }
-        }
-    }
-
+    //--- DECORATOR ------------------------------------------------------------------------------->
+    /**
+     * Cria o um novo decorado a partir do decorativo selecionado no JTable (DECORATOR E FACTORY).
+     *
+     * @param jTable
+     * @throws Exception
+     */
     private void incluirHabilidadeDecorativa(JTable jTable) throws Exception {
-        // Cria o objeto a ser decorado
+
         String habilidade_descricao = jTable.getValueAt(jTable.getSelectedRow(), 2) + "";
         if (contratado == null) {
             throw new Exception("Selecione uma Stack para decorar!");
         }
+        // Inclui a habilidade selecionada, criando um novo decorado a partir do decorativo
         contratado = new Decorativo(contratado, habilidade_descricao);
         fillHabilidadesDecoracao();
     }
@@ -866,6 +865,8 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //--- ABA EMPRESA ---
+    //
     private void jTextFieldEmpresa_nomeKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldEmpresa_nomeKeyReleased
         try {
             jButtonSalvarEmpresa.setEnabled(!jTextFieldEmpresa_nome.getText().equalsIgnoreCase(empresa.getNome()));
@@ -898,6 +899,10 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonIncluirSetorActionPerformed
 
+    //--- FIM ABA EMPRESA ---
+    //
+    //--- ABA SETORES ---
+    //
     private void jTableSetoresEmpresaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSetoresEmpresaMouseReleased
         try {
             if ((evt.getClickCount() == 2)) {
@@ -923,7 +928,7 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
     private void jTableSetoresEmpresaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableSetoresEmpresaKeyReleased
         try {
             if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
-                deleteRow(jTableSetoresEmpresa);
+                deleteSelected(jTableSetoresEmpresa);
                 fillSetores();
             }
         } catch (Exception e) {
@@ -934,13 +939,30 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
     private void jTableSetoresKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableSetoresKeyReleased
         try {
             if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
-                deleteRow(jTableSetores);
+                deleteSelected(jTableSetores);
                 fillSetores();
             }
         } catch (Exception e) {
             mensagemErro(e);
         }
     }//GEN-LAST:event_jTableSetoresKeyReleased
+
+    //--- FIM ABA SETORES ---
+    //
+    //--- ABA COLABORADORES / CADASTRO ---
+    //
+    private void jButtonIncluirColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirColaboradorActionPerformed
+        try {
+            AppIModal modal = new AppJDialogColaborador(this, true);
+            modal.setObject(new Colaborador());
+            modal.setVisible(true);
+            fillSetores();
+            fillColaboradores();
+
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jButtonIncluirColaboradorActionPerformed
 
     private void jTableColaboradoresMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableColaboradoresMouseReleased
         try {
@@ -959,23 +981,10 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTableColaboradoresMouseReleased
 
-    private void jButtonIncluirColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirColaboradorActionPerformed
-        try {
-            AppIModal modal = new AppJDialogColaborador(this, true);
-            modal.setObject(new Colaborador());
-            modal.setVisible(true);
-            fillSetores();
-            fillColaboradores();
-
-        } catch (Exception e) {
-            mensagemErro(e);
-        }
-    }//GEN-LAST:event_jButtonIncluirColaboradorActionPerformed
-
     private void jTableColaboradoresKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableColaboradoresKeyReleased
         try {
             if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
-                deleteRow(jTableColaboradores);
+                deleteSelected(jTableColaboradores);
                 colaborador = null;
                 jLabelColaboradorSelecionado.setText("Nenhum colaborador selecionado.");
                 fillColaboradores();
@@ -990,28 +999,6 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTableColaboradoresKeyReleased
 
-    private void jTableStackMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableStackMouseReleased
-        try {
-            if ((jTableHabilidadesStack.getRowCount() > 0) && (evt.getClickCount() == 2)) {
-                // Cria o objeto a ser decorado
-                contratado = new Stack(jTableStack.getSelectedRow() + 1);
-                fillHabilidadesDecoracao();
-                fillHabilidadesStack();
-            }
-            fillHabilidadesStack();
-        } catch (Exception e) {
-            mensagemErro(e);
-        }
-    }//GEN-LAST:event_jTableStackMouseReleased
-
-    private void jTableStackKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableStackKeyReleased
-        try {
-            fillHabilidadesStack();
-        } catch (Exception e) {
-            mensagemErro(e);
-        }
-    }//GEN-LAST:event_jTableStackKeyReleased
-
     private void jTableHabilidadesColaboradorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableHabilidadesColaboradorKeyReleased
         try {
             if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
@@ -1025,6 +1012,11 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTableHabilidadesColaboradorKeyReleased
 
+    /**
+     * Cria o um novo decorado a partir do decorativo selecionado com duplo clique.
+     *
+     * @param evt
+     */
     private void jTableHabilidadesStackMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableHabilidadesStackMouseReleased
         try {
             if (evt.getClickCount() == 2) {
@@ -1035,29 +1027,10 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTableHabilidadesStackMouseReleased
 
-    private void jTableDecoracaoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableDecoracaoKeyReleased
-        try {
-            if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
-                // Cria o objeto a ser decorado sem a hablidade selecionada para exclusão
-                String habilidade_descricao = jTableDecoracao.getValueAt(jTableDecoracao.getSelectedRow(), 2) + "";
-                contratado = new DecorativoExcluir(contratado, habilidade_descricao);
-                fillHabilidadesDecoracao();
-                fillHabilidadesStack();
-            }
-        } catch (Exception e) {
-            mensagemErro(e);
-        }
-    }//GEN-LAST:event_jTableDecoracaoKeyReleased
-
-    private void jTableHabilidadesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableHabilidadesMouseReleased
-        try {
-            if (evt.getClickCount() == 2) {
-                incluirHabilidadeDecorativa(jTableHabilidades);
-            }
-        } catch (Exception e) {
-            mensagemErro(e);
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_jTableHabilidadesMouseReleased
+    //--- FIM ABA COLABORADORES / CADASTRO ---
+    //
+    //--- ABA COLABORADORES / HABILIDADES DECORADOR ---
+    //
 
     private void jButtonIncluirDecoracaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirDecoracaoActionPerformed
         try {
@@ -1084,7 +1057,65 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
             mensagemErro(e);
         }
     }//GEN-LAST:event_jButtonIncluirDecoracaoActionPerformed
+    /**
+     * Cria um objeto a ser decorado.<br>
+     * Utilizo o padrão FACTORY para criar N acessórios a partir da descrição da STACK.
+     *
+     * @param evt
+     */
+    private void jTableStackMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableStackMouseReleased
+        try {
+            if ((jTableHabilidadesStack.getRowCount() > 0) && (evt.getClickCount() == 2)) {
+                // Cria o objeto a ser decorado
+                contratado = new Stack(jTableStack.getSelectedRow() + 1);
+                fillHabilidadesDecoracao();
+                fillHabilidadesStack();
+            }
+            fillHabilidadesStack();
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jTableStackMouseReleased
 
+    private void jTableStackKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableStackKeyReleased
+        try {
+            fillHabilidadesStack();
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jTableStackKeyReleased
+
+    private void jTableDecoracaoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableDecoracaoKeyReleased
+        try {
+            if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
+                // Cria o objeto a ser decorado sem a hablidade selecionada para exclusão
+                String habilidade_descricao = jTableDecoracao.getValueAt(jTableDecoracao.getSelectedRow(), 2) + "";
+                contratado = new DecorativoExcluir(contratado, habilidade_descricao);
+                fillHabilidadesDecoracao();
+                fillHabilidadesStack();
+            }
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jTableDecoracaoKeyReleased
+
+    /**
+     * Cria o um novo decorado a partir do decorativo selecionado com duplo clique.
+     *
+     * @param evt
+     */
+    private void jTableHabilidadesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableHabilidadesMouseReleased
+        try {
+            if (evt.getClickCount() == 2) {
+                incluirHabilidadeDecorativa(jTableHabilidades);
+            }
+        } catch (Exception e) {
+            mensagemErro(e);
+        }
+    }//GEN-LAST:event_jTableHabilidadesMouseReleased
+
+    //--- FIM ABA COLABORADORES / HABILIDADES DECORADOR ---
+    //
     /**
      * @param args the command line arguments
      */

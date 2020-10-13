@@ -9,7 +9,7 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Propósito do arquivo.
+ *  Acesso a dados da tabela [colaboradores].
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.dal;
@@ -26,10 +26,6 @@ import br.com.vinicius.model.Habilidade;
  */
 public class DalColaborador extends br.com.vinicius.generic.dal.DalGeneric {
 
-    //--- ATRIBUTOS ------------------------------------------------------------------------------->
-    //
-    //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
-    //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
     public DalColaborador() throws Exception {
@@ -54,10 +50,6 @@ public class DalColaborador extends br.com.vinicius.generic.dal.DalGeneric {
     }
 
     //--- FIM GET ---------------------------------------------------------------------------------|
-    //
-    //--- SET ------------------------------------------------------------------------------------->
-    //
-    //--- FIM SET ---------------------------------------------------------------------------------|
     //
     //--- CREATE ---------------------------------------------------------------------------------->
     //
@@ -136,6 +128,7 @@ public class DalColaborador extends br.com.vinicius.generic.dal.DalGeneric {
         execute();
         
     }
+
     public void deleteHabilidade(int habilidade_id, int colaborador_id) throws Exception{
         sql = "DELETE FROM habilidades_colaborador WHERE habilidade_id = ? AND colaborador_id = ?";
         args = new Object[]{habilidade_id, colaborador_id};
@@ -147,6 +140,7 @@ public class DalColaborador extends br.com.vinicius.generic.dal.DalGeneric {
         args = new Object[]{colaborador_id};
         execute();
     }
+    
     //--- FIM DELETE ------------------------------------------------------------------------------|
     //
 }

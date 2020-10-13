@@ -9,12 +9,12 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Decorativo (Para excluir um decorativo do objeto).
+ *  Decorativo (Equivalente aos kits, trio elétrico, direção e ar do exemplo, para excluir um 
+ *  decorativo do objeto).
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.model.decorator;
 
-import br.com.vinicius.bll.BllHabilidade;
 import br.com.vinicius.model.Habilidade;
 import java.util.ArrayList;
 
@@ -33,6 +33,13 @@ public class DecorativoExcluir extends Profissional {
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
+    /**
+     * Cria um objeto a ser decorado a partir de outro que extenda o decorador (Profissional) e
+     * EXCLUI a habilidade decorativa.
+     *
+     * @param contratado Objeto decorado a ser modificado.
+     * @param habilidade_descricao Habilidade que corresponde ao decorativo.
+     */
     public DecorativoExcluir(Contratado contratado, String habilidade_descricao) {
         this.contratado = contratado;
         this.habilidade_descricao = habilidade_descricao;
@@ -42,11 +49,18 @@ public class DecorativoExcluir extends Profissional {
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
+    /**
+     * Inclui as habilidades do objeto injetado no construtor e EXCLUI a habilidade correspondente
+     * do decorativo se ela ainda não existir.
+     *
+     * @return
+     * @throws Exception
+     */
     @Override
     public ArrayList<Habilidade> getHabilidades() throws Exception {
         ArrayList<Habilidade> ret = new ArrayList<>();
         for (Habilidade h : contratado.getHabilidades()) {
-            
+
             if (!h.getDescricao().equals(habilidade_descricao)) {
                 ret.add(h);
             }
@@ -56,8 +70,9 @@ public class DecorativoExcluir extends Profissional {
 
     @Override
     public int getQuantidade() throws Exception {
-        return habilidades.size();
+        return this.getHabilidades().size();
     }
+
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
 }

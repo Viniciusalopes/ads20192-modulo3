@@ -33,6 +33,13 @@ public class Decorativo extends Profissional {
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
+    /**
+     * Cria um objeto a ser decorado a partir de outro que extenda o decorador (Profissional) e
+     * INCLUI a habilidade decorativa.
+     *
+     * @param contratado Objeto decorado a ser modificado.
+     * @param habilidade_descricao Habilidade que corresponde ao decorativo.
+     */
     public Decorativo(Contratado contratado, String habilidade_descricao) {
         this.contratado = contratado;
         this.habilidade_descricao = habilidade_descricao;
@@ -42,6 +49,12 @@ public class Decorativo extends Profissional {
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
+    /**
+     * Inclui as habilidades do objeto injetado no construtor e inclui a habilidade correspondente
+     * do decorativo somente se ela ainda não existir.
+     *
+     * @return @throws Exception
+     */
     @Override
     public ArrayList<Habilidade> getHabilidades() throws Exception {
         ArrayList<Habilidade> ret = new ArrayList<>();
@@ -61,8 +74,9 @@ public class Decorativo extends Profissional {
 
     @Override
     public int getQuantidade() throws Exception {
-        return habilidades.size();
+        return this.getHabilidades().size();
     }
+
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
 }

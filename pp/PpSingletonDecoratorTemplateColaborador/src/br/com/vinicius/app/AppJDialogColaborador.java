@@ -9,13 +9,13 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Propósito do arquivo.
+ *  Tela para cadastro de Colaborador.
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.app;
 
 import br.com.vinicius.bll.BllColaborador;
-import br.com.vinicius.bll.BllDecorator;
+import br.com.vinicius.bll.BllHabilidade;
 import br.com.vinicius.bll.BllSetor;
 import static br.com.vinicius.generic.app.AppDesktopMensagem.mensagem;
 import static br.com.vinicius.generic.app.AppDesktopMensagem.mensagemErro;
@@ -31,10 +31,14 @@ import br.com.vinicius.model.Setor;
  */
 public class AppJDialogColaborador extends javax.swing.JDialog implements AppIModal {
 
+    //--- ATRIBUTOS ------------------------------------------------------------------------------->
+    //
     private Colaborador colaborador;
     private String action = "add";
     private String complement = "";
 
+    //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
+    //
     @Override
     public void setObject(Object object) throws Exception {
         colaborador = (Colaborador) object;
@@ -55,7 +59,6 @@ public class AppJDialogColaborador extends javax.swing.JDialog implements AppIMo
                 jTextFieldColaborador_id.setText(colaborador.getId() + "");
                 jTextFieldColaborador_nome.setText(colaborador.getNome());
                 jComboBoxSetores.setSelectedItem(BllSetor.getSetor(colaborador.getSetor_id()).getNome());
-
             }
             this.setTitle(((action.equals("add")) ? "Incluir" : "Editar") + " cadastro de Colaborador " + complement);
             super.setVisible(b);
@@ -66,6 +69,11 @@ public class AppJDialogColaborador extends javax.swing.JDialog implements AppIMo
         }
     }
 
+    /**
+     * Atualiza os itens do ComboBox
+     *
+     * @throws Exception
+     */
     private void fillComboBoxSetores() throws Exception {
         jComboBoxSetores.removeAllItems();
         for (Setor setor : BllSetor.getSetores(1)) {
@@ -179,14 +187,14 @@ public class AppJDialogColaborador extends javax.swing.JDialog implements AppIMo
 
     private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOKActionPerformed
         try {
-            if(jComboBoxSetores.getSelectedIndex() == -1){
+            if (jComboBoxSetores.getSelectedIndex() == -1) {
                 throw new Exception("Selecione um setor.");
             }
             Colaborador colab = new Colaborador(
                     colaborador.getId(),
                     jTextFieldColaborador_nome.getText(),
                     BllSetor.getSetor(jComboBoxSetores.getSelectedItem() + "", 1).getId(),
-                    BllDecorator.getHabilidadesOrigem(1)
+                    BllHabilidade.getHabilidadesOrigem(1)
             );
             if (action.equals("add")) {
                 BllColaborador.add(colab);

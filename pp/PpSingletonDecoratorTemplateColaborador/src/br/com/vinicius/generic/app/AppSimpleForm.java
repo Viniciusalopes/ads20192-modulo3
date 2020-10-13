@@ -7,9 +7,9 @@
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
  *  Projeto    : ARQUITETURA EM CAMADAS
- *  Exercício  : Cadastro de Miniatura em camadas
+ *  Exercício  : Cadastro de Miniatura em camadas (Modificado para PP)
  *  ------------------------------------------------------------------------------------------------
- *  
+ *  Formulário para cadastro simples. (PP Factory)
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.generic.app;

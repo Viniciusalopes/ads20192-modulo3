@@ -14,7 +14,6 @@
  */
 package br.com.vinicius.model;
 
-import br.com.vinicius.model.Setor;
 import java.util.ArrayList;
 
 /**
@@ -52,8 +51,8 @@ public class Empresa {
     public String getNome() {
         return nome;
     }
-    
-    public ArrayList<Setor> getSetores(){
+
+    public ArrayList<Setor> getSetores() {
         return setores;
     }
 
@@ -69,10 +68,10 @@ public class Empresa {
         this.nome = nome;
     }
 
-    public void setSetores(ArrayList<Setor> setores){
+    public void setSetores(ArrayList<Setor> setores) {
         this.setores = setores;
     }
-    
+
     //--- FIM SET ---------------------------------------------------------------------------------|
     //
 }

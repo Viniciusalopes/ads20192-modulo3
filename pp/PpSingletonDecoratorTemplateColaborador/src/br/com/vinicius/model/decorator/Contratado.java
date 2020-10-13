@@ -36,6 +36,7 @@ public abstract class Contratado {
     }
 
     public abstract int getQuantidade() throws Exception;
+    
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
 }

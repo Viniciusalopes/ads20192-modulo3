@@ -9,7 +9,7 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Propósito do arquivo.
+ *  Regras de negócio para o Setor. (Padrão SINGLETON e método estáticos)
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.bll;
@@ -27,60 +27,71 @@ public class BllSetor extends BllGeneric {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
+    private static DalSetor dal = null;
+
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
-    //
-    //--- CONSTRUTORES ---------------------------------------------------------------------------->
-    //
-    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
-    //
-    //--- GET ------------------------------------------------------------------------------------->
-    //
-    //--- FIM GET ---------------------------------------------------------------------------------|
     //
     //--- SET ------------------------------------------------------------------------------------->
     //
+    private static void initDal() throws Exception {
+        if (dal == null) {
+            dal = new DalSetor();
+        }
+    }
+
     //--- FIM SET ---------------------------------------------------------------------------------|
     //
     //--- CREATE ---------------------------------------------------------------------------------->
     //
-    public static void validate(Setor setor) throws Exception{
-        if(new DalSetor().exists(setor)){
+    public static void validate(Setor setor) throws Exception {
+        initDal();
+        if (dal.exists(setor)) {
             throw new Exception("Já existe um setor com este nome!");
         }
         validarCampoTamanho(setor.getNome(), "Nome do Setor");
     }
-    
-    public static void add(Setor setor) throws Exception{
+
+    public static void add(Setor setor) throws Exception {
         validate(setor);
-        new DalSetor().add(setor);
+        initDal();
+        dal.add(setor);
     }
+
     //--- FIM CREATE ------------------------------------------------------------------------------|
     //
     //--- READ ------------------------------------------------------------------------------------>
     //
     public static Setor getSetor(int id) throws Exception {
-        return new DalSetor().getSetor(id);
+        initDal();
+        return dal.getSetor(id);
     }
-    public static Setor getSetor(String nome, int empresa_id) throws Exception{
-        return new DalSetor().getSetor(nome, empresa_id);
+
+    public static Setor getSetor(String nome, int empresa_id) throws Exception {
+        initDal();
+        return dal.getSetor(nome, empresa_id);
     }
+
     public static ArrayList<Setor> getSetores(int empresa_id) throws Exception {
-        return new DalSetor().getSetores(empresa_id);
+        initDal();
+        return dal.getSetores(empresa_id);
     }
     //--- FIM READ --------------------------------------------------------------------------------|
     //
 
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
-    public static void update(Setor setor) throws Exception{
-        new DalSetor().update(setor);
+    public static void update(Setor setor) throws Exception {
+        initDal();
+        dal.update(setor);
     }
+
     //--- FIM UPDATE ------------------------------------------------------------------------------|
     //
     //--- DELETE ---------------------------------------------------------------------------------->
     //
-    public static void delete(int setor_id) throws Exception{
-        new DalSetor().delete(setor_id);
+    public static void delete(int setor_id) throws Exception {
+        initDal();
+        dal.delete(setor_id);
     }
     //--- FIM DELETE ------------------------------------------------------------------------------|
     //

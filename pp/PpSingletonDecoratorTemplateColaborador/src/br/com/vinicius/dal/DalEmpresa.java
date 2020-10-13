@@ -9,7 +9,7 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Propósito do arquivo.
+ *  Acesso a dados da tabela [empresas].
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.dal;
@@ -25,18 +25,11 @@ import br.com.vinicius.model.Empresa;
 public class DalEmpresa extends br.com.vinicius.generic.dal.DalGeneric {
 
     private int empresa_id = 1;     // Fixo por que é só para uma empresa
+
     public DalEmpresa() throws Exception {
         super("empresas");
     }
 
-    //--- ATRIBUTOS ------------------------------------------------------------------------------->
-    //
-    //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
-    //
-    //--- CONSTRUTORES ---------------------------------------------------------------------------->
-    //
-    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
-    //
     //--- GET ------------------------------------------------------------------------------------->
     //
     @Override
@@ -53,14 +46,6 @@ public class DalEmpresa extends br.com.vinicius.generic.dal.DalGeneric {
 
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
-    //--- SET ------------------------------------------------------------------------------------->
-    //
-    //--- FIM SET ---------------------------------------------------------------------------------|
-    //
-    //--- CREATE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM CREATE ------------------------------------------------------------------------------|
-    //
     //--- READ ------------------------------------------------------------------------------------>
     //
     public Empresa getEmpresa() throws Exception {
@@ -68,19 +53,16 @@ public class DalEmpresa extends br.com.vinicius.generic.dal.DalGeneric {
         args = new Object[]{empresa_id};
         return (Empresa) select().get(0);
     }
+
     //--- FIM READ --------------------------------------------------------------------------------|
     //
     //--- UPDATE ---------------------------------------------------------------------------------->
     //
-    public void update(String empresa_nome) throws Exception{
+    public void update(String empresa_nome) throws Exception {
         sql = "UPDATE empresas SET empresa_nome = ? WHERE empresa_id = ?";
         args = new Object[]{empresa_nome, empresa_id};
         execute();
     }
     //--- FIM UPDATE ------------------------------------------------------------------------------|
-    //
-    //--- DELETE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM DELETE ------------------------------------------------------------------------------|
     //
 }

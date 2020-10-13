@@ -26,7 +26,7 @@ public abstract class Profissional extends Contratado {
     //--- GET ------------------------------------------------------------------------------------->
     //
     public abstract ArrayList<Habilidade> getHabilidades() throws Exception;
-    
+
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
 }

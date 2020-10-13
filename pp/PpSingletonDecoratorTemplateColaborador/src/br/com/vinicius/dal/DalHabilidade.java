@@ -9,7 +9,7 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Propósito do arquivo.
+ *  Acesso a dados da tabela [habilidades].
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.dal;
@@ -29,14 +29,6 @@ public class DalHabilidade extends br.com.vinicius.generic.dal.DalGeneric {
         super("habilidades");
     }
 
-    //--- ATRIBUTOS ------------------------------------------------------------------------------->
-    //
-    //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
-    //
-    //--- CONSTRUTORES ---------------------------------------------------------------------------->
-    //
-    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
-    //
     //--- GET ------------------------------------------------------------------------------------->
     //
     @Override
@@ -54,37 +46,28 @@ public class DalHabilidade extends br.com.vinicius.generic.dal.DalGeneric {
 
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
-    //--- SET ------------------------------------------------------------------------------------->
-    //
-    //--- FIM SET ---------------------------------------------------------------------------------|
-    //
-    //--- CREATE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM CREATE ------------------------------------------------------------------------------|
-    //
     //--- READ ------------------------------------------------------------------------------------>
     //
-    public Habilidade getHabilidade(int habilidade_id) throws Exception{
+    public Habilidade getHabilidade(int habilidade_id) throws Exception {
         sql = "SELECT * FROM habilidades h "
                 + "JOIN habilidades_origem ho ON h.habilidade_origem_id = ho.origem_id "
                 + "WHERE habilidade_id = ? "
                 + "ORDER BY origem_nome, habilidade_descricao ";
-        
+
         args = new Object[]{habilidade_id};
         return (Habilidade) select().get(0);
     }
 
-    public Habilidade getHabilidade(String habilidade_descricao) throws Exception{
+    public Habilidade getHabilidade(String habilidade_descricao) throws Exception {
         sql = "SELECT * FROM habilidades h "
                 + "JOIN habilidades_origem ho ON h.habilidade_origem_id = ho.origem_id "
                 + "WHERE habilidade_descricao = ? "
                 + "ORDER BY origem_nome, habilidade_descricao ";
-        
+
         args = new Object[]{habilidade_descricao};
         return (Habilidade) select().get(0);
     }
-    
-    
+
     public ArrayList<Habilidade> getHabilidades() throws Exception {
         sql = "SELECT * FROM habilidades h "
                 + "JOIN habilidades_origem ho ON h.habilidade_origem_id = ho.origem_id "
@@ -93,8 +76,19 @@ public class DalHabilidade extends br.com.vinicius.generic.dal.DalGeneric {
         return (ArrayList<Habilidade>) select();
     }
 
+    public ArrayList<Habilidade> getHabilidades(int colaborador_id) throws Exception {
+        sql = "SELECT hc.habilidade_id, h.habilidade_descricao, ho.* FROM habilidades_colaborador hc "
+                + "JOIN habilidades h ON hc.habilidade_id = h.habilidade_id "
+                + "JOIN habilidades_origem ho ON h.habilidade_origem_id = ho.origem_id "
+                + "WHERE hc.colaborador_id = ? "
+                + "ORDER BY habilidade_descricao";
+        args = new Object[]{colaborador_id};
+
+        return (ArrayList<Habilidade>) select();
+    }
+
     public ArrayList<Habilidade> getHabilidadesStack(int stack_id) throws Exception {
-        if(stack_id == 0){
+        if (stack_id == 0) {
             return new ArrayList<Habilidade>();
         }
         sql = "SELECT h.habilidade_id, o.origem_id, o.origem_nome, h.habilidade_descricao "
@@ -113,29 +107,11 @@ public class DalHabilidade extends br.com.vinicius.generic.dal.DalGeneric {
                 + "JOIN habilidades_origem ho ON h.habilidade_origem_id = ho.origem_id "
                 + "WHERE ho.origem_id = ? "
                 + "ORDER BY ho.origem_nome, h.habilidade_descricao ";
-                
+
         args = new Object[]{origem_id};
         return (ArrayList<Habilidade>) select();
     }
 
-    public ArrayList<Habilidade> getHabilidades(int colaborador_id) throws Exception {
-        sql = "SELECT hc.habilidade_id, h.habilidade_descricao, ho.* FROM habilidades_colaborador hc "
-                + "JOIN habilidades h ON hc.habilidade_id = h.habilidade_id "
-                + "JOIN habilidades_origem ho ON h.habilidade_origem_id = ho.origem_id "
-                + "WHERE hc.colaborador_id = ? "
-                + "ORDER BY habilidade_descricao";
-        args = new Object[]{colaborador_id};
-
-        return (ArrayList<Habilidade>) select();
-    }
     //--- FIM READ --------------------------------------------------------------------------------|
-    //
-    //--- UPDATE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM UPDATE ------------------------------------------------------------------------------|
-    //
-    //--- DELETE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM DELETE ------------------------------------------------------------------------------|
     //
 }

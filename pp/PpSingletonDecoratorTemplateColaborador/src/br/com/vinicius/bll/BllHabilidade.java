@@ -9,7 +9,7 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Propósito do arquivo.
+ *  Regras de negócio para Habilidade. (Padrão SINGLETON e método estáticos)
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.bll;
@@ -26,59 +26,52 @@ public class BllHabilidade {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
+    private static DalHabilidade dal = null;
+
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
-    //
-    //--- CONSTRUTORES ---------------------------------------------------------------------------->
-    //
-    //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
-    //
-    //--- GET ------------------------------------------------------------------------------------->
-    //
-    //--- FIM GET ---------------------------------------------------------------------------------|
     //
     //--- SET ------------------------------------------------------------------------------------->
     //
+    private static void initDal() throws Exception {
+        if (dal == null) {
+            dal = new DalHabilidade();
+        }
+    }
     //--- FIM SET ---------------------------------------------------------------------------------|
-    //
-    //--- CREATE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM CREATE ------------------------------------------------------------------------------|
     //
     //--- READ ------------------------------------------------------------------------------------>
     //
 
     public static Habilidade getHabilidade(int habilidade_id) throws Exception {
-        return new DalHabilidade().getHabilidade(habilidade_id);
+        initDal();
+        return dal.getHabilidade(habilidade_id);
     }
 
     public static Habilidade getHabilidade(String habilidade_descricao) throws Exception {
-        return new DalHabilidade().getHabilidade(habilidade_descricao);
+        initDal();
+        return dal.getHabilidade(habilidade_descricao);
     }
 
     public static ArrayList<Habilidade> getHabilidades() throws Exception {
-        return new DalHabilidade().getHabilidades();
+        initDal();
+        return dal.getHabilidades();
     }
 
     public static ArrayList<Habilidade> getHabilidadesStack(int stack_id) throws Exception {
-        return new DalHabilidade().getHabilidadesStack(stack_id);
+        initDal();
+        return dal.getHabilidadesStack(stack_id);
     }
 
     public static ArrayList<Habilidade> getHabilidadesOrigem(int origem_id) throws Exception {
-        return new DalHabilidade().getHabilidadesOrigem(origem_id);
+        initDal();
+        return dal.getHabilidadesOrigem(origem_id);
     }
 
     public static ArrayList<Habilidade> getHabilidades(int colaborador_id) throws Exception {
-        return new DalHabilidade().getHabilidades(colaborador_id);
+        initDal();
+        return dal.getHabilidades(colaborador_id);
     }
 
     //--- FIM READ --------------------------------------------------------------------------------|
-    //
-    //--- UPDATE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM UPDATE ------------------------------------------------------------------------------|
-    //
-    //--- DELETE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM DELETE ------------------------------------------------------------------------------|
     //
 }

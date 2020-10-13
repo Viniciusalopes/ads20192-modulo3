@@ -14,7 +14,7 @@
  */
 package br.com.vinicius.model.decorator;
 
-import br.com.vinicius.bll.BllDecorator;
+import static br.com.vinicius.bll.BllHabilidade.getHabilidadesStack;
 
 /**
  *
@@ -22,14 +22,16 @@ import br.com.vinicius.bll.BllDecorator;
  */
 public class Stack extends Contratado {
 
-    //--- ATRIBUTOS ------------------------------------------------------------------------------->
-    //
-    //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
-    //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
+    /**
+     * Cria um objeto a ser decorado, a partir do seu id.
+     *
+     * @param stack_id Id do objeto a ser decorado.
+     * @throws Exception
+     */
     public Stack(int stack_id) throws Exception {
-        habilidades = BllDecorator.getHabilidadesStack(stack_id);
+        habilidades = getHabilidadesStack(stack_id);
     }
 
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
@@ -38,8 +40,9 @@ public class Stack extends Contratado {
     //
     @Override
     public int getQuantidade() throws Exception {
-        return habilidades.size();
+        return this.getHabilidades().size();
     }
+
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
 }

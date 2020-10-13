@@ -9,7 +9,8 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- * Classe Dal genérica.
+ * Classe Dal genérica. (Padrão TEMPLATE com método build() onde cada Dal implementa seu build de 
+ * acordo com o objeto manipulado).
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.generic.dal;
@@ -27,16 +28,22 @@ public abstract class DalGeneric {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
-    private BDConn bdConn = null;
-    private Connection conn = null;
-    protected String table = "";
-    protected String sql = "";
-    protected Object[] args = new Object[]{};
+    private BDConn bdConn = null;               // Objeto para conexão com o banco de dados.
+    private Connection conn = null;             // Conexão.
+    protected String table = "";                // Nome da tabela filha.
+    protected String sql = "";                  // Instrução SQL.
+    protected Object[] args = new Object[]{};   // Argumentos (parâmetros) para a instrução SQL.
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
+    /**
+     * Construtor para herança.
+     *
+     * @param table Nome da tabela filha.
+     * @throws Exception
+     */
     protected DalGeneric(String table) throws Exception {
         bdConn = BDConn.getInstance();
         this.table = table;
@@ -46,18 +53,44 @@ public abstract class DalGeneric {
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
+    /**
+     * Executa uma consulta e converte os objetos do resultado para objetos da classe filha.
+     *
+     * @return
+     * @throws Exception
+     */
     protected ArrayList<?> select() throws Exception {
         return build(executeQuery());
     }
 
+    /**
+     * Executa uma consulta em uma tabela.
+     *
+     * @return
+     * @throws Exception
+     */
     protected ResultSet executeQuery() throws Exception {
         return (ResultSet) execute(true);
     }
 
+    /**
+     * Executa uma instrução SQL em um tabela.
+     *
+     * @return
+     * @throws Exception
+     */
     protected Object execute() throws Exception {
         return execute(false);
     }
 
+    /**
+     * Obtém uma conexão, executa uma instrução SQL ou uma consulta, e retorna o resultado.
+     *
+     * @param isQuery TRUE: retorna o ResultSet com o resultado da query.<br>
+     * FALSE: Retorna um objeto com o resultado da execução da instrução SQL.
+     * @return
+     * @throws Exception
+     */
     private Object execute(boolean isQuery) throws Exception {
         try {
             conn = bdConn.getConnection();
@@ -84,6 +117,14 @@ public abstract class DalGeneric {
     //
     protected abstract ArrayList<?> build(ResultSet rs) throws Exception;
 
+    /**
+     * Verifica se existe uma tupla em uma tabela a partir de um nome de coluna e um valor;
+     *
+     * @param field Nome da coluna do valor procurado.
+     * @param value Valor procurado.
+     * @return
+     * @throws Exception
+     */
     protected boolean exists(String field, Object value) throws Exception {
         sql = "SELECT COUNT(*) FROM " + table + " WHERE " + field + " = ? ";
         args = new Object[]{value};
@@ -94,6 +135,13 @@ public abstract class DalGeneric {
         return false;
     }
 
+    /**
+     * Verifica se uma tabela está vazia.
+     *
+     * @param table Tabela a ser verificada.
+     * @return True = Vazia.
+     * @throws Exception
+     */
     protected boolean isEmptyTable(String table) throws Exception {
         sql = "SELECT COUNT(*) FROM " + table;
         args = new Object[]{};
