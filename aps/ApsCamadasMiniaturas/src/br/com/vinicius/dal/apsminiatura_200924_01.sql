@@ -15,44 +15,44 @@
 -- DROPs para recriar o banco
 --
 DROP TABLE IF EXISTS
-	"Miniaturas",
-	"Fotos",
-	"Fabricantes",
-	"TiposMiniaturas",
-	"Temas"
+	miniaturas,
+	fotos,
+	fabricantes,
+	tiposMiniatura,
+	temas
 ;
 
 --
--- Temas de Miniaturas
+-- temas de miniaturas
 --
-CREATE TABLE "Temas"
+CREATE TABLE temas
 (
 	tema_id SERIAL PRIMARY KEY,
 	tema_nome VARCHAR(50) UNIQUE NOT NULL
 );
 
 --
--- Tipos de Miniaturas
+-- Tipos de miniaturas
 --
-CREATE TABLE "TiposMiniaturas"
+CREATE TABLE tiposMiniatura
 (
 	tipo_id SERIAL PRIMARY KEY,
 	tipo_nome VARCHAR(50) UNIQUE NOT NULL
 );
 
 --
--- Fabricantes de Miniaturas
+-- fabricantes de miniaturas
 --
-CREATE TABLE "Fabricantes"
+CREATE TABLE fabricantes
 (
 	fabricante_id SERIAL PRIMARY KEY,
 	fabricante_nome VARCHAR(50) UNIQUE NOT NULL
 );
 
 --
--- Miniaturas
+-- miniaturas
 --
-CREATE TABLE "Miniaturas"
+CREATE TABLE miniaturas
 (
 	miniatura_id SERIAL PRIMARY KEY,
 	miniatura_modelo VARCHAR(50) NOT NULL,
@@ -64,19 +64,19 @@ CREATE TABLE "Miniaturas"
 	miniatura_fabricante_id INTEGER NOT NULL,
 	miniatura_tipo_id INTEGER NOT NULL,
 	miniatura_tema_id INTEGER NOT NULL,
-	FOREIGN KEY (miniatura_fabricante_id) REFERENCES "Fabricantes" (fabricante_id),
-	FOREIGN KEY (miniatura_tipo_id) REFERENCES "TiposMiniaturas" (tipo_id),
-	FOREIGN KEY (miniatura_tema_id) REFERENCES "Temas" (tema_id)
+	FOREIGN KEY (miniatura_fabricante_id) REFERENCES fabricantes (fabricante_id),
+	FOREIGN KEY (miniatura_tipo_id) REFERENCES tiposMiniatura (tipo_id),
+	FOREIGN KEY (miniatura_tema_id) REFERENCES temas (tema_id)
 );
 
 --
--- Fotos
+-- fotos
 --
-CREATE TABLE "Fotos"
+CREATE TABLE fotos
 (
 	foto_id SERIAL PRIMARY KEY,
 	foto_caminho VARCHAR(255) NOT NULL,
 	foto_descricao VARCHAR(255) NOT NULL,
 	foto_miniatura_id INTEGER NOT NULL,
-	FOREIGN KEY (foto_miniatura_id) REFERENCES "Miniaturas" (miniatura_id) ON DELETE CASCADE
+	FOREIGN KEY (foto_miniatura_id) REFERENCES miniaturas (miniatura_id) ON DELETE CASCADE
 );
