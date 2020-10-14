@@ -15,7 +15,9 @@
 package br.com.vinicius.bll;
 
 import br.com.vinicius.dal.DalMiniatura;
+import static br.com.vinicius.generic.BllGeneric.validarSomenteNumeros;
 import br.com.vinicius.model.Miniatura;
+
 import java.util.ArrayList;
 
 /**

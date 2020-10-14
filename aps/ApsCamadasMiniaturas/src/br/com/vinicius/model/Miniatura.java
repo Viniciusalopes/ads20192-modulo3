@@ -34,7 +34,7 @@ public class Miniatura {
     private Fabricante fabricante = null;
     private TipoMiniatura tipo = null;
     private Tema tema = null;
-    private ArrayList<Foto> fotos = null;
+    private ArrayList<Foto> fotos = new ArrayList<>();
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //

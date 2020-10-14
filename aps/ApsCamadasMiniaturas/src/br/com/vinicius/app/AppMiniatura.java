@@ -15,11 +15,13 @@
 package br.com.vinicius.app;
 
 import static br.com.vinicius.generic.AppFactory.*;
-import static br.com.vinicius.generic.AppMensagem.*;
 import br.com.vinicius.generic.AppIModal;
 import br.com.vinicius.bll.*;
+import static br.com.vinicius.generic.AppDesktopMensagem.mensagem;
+import static br.com.vinicius.generic.AppDesktopMensagem.mensagemErro;
 import br.com.vinicius.generic.AppSimpleForm;
 import static br.com.vinicius.generic.BllGeneric.validarCampoTamanho;
+import static br.com.vinicius.generic.BllGeneric.validarSomenteNumeros;
 import br.com.vinicius.model.Fabricante;
 import br.com.vinicius.model.Miniatura;
 import br.com.vinicius.model.Tema;
@@ -68,16 +70,8 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
     public void setVisible(boolean b) {
 
         try {
-            id = getId(object);
-            if (id == 0) {
-                if (!dependenciesWhereSatisfied(
-                        friendlyName,
-                        new String[]{"Fabricante", "Tema", "TipoMiniatura"},
-                        new String[]{"Fabricante", "Tema", "Tipo de Miniatura"}
-                )) {
-                    this.dispose();
-                }
-            } else {
+            id = mini.getId();
+            if (id > 0) {
                 action = "Editar";
                 method = "update";
                 result = "editado";
@@ -106,21 +100,17 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
             // FONTE: https://www.guj.com.br/t/resolvido-como-obter-o-ano-atual/53778/2
             Calendar cal = Calendar.getInstance();
             int year = cal.get(Calendar.YEAR);
-            jSpinnerAno.setModel(new javax.swing.SpinnerNumberModel(
-                    Integer.parseInt(mini.getAno()), 1900, year, 1));
+            jSpinnerAno.setModel(new javax.swing.SpinnerNumberModel(mini.getAno(), 1900, year, 1));
 
-            if (true) {
-                throw new Exception("Alterar para Int, o tipo de dado da edição no banco de dados e no modelo!");
-            }
-            jSpinnerEdicao.setValue(mini.getEdicao());
+            jSpinnerEdicao.setValue(Integer.parseInt(mini.getEdicao()));
 
             String[] escala = mini.getEscala().split(":");
             jSpinnerEscalaUm.setValue(Integer.parseInt(escala[0]));
             jSpinnerEscalaPor.setValue(Integer.parseInt(escala[1]));
 
-            jComboBoxFabricante.setSelectedItem(mini.getFabricante().getFabricante_nome());
-            jComboBoxTema.setSelectedItem(mini.getTema().getTema_nome());
-            jComboBoxTipoMiniatura.setSelectedItem(mini.getTipoMiniatura().getTipoMiniatura_nome());
+            jComboBoxFabricante.setSelectedItem(mini.getFabricante().getNome());
+            jComboBoxTema.setSelectedItem(mini.getTema().getNome());
+            jComboBoxTipoMiniatura.setSelectedItem(mini.getTipoMiniatura().getNome());
             jFormattedTextFieldValor.setValue(String.format("%.2f", mini.getValor()));
         }
     }
@@ -128,26 +118,34 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
     private void validarPreenchimento() throws Exception {
         validarCampoTamanho(jTextFieldModelo.getText(), "Modelo");
         validateSelectionComboBoxes(jPanelCombos);
+        validarSomenteNumeros(jFormattedTextFieldValor.getText(), "Valor");
     }
 
     private void preencherMini() throws Exception {
         mini.setModelo(jTextFieldModelo.getText());
-        mini.setAno(jSpinnerAno.getValue() + "");
+        mini.setAno(Integer.parseInt(jSpinnerAno.getValue() + ""));
         mini.setEdicao(jSpinnerEdicao.getValue() + "");
         mini.setEscala(jSpinnerEscalaUm.getValue() + ":" + jSpinnerEscalaPor.getValue());
-        mini.setFabricante((Fabricante) BllFabricante.getByName(jComboBoxFabricante.getSelectedItem() + "", "Fabricante"));
-        mini.setTipo((TipoMiniatura) BllTipoMiniatura.getByName(jComboBoxTipoMiniatura.getSelectedItem() + "", "TipoMiniatura"));
-        mini.setTema((Tema) BllTema.getByName(jComboBoxTema.getSelectedItem() + "", "Tema"));
+
+        String texto = jFormattedTextFieldValor.getText();
+        texto = texto.replace(",", "").replace(".", "").substring(0, texto.length() - 4) + "." + texto.substring(texto.length() - 2);
+        mini.setValor(Float.parseFloat(jFormattedTextFieldValor.getText()));
+        mini.setFabricante((Fabricante) BllFabricante.get(jComboBoxFabricante.getSelectedItem() + ""));
+        mini.setTipo((TipoMiniatura) BllTipoMiniatura.get(jComboBoxTipoMiniatura.getSelectedItem() + ""));
+        mini.setTema((Tema) BllTema.get(jComboBoxTema.getSelectedItem() + ""));
         mini.setObservacoes(jTextAreaObservacoes.getText());
-        
+
     }
 
     private void salvar() throws Exception {
 
         validarPreenchimento();
         preencherMini();
-        BllMiniatura.validate(mini);
-        BllMiniatura.add(mini);
+        if (mini.getId() == 0) {
+            BllMiniatura.add(mini);
+        } else {
+            BllMiniatura.update(mini);
+        }
         mensagem("Sucesso", "Miniatura " + (action.equals("Incluir") ? "incluída" : "editada") + " com sucesso!");
         this.dispose();
     }
@@ -475,7 +473,7 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
 
     private void jButtonCadastroFabricanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastroFabricanteActionPerformed
         try {
-            getModal("Fabricante", "Fabricante", "add", null, new AppSimpleForm(null, true));
+            getModal(new Fabricante(), "Fabricante", new AppSimpleForm(null, true));
             fillComboBox(jComboBoxFabricante, "Fabricante");
         } catch (Exception e) {
             mensagemErro(e);
@@ -484,7 +482,7 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
 
     private void jButtonCadastroTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastroTemaActionPerformed
         try {
-            getModal("Tema", "Tema", "add", null, new AppSimpleForm(null, true));
+            getModal(new Tema(), "Tema", new AppSimpleForm(null, true));
             fillComboBox(jComboBoxTema, "Tema");
         } catch (Exception e) {
             mensagemErro(e);
@@ -493,7 +491,7 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
 
     private void jButtonCadastroTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastroTipoActionPerformed
         try {
-            getModal("TipoMiniatura", "Tipo de Miniatura", "add", null, new AppSimpleForm(null, true));
+            getModal(new TipoMiniatura(), "Tipo de Miniatura", new AppSimpleForm(null, true));
             fillComboBox(jComboBoxTipoMiniatura, "TipoMiniatura");
         } catch (Exception e) {
             mensagemErro(e);
@@ -525,6 +523,8 @@ public class AppMiniatura extends javax.swing.JDialog implements AppIModal {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(AppMiniatura.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

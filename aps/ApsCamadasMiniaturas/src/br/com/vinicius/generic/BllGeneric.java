@@ -1,26 +1,24 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 01/10/2020 01:26:18 
+ *  Criado em  : 11/10/2020 12:25:41 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de Sistemas - Módulo 3 - 2020/2
- *  Disciplina : Arquitetura e Projeto de Software
+ *  Disciplina : PP - Padrões de Projeto
  *  Aluno      : Vinicius Araujo Lopes
- *  Projeto    : ARQUITETURA EM CAMADAS
- *  Exercício  : Cadastro de Miniatura em camadas
+ *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
+ *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Camada Bll genérica para cadastros simples.
+ *  Validações genéricas para camada BLL.
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.generic;
-
-import static br.com.vinicius.generic.Factory.*;
 
 /**
  *
  * @author vovostudio
  */
-public abstract class BllGeneric {
+public class BllGeneric {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
@@ -31,52 +29,17 @@ public abstract class BllGeneric {
 
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
-    //--- CREATE ---------------------------------------------------------------------------------->
-    //
-    public static void validate(Object object) throws Exception {
-        String className = object.getClass().getSimpleName();
-        validarCampo(invoke(object, "get" + className + "_nome").toString(), "Nome do " + className);
+    public static void validarSomenteNumeros(String texto, String nomeDoCampo) throws Exception {
+        String numeros = texto.replace(",", "").replace(".", "");
+        if (numeros.trim().length() == 0) {
+            throw new Exception("Informe o " + nomeDoCampo + "!");
+        }
+        for (char n : numeros.toCharArray()) {
+            if (!charsNumeros.contains(n + "")) {
+                throw new Exception("O campo " + nomeDoCampo + " deve ter somente números!");
+            }
+        }
     }
-
-    public static void add(Object object) throws Exception {
-        validate(object);
-        invoke(getDal(object.getClass().getSimpleName()), "add", object.getClass(), object.getClass().cast(object));
-    }
-
-    //--- FIM CREATE ------------------------------------------------------------------------------|
-    //
-    //--- READ ------------------------------------------------------------------------------------>
-    //
-    public static Object getByName(String name, String className) throws Exception {
-        Object dal = getDal(className);
-        return (Object) dal.getClass().getMethod("getByName", String.class).invoke(dal, name);
-    }
-
-    public static boolean exists(int id, String className) throws Exception {
-        Object dal = getDal(className);
-        return (boolean) dal.getClass().getMethod("exists", int.class).invoke(dal, id);
-    }
-
-    //--- FIM READ --------------------------------------------------------------------------------|
-    //
-    //--- UPDATE ---------------------------------------------------------------------------------->
-    //
-    public static void update(Object object) throws Exception {
-        validate(object);
-        Object dal = getDal(object.getClass().getSimpleName());
-        invoke(dal, "update", object.getClass(), object);
-    }
-
-    //--- FIM UPDATE ------------------------------------------------------------------------------|
-    //
-    //--- DELETE ---------------------------------------------------------------------------------->
-    //
-    public static void delete(int id, String className) throws Exception {
-        Object dal = getDal(className);
-        dal.getClass().getMethod("delete", int.class).invoke(dal, id);
-    }
-    //--- FIM DELETE ------------------------------------------------------------------------------|
-    //
 
     public static void validarTextoTamanho(String texto) throws Exception {
         texto = texto.trim();

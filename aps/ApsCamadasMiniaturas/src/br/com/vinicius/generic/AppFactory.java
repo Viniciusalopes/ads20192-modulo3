@@ -16,6 +16,10 @@ package br.com.vinicius.generic;
 
 import static br.com.vinicius.generic.AppDesktopMensagem.mensagemEscolher;
 import static br.com.vinicius.generic.Factory.getDal;
+import java.awt.Component;
+import java.util.ArrayList;
+import javax.swing.JComboBox;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 
 /**
@@ -41,6 +45,71 @@ public class AppFactory {
     }
 
     //--- FIM JDialog -----------------------------------------------------------------------------|
+    //
+    //--- JComboBox ------------------------------------------------------------------------------->
+    //
+    /**
+     * Atualiza todos os ComboBoxes de um JPanel.
+     *
+     * @param jPanel JPanel agrupador dos ComboBoxes.
+     * @throws Exception
+     */
+    public static void fillComboBoxes(JPanel jPanel) throws Exception {
+        for (Component comp : jPanel.getComponents()) {
+            if (comp instanceof JComboBox) {
+                JComboBox cb = (JComboBox) comp;
+                fillComboBox(cb, cb.getActionCommand());
+            }
+        }
+    }
+
+    /**
+     * Atualiza os itens de um ComboBox de acordo com a classe do objeto a ser listado.
+     *
+     * @param jComboBox Combobox a ser atualizado.
+     * @param className Classe do objeto a ser listado.
+     * @throws Exception
+     */
+    public static void fillComboBox(JComboBox jComboBox, String className) throws Exception {
+        Object dal = getDal(className);
+        ArrayList<?> itens = (ArrayList<?>) dal.getClass().getMethod("get").invoke(dal);
+
+        jComboBox.removeAllItems();
+
+        for (Object obj : itens) {
+            jComboBox.addItem(obj.getClass().getMethod("getNome").invoke(obj) + "");
+        }
+        jComboBox.setSelectedIndex(-1);
+    }
+
+    /**
+     * Verifica se todos os ComboBoxes de um JPanel foram selecionados (index != -1)
+     *
+     * @param jPanel JPanel agrupador dos ComboBoxes.
+     * @throws Exception
+     */
+    public static void validateSelectionComboBoxes(JPanel jPanel) throws Exception {
+        for (Component component : jPanel.getComponents()) {
+            if (component instanceof JComboBox) {
+                validateSelectionComboBox((JComboBox) component);
+            }
+        }
+    }
+
+    /**
+     * Verifica se um ComboBox foi selecionado (index != -1)
+     *
+     * @param jComboBox Combobox a ser verificado.
+     * @throws Exception
+     */
+    public static void validateSelectionComboBox(JComboBox jComboBox) throws Exception {
+        if (jComboBox.getSelectedIndex() == -1) {
+            throw new Exception("Selecione o " + jComboBox.getAccessibleContext()
+                    .getAccessibleName() + "!");
+        }
+    }
+
+    //--- FIM JComboBox ---------------------------------------------------------------------------|
     //
     //--- JTable ---------------------------------------------------------------------------------->
     //

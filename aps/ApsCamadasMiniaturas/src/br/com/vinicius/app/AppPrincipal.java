@@ -14,13 +14,20 @@
  */
 package br.com.vinicius.app;
 
+import br.com.vinicius.bll.BllFabricante;
+import br.com.vinicius.bll.BllMiniatura;
+import br.com.vinicius.bll.BllTema;
+import br.com.vinicius.bll.BllTipoMiniatura;
 import br.com.vinicius.generic.AppSimpleForm;
 import static br.com.vinicius.generic.AppFactory.*;
-import static br.com.vinicius.generic.AppMensagem.*;
-import static br.com.vinicius.bll.BllMiniatura.*;
+import static br.com.vinicius.generic.AppDesktopMensagem.*;
+import br.com.vinicius.model.Fabricante;
 import br.com.vinicius.model.Miniatura;
+import br.com.vinicius.model.Tema;
+import br.com.vinicius.model.TipoMiniatura;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -39,15 +46,70 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void fillGrids() {
         try {
-            fillGrid(jTableTema);
-            fillGrid(jTableFabricante);
-            fillGrid(jTableTipo);
-            fillGrid(jTableMiniatura);
-            fillGrid(jTableConfiguracao);
+            fillGridTema();
+            fillGridFabricante();
+            fillGridTipo();
+            fillGridMiniatura();
+            fillGridFoto();
+            fillGridConfiguracao();
+
         } catch (Exception e) {
             mensagemErro(e);
             System.exit(1);
         }
+    }
+
+    private void fillGridTema() throws Exception {
+        DefaultTableModel dtm = (DefaultTableModel) jTableTema.getModel();
+        dtm.setRowCount(0);
+        for (Tema t : BllTema.get()) {
+            dtm.addRow(new Object[]{t.getId(), t.getNome()});
+        }
+    }
+
+    private void fillGridFabricante() throws Exception {
+        DefaultTableModel dtm = (DefaultTableModel) jTableFabricante.getModel();
+        dtm.setRowCount(0);
+        for (Fabricante f : BllFabricante.get()) {
+            dtm.addRow(new Object[]{f.getId(), f.getNome()});
+        }
+    }
+
+    private void fillGridTipo() throws Exception {
+        DefaultTableModel dtm = (DefaultTableModel) jTableTipo.getModel();
+        dtm.setRowCount(0);
+        for (TipoMiniatura t : BllTipoMiniatura.get()) {
+            dtm.addRow(new Object[]{t.getId(), t.getNome()});
+        }
+    }
+
+    private void fillGridMiniatura() throws Exception {
+        DefaultTableModel dtm = (DefaultTableModel) jTableMiniatura.getModel();
+        dtm.setRowCount(0);
+        for (Miniatura m : BllMiniatura.get()) {
+            dtm.addRow(new Object[]{
+                m.getId(),
+                m.getModelo(),
+                m.getAno(),
+                m.getEdicao(),
+                m.getEscala(),
+                String.format(m.getValor() + ""),
+                m.getFabricante().getNome(),
+                m.getTipoMiniatura().getNome(),
+                m.getTema().getNome(),
+                m.getFotos().size()
+            });
+        }
+    }
+
+    private void fillGridFoto() throws Exception {
+        DefaultTableModel dtm = (DefaultTableModel) jTableFoto.getModel();
+        dtm.setRowCount(0);
+    }
+
+    private void fillGridConfiguracao() throws Exception {
+        DefaultTableModel dtm = (DefaultTableModel) jTableConfiguracao.getModel();
+        dtm.setRowCount(0);
     }
 
     /**
@@ -69,7 +131,7 @@ public class AppPrincipal extends javax.swing.JFrame {
         jScrollPaneObservacoes = new javax.swing.JScrollPane();
         jTextAreaObservacoes = new javax.swing.JTextArea();
         jScrollPaneGaleria = new javax.swing.JScrollPane();
-        jTableGaleria = new javax.swing.JTable();
+        jTableFoto = new javax.swing.JTable();
         jPanelFabricante = new javax.swing.JPanel();
         jButtonIncluirFabricante = new javax.swing.JButton();
         jScrollPaneFabricante = new javax.swing.JScrollPane();
@@ -154,7 +216,7 @@ public class AppPrincipal extends javax.swing.JFrame {
         jTextAreaObservacoes.setPreferredSize(new java.awt.Dimension(220, 80));
         jScrollPaneObservacoes.setViewportView(jTextAreaObservacoes);
 
-        jTableGaleria.setModel(new javax.swing.table.DefaultTableModel(
+        jTableFoto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -162,9 +224,9 @@ public class AppPrincipal extends javax.swing.JFrame {
 
             }
         ));
-        jTableGaleria.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPaneGaleria.setViewportView(jTableGaleria);
-        jTableGaleria.getAccessibleContext().setAccessibleName("Galeria");
+        jTableFoto.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPaneGaleria.setViewportView(jTableFoto);
+        jTableFoto.getAccessibleContext().setAccessibleName("Galeria");
 
         javax.swing.GroupLayout jPanelMiniaturaLayout = new javax.swing.GroupLayout(jPanelMiniatura);
         jPanelMiniatura.setLayout(jPanelMiniaturaLayout);
@@ -514,8 +576,8 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void jButtonIncluirTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirTemaActionPerformed
         try {
-            getModal("Tema", "Tema", "add", jTableTema, new AppSimpleForm(this, true));
-            fillGrid(jTableTema);
+            getModal(new Tema(), "Tema", new AppSimpleForm(this, true));
+            fillGridTema();
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -523,8 +585,8 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void jButtonIncluirFabricanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirFabricanteActionPerformed
         try {
-            getModal("Fabricante", "Fabricante", "add", jTableFabricante, new AppSimpleForm(this, true));
-            fillGrid(jTableFabricante);
+            getModal(new Fabricante(), "Fabricante", new AppSimpleForm(this, true));
+            fillGridFabricante();
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -532,8 +594,8 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void jButtonIncluirTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirTipoActionPerformed
         try {
-            getModal("TipoMiniatura", "Tipo de Miniatura", "add", jTableTipo, new AppSimpleForm(this, true));
-            fillGrid(jTableTipo);
+            getModal(new TipoMiniatura(), "Tipo de Miniatura", new AppSimpleForm(this, true));
+            fillGridTipo();
         } catch (Exception e) {
             mensagemErro(e);
         }
@@ -542,8 +604,8 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jTableFabricanteMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableFabricanteMouseReleased
         try {
             if (evt.getClickCount() == 2) {
-                getModal("Fabricante", "Fabricante", "update", jTableFabricante, new AppSimpleForm(this, true));
-                fillGrid(jTableFabricante);
+                getModal(BllFabricante.get(getSelectedId(jTableFabricante)), "Fabricante", new AppSimpleForm(this, true));
+                fillGridFabricante();
             }
         } catch (Exception e) {
             mensagemErro(e);
@@ -553,8 +615,8 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jTableTemaMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTemaMouseReleased
         try {
             if (evt.getClickCount() == 2) {
-                getModal("Tema", "Tema", "update", jTableTema, new AppSimpleForm(this, true));
-                fillGrid(jTableTema);
+                getModal(BllTema.get(getSelectedId(jTableTema)), "Tema", new AppSimpleForm(this, true));
+                fillGridTema();
             }
         } catch (Exception e) {
             mensagemErro(e);
@@ -564,8 +626,8 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jTableTipoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTipoMouseReleased
         try {
             if (evt.getClickCount() == 2) {
-                getModal("TipoMiniatura", "Tipo de Miniatura", "update", jTableTipo, new AppSimpleForm(this, true));
-                fillGrid(jTableTipo);
+                getModal(BllTipoMiniatura.get(getSelectedId(jTableTipo)), "Tipo de Miniatura", new AppSimpleForm(this, true));
+                fillGridTipo();
             }
         } catch (Exception e) {
             mensagemErro(e);
@@ -575,7 +637,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jTableFabricanteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableFabricanteKeyReleased
         try {
             if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
-                deleteRow(jTableFabricante);
+                deleteSelected(jTableFabricante);
             }
         } catch (Exception e) {
             mensagemErro(e);
@@ -585,7 +647,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jTableTemaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableTemaKeyReleased
         try {
             if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
-                deleteRow(jTableTema);
+                deleteSelected(jTableTema);
             }
         } catch (Exception e) {
             mensagemErro(e);
@@ -595,7 +657,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jTableTipoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableTipoKeyReleased
         try {
             if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
-                deleteRow(jTableTipo);
+                deleteSelected(jTableTipo);
             }
         } catch (Exception e) {
             mensagemErro(e);
@@ -605,7 +667,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     private void jTableMiniaturaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableMiniaturaKeyReleased
         try {
             if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
-                deleteRow(jTableMiniatura);
+                deleteSelected(jTableMiniatura);
             }
         } catch (Exception e) {
             mensagemErro(e);
@@ -616,11 +678,11 @@ public class AppPrincipal extends javax.swing.JFrame {
         try {
             Miniatura miniatura = new Miniatura();
             if (jTableMiniatura.getSelectedRow() > -1) {
-                miniatura = (Miniatura) getMiniaturaSelecionada(jTableMiniatura);
+                miniatura = BllMiniatura.get(getSelectedId(jTableMiniatura));
             }
 
             if ((evt.getClickCount() == 2)) {
-                getModal("Miniatura", "Miniatura", "add", jTableMiniatura, new AppMiniatura(this, true));
+                getModal(BllMiniatura.get(getSelectedId(jTableMiniatura)), "Miniatura", new AppMiniatura(this, true));
                 fillGrids();
             }
 
@@ -633,7 +695,7 @@ public class AppPrincipal extends javax.swing.JFrame {
 
     private void jButtonIncluirMiniaturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirMiniaturaActionPerformed
         try {
-            getModal("Miniatura", "Miniatura", "add", jTableMiniatura, new AppMiniatura(this, true));
+            getModal(new Miniatura(), "Miniatura", new AppMiniatura(this, true));
             fillGrids();
         } catch (Exception e) {
             mensagemErro(e);
@@ -669,14 +731,34 @@ public class AppPrincipal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AppPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AppPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AppPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AppPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AppPrincipal.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -726,7 +808,7 @@ public class AppPrincipal extends javax.swing.JFrame {
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTableConfiguracao;
     private javax.swing.JTable jTableFabricante;
-    private javax.swing.JTable jTableGaleria;
+    private javax.swing.JTable jTableFoto;
     private javax.swing.JTable jTableMiniatura;
     private javax.swing.JTable jTableTema;
     private javax.swing.JTable jTableTipo;

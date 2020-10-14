@@ -62,7 +62,6 @@ public class DalMiniatura extends DalGeneric {
     //
     public void add(Miniatura miniatura) throws Exception {
         sql = "INSERT INTO miniaturas ("
-                + "miniatura_id, "
                 + "miniatura_modelo, "
                 + "miniatura_ano, "
                 + "miniatura_observacoes, "
@@ -72,10 +71,9 @@ public class DalMiniatura extends DalGeneric {
                 + "miniatura_fabricante_id, "
                 + "miniatura_tipo_id, "
                 + "miniatura_tema_id "
-                + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         args = new Object[]{
-            miniatura.getId(),
             miniatura.getModelo(),
             miniatura.getAno(),
             miniatura.getObservacoes(),
@@ -93,16 +91,16 @@ public class DalMiniatura extends DalGeneric {
     //
     public boolean exists(Miniatura miniatura) throws Exception {
         sql = "SELECT * FROM miniaturas WHERE "
-                + "miniatura_id = ?, "
-                + "miniatura_modelo = ?, "
-                + "miniatura_ano = ?, "
-                + "miniatura_observacoes = ?, "
-                + "miniatura_edicao = ?, "
-                + "miniatura_escala = ?, "
-                + "miniatura_valor = ?, "
-                + "miniatura_fabricante_id = ?, "
-                + "miniatura_tipo_id = ?, "
-                + "miniatura_tema_id = ? ";
+                + "miniatura_id = ? "
+                + "AND miniatura_modelo = ? "
+                + "AND miniatura_ano = ? "
+                + "AND miniatura_observacoes = ? "
+                + "AND miniatura_edicao = ? "
+                + "AND miniatura_escala = ? "
+                + "AND miniatura_valor = ? "
+                + "AND miniatura_fabricante_id = ? "
+                + "AND miniatura_tipo_id = ? "
+                + "AND miniatura_tema_id = ? ";
 
         args = new Object[]{miniatura.getId(),
             miniatura.getModelo(),

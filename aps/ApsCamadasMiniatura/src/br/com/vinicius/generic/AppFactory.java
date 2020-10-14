@@ -3,7 +3,7 @@
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
  *  Criado em  : 06/10/2020 21:14:14 
  *  Instituição: FACULDADE SENAI FATESG
- *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
+ *  Curso      : Análise e Desenvolvimento de Sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
  *  Aluno      : Vinicius Araujo Lopes
  *  Projeto    : ARQUITETURA EM CAMADAS
@@ -45,12 +45,12 @@ public class AppFactory extends Factory {
 
     public static void fillComboBox(JComboBox jComboBox, String className) throws Exception {
         Object dal = getDal(className);
-        ArrayList<?> itens = (ArrayList<?>) dal.getClass().getMethod("getAll").invoke(dal);
+        ArrayList<?> itens = (ArrayList<?>) dal.getClass().getMethod("get").invoke(dal);
 
         jComboBox.removeAllItems();
 
         for (Object obj : itens) {
-            jComboBox.addItem(obj.getClass().getMethod("get" + className + "_nome").invoke(obj) + "");
+            jComboBox.addItem(obj.getClass().getMethod("getNome").invoke(obj) + "");
         }
         jComboBox.setSelectedIndex(-1);
     }
@@ -127,8 +127,7 @@ public class AppFactory extends Factory {
         modal.setFriendlyName(friendlyName);
         modal.setVisible(true);
     }
-    
+
     //--- FIM JDialog -----------------------------------------------------------------------------|
     //
-
 }
