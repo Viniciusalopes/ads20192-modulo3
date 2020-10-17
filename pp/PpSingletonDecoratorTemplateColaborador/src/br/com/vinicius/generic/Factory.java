@@ -9,7 +9,7 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Propósito do arquivo.
+ *  Factory para invocar de métodos e obter novas instâncias de objetos.
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.generic;

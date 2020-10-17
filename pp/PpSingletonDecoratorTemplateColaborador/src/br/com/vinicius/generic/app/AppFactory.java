@@ -9,7 +9,7 @@
  *  Projeto    : SINGLETON / DECORATOR / TEMPLATE / FACTORY
  *  Exercício  : Colaboradores de uma empresa
  *  ------------------------------------------------------------------------------------------------
- *  Propósito do arquivo.
+ *  Factoru para JDialog e métodos genéricos.
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.generic.app;
