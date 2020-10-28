@@ -51,7 +51,7 @@ Vinicius
   BLL add, update, validate
 
 2. CRUD e tela de cadastro de contrato - 
-  DAL getAll, getById, getByName, search
+  DAL getAll, getById, search
   BLL add, update, validate
 
 3.Modelo Físico
