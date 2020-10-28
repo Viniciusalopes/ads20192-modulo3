@@ -41,14 +41,14 @@ public class AppVisualizacao extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButtonPlay.setIcon(new javax.swing.ImageIcon("/home/marcos/development/NetBeans/NetbeansProject/ProjetoTorrentz/assets/botao-play.png")); // NOI18N
+        jButtonPlay.setIcon(new javax.swing.ImageIcon("/mnt/HD-500/projetos/ads20192-modulo3/gp/Torrentz/marcos/ProjetoTorrentz/assets/botao-play.png")); // NOI18N
         jButtonPlay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonPlayActionPerformed(evt);
             }
         });
 
-        jLabel1.setIcon(new javax.swing.ImageIcon("/home/marcos/development/NetBeans/NetbeansProject/ProjetoTorrentz/assets/Pantera-Negra.jpg")); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon("/mnt/HD-500/projetos/ads20192-modulo3/gp/Torrentz/marcos/ProjetoTorrentz/assets/Pantera-Negra.jpg")); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -67,7 +67,7 @@ public class AppVisualizacao extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButtonPause.setIcon(new javax.swing.ImageIcon("/home/marcos/development/NetBeans/NetbeansProject/ProjetoTorrentz/assets/simbolo-de-pausa.png")); // NOI18N
+        jButtonPause.setIcon(new javax.swing.ImageIcon("/mnt/HD-500/projetos/ads20192-modulo3/gp/Torrentz/marcos/ProjetoTorrentz/assets/simbolo-de-pausa.png")); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

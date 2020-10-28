@@ -75,7 +75,7 @@
         <Component class="javax.swing.JButton" name="jButtonPlay">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="/home/marcos/development/NetBeans/NetbeansProject/ProjetoTorrentz/assets/botao-play.png"/>
+              <Image iconType="2" name="/mnt/HD-500/projetos/ads20192-modulo3/gp/Torrentz/marcos/ProjetoTorrentz/assets/botao-play.png"/>
             </Property>
           </Properties>
           <Events>
@@ -108,7 +108,7 @@
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="2" name="/home/marcos/development/NetBeans/NetbeansProject/ProjetoTorrentz/assets/Pantera-Negra.jpg"/>
+                  <Image iconType="2" name="/mnt/HD-500/projetos/ads20192-modulo3/gp/Torrentz/marcos/ProjetoTorrentz/assets/Pantera-Negra.jpg"/>
                 </Property>
               </Properties>
             </Component>
@@ -117,7 +117,7 @@
         <Component class="javax.swing.JButton" name="jButtonPause">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="/home/marcos/development/NetBeans/NetbeansProject/ProjetoTorrentz/assets/simbolo-de-pausa.png"/>
+              <Image iconType="2" name="/mnt/HD-500/projetos/ads20192-modulo3/gp/Torrentz/marcos/ProjetoTorrentz/assets/simbolo-de-pausa.png"/>
             </Property>
           </Properties>
         </Component>
