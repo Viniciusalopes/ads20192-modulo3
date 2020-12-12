@@ -55,8 +55,49 @@ public class Decorativo extends Profissional {
      *
      * @return @throws Exception
      */
+    
+    // No exemplo dado:
+    //Retorna um Objeto String composto de chars acrescido de outra string
+    //public String getDescricao(){
+    //    return veiculo.getDescricao() + ", Kit Turbo 3000";
+                
+        // Obtem uma String com descrição        // acrescenta um texto à descricao
+        //return veiculo.getDescricao()                  + ", Kit Turbo 3000";
+    //}
+    
+    
+    // Se eu fizesse assim, seria decorator?    R:
+    
+    //Retorna um Objeto String composto de chars acrescido de outra string
+    public String get_Habilidades() throws Exception {
+        // Obtem o objeto String com as habilidades    // acrescenta a habilidade decorativa
+        
+        
+        return contratado.getHabilidades().toString() + this.habilidade_descricao;
+        
+        // Neste caso, a forma de adicionar um texto ao retorno é um sinal de '+'
+        // Obtem o objeto String com as habilidades      // acrescenta a habilidade decorativa
+        // return contratado.getHabilidades().toString() + this.habilidade_descricao;
+    }
+
+    
+    
+    
+    
+    // Se eu substituir:
+    // - String por ArrayList,
+    // - char por Habilidade e
+    // - texto por consulta ao banco
+    //
+    // descaracteriza o padrão decorator por que?
+    
+    //Retorna um Objeto Arraylist composto de objetos Habilidade acrescido de outro objeto
     @Override
     public ArrayList<Habilidade> getHabilidades() throws Exception {
+
+        // Obtém os objetos Habilidade do contratado passado por parâmetro no construtor
+        //---------------------- contratado.getHabilidades()  -----------------------
+    
         ArrayList<Habilidade> ret = new ArrayList<>();
         boolean tem = false;
         for (Habilidade h : contratado.getHabilidades()) {
@@ -65,11 +106,24 @@ public class Decorativo extends Profissional {
                 tem = true;
             }
         }
+        //---------------------- contratado.getHabilidades()  -----------------------
+
+        
+        // acrescenta a habilidade decorativa
+        //----------------------  + this.habilidade_descricao ------------------------
         if (!tem) {
             ret.add(BllHabilidade.getHabilidade(habilidade_descricao));
         }
-
+        
         return ret;
+        
+        // ret.add(BllHabilidade.getHabilidade(habilidade_descricao));
+        //
+        // neste caso, a forma de adicionar a habilidade ao retorno, é o método 'add'
+        
+
+        
+        //----------------------  + this.habilidade_descricao ------------------------
     }
 
     @Override

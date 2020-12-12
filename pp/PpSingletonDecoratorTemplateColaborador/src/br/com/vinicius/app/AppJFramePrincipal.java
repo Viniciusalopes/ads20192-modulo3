@@ -224,7 +224,9 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
             throw new Exception("Selecione uma Stack para decorar!");
         }
         // Inclui a habilidade selecionada, criando um novo decorado a partir do decorativo
+        
         contratado = new Decorativo(contratado, habilidade_descricao);
+        
         fillHabilidadesDecoracao();
     }
 
@@ -1067,7 +1069,9 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
         try {
             if ((jTableHabilidadesStack.getRowCount() > 0) && (evt.getClickCount() == 2)) {
                 // Cria o objeto a ser decorado
+                
                 contratado = new Stack(jTableStack.getSelectedRow() + 1);
+                
                 fillHabilidadesDecoracao();
                 fillHabilidadesStack();
             }
@@ -1090,7 +1094,12 @@ public class AppJFramePrincipal extends javax.swing.JFrame {
             if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
                 // Cria o objeto a ser decorado sem a hablidade selecionada para exclusão
                 String habilidade_descricao = jTableDecoracao.getValueAt(jTableDecoracao.getSelectedRow(), 2) + "";
+                
+                
+                
                 contratado = new DecorativoExcluir(contratado, habilidade_descricao);
+                
+                
                 fillHabilidadesDecoracao();
                 fillHabilidadesStack();
             }

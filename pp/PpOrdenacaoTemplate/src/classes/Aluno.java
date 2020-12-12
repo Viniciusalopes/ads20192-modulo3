@@ -1,7 +1,7 @@
 /*
  *  ----------------------------------------------------------------------------------------------->
  *  Licença    : MIT - Copyright 2019 Viniciusalopes (Vovolinux) <suporte@vovolinux.com.br>
- *  Criado em  : 03/10/2020 14:48:11 
+ *  Criado em  : 02/10/2020 18:49:34 
  *  Instituição: FACULDADE SENAI FATESG
  *  Curso      : Análise e Desenvolvimento de sistemas - Módulo 3 - 2020/2
  *  Disciplina : Arquitetura e Projeto de Software
@@ -12,52 +12,82 @@
  *  
  *  -----------------------------------------------------------------------------------------------| 
  */
-package fabrica;
+package classes;
 
 /**
  *
  * @author vovostudio
  */
-public abstract class Fabrica {
+public class Aluno {
 
     //--- ATRIBUTOS ------------------------------------------------------------------------------->
     //
+    private String nome;
+    private String curso;
+    private String situacao;
+    private String enfase;
+
     //--- FIM ATRIBUTOS ---------------------------------------------------------------------------|
     //
     //--- CONSTRUTORES ---------------------------------------------------------------------------->
     //
+    public Aluno() {
+
+    }
+
+    public Aluno(String alunoToString) {
+        String[] partes = alunoToString.split(";");
+        nome = partes[0];
+        curso = partes[1];
+        situacao = partes[2];
+        enfase = partes[3];
+    }
+
+    public Aluno(String nome, String curso, String situacao, String enfase) {
+        this.nome = nome;
+        this.curso = curso;
+        this.situacao = situacao;
+        this.enfase = enfase;
+    }
+
     //--- FIM CONSTRUTORES ------------------------------------------------------------------------|
     //
     //--- GET ------------------------------------------------------------------------------------->
     //
-    public static String getAttributeValue(Object object, String attribute) throws Exception {
-        return object.getClass().getMethod("get" + object.getClass().getSimpleName()).invoke(object) + "";
+    public String getNome() {
+        return nome;
     }
 
-    public static Object getObject(Class objectClass) throws Exception {
-        return objectClass.getConstructor(objectClass).newInstance();
+    public String getCurso() {
+        return curso;
+    }
+
+    public String getSituacao() {
+        return situacao;
+    }
+
+    public String getEnfase() {
+        return enfase;
     }
 
     //--- FIM GET ---------------------------------------------------------------------------------|
     //
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setCurso(String curso) {
+        this.curso = curso;
+    }
+
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
+    }
+
+    public void setEnfase(String enfase) {
+        this.enfase = enfase;
+    }
+
     //--- SET ------------------------------------------------------------------------------------->
-    //
-    //--- FIM SET ---------------------------------------------------------------------------------|
-    //
-    //--- CREATE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM CREATE ------------------------------------------------------------------------------|
-    //
-    //--- READ ------------------------------------------------------------------------------------>
-    //
-    //--- FIM READ --------------------------------------------------------------------------------|
-    //
-    //--- UPDATE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM UPDATE ------------------------------------------------------------------------------|
-    //
-    //--- DELETE ---------------------------------------------------------------------------------->
-    //
-    //--- FIM DELETE ------------------------------------------------------------------------------|
     //
 }
