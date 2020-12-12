@@ -9,7 +9,7 @@
  *  Projeto    : ARQUITETURA EM CAMADAS
  *  Exercício  : Cadastro de Miniatura em camadas
  *  ------------------------------------------------------------------------------------------------
- *  Propósito do arquivo.
+ *  Classe de acesso aos dados da tabela [fotos]
  *  -----------------------------------------------------------------------------------------------| 
  */
 package br.com.vinicius.dal;
