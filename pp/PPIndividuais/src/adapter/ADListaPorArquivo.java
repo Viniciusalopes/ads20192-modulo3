@@ -14,24 +14,26 @@ import template.TListas;
  *
  * @author vovomint
  */
-public class ADListaPorArquivo extends TListas implements IListas {
+public class ADListaPorArquivo {
 
-    private final String root = "src/persistencia/";
-    private final File dir = new File(root);
+    private String root = "src/persistencia/";
+    private File dir;
 
-    @Override //IListas 
-    public String[] getItensOrdenacao() {
-        return getItensLista("arquivo");
+    public ArrayList<String> itensDoCombobox(String root) {
+        if (root.trim().length() > 0) {
+            this.root = root;
+        }
+        dir = new File(root);
+        return retornarNomesDeClasses();
     }
 
-    @Override //TListas
-    protected String[] getItensLista(String fonte) {
+    protected ArrayList<String> retornarNomesDeClasses() {
         ArrayList<String> ret = new ArrayList<>();
         for (File f : dir.listFiles()) {
             if (!f.getName().equals("TMPersist.java")) {
                 ret.add(f.getName().replace(".java", "").substring(1));
             }
         }
-        return (String[]) ret.toArray();
+        return ret;
     }
 }

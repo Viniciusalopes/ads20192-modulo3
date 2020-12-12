@@ -12,16 +12,17 @@ import template.TListas;
  *
  * @author vovomint
  */
-public class ADListaPorEnumerador extends TListas implements IListas {
+public class ADListaPorEnumerador extends TListas implements IListas{
 
-    @Override //IListas
-    public String[] getItensOrdenacao() {
+    @Override
+    public Object[] getItensOrdenacao() {
         return getItensLista("enum");
     }
 
+   
     @Override //TListas
     protected String[] getItensLista(String fonte) {
-        if (fonte.equals(fonte)) {
+        if (fonte.equals("enum")) {
             return super.getItensEnum();
         } else {
             return super.itensString;

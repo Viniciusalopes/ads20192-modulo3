@@ -14,14 +14,15 @@ import template.TListas;
  */
 public class ADListaPorString extends TListas implements IListas {
 
-    @Override //IListas
-    public String[] getItensOrdenacao() {
+    @Override
+    public Object[] getItensOrdenacao() {
         return getItensLista("string");
+
     }
 
     @Override //TListas
     protected String[] getItensLista(String fonte) {
-        if (fonte.equals(fonte)) {
+        if (fonte.equals("string")) {
             return super.itensString;
         } else {
             return super.getItensEnum();
